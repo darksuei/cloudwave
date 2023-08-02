@@ -1,0 +1,29 @@
+{
+  "name": "imagevisonapi",
+  "version": "1.0.0",
+  "description": "RESTful API for Image recognition",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Suei",
+  "license": "MIT",
+  "dependencies": {
+    "@tensorflow-models/mobilenet": "^2.1.0",
+    "@tensorflow/tfjs": "^4.9.0",
+    "@tensorflow/tfjs-node": "^4.9.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "get-image-data": "^5.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.0.1",
+    "sharp": "^0.25.4"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1",
+    "supertest": "^6.3.3"
+  },
+  "repository": "git@github.com:Suei43/imagevisionAPI.git"
+}
