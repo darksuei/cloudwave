@@ -1,14 +1,15 @@
 {
-  "name": "imagevisonapi",
+  "name": "image-vision",
   "version": "1.0.0",
-  "description": "RESTful API for Image recognition",
+  "description": "Classifying images and uploading them to dropbox/Google drive",
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "Suei",
+  "author": "Suei[Folarin Raphael]",
   "license": "MIT",
   "dependencies": {
     "@tensorflow-models/mobilenet": "^2.1.0",
@@ -17,12 +18,13 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "get-image-data": "^5.0.0",
+    "jimp": "^0.22.10",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1",
     "sharp": "^0.25.4"
   },
   "devDependencies": {
     "jest": "^29.6.1",
+    "nodemon": "^3.0.1",
     "supertest": "^6.3.3"
   },
   "repository": "git@github.com:Suei43/imagevisionAPI.git"

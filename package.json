@@ -1,12 +1,13 @@
 {
-  "name": "image-classification-and-upload",
+  "name": "image-vision",
   "version": "1.0.0",
-  "description": "",
+  "description": "Classifying images and uploading them to dropbox/Google drive",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Suei[Folarin Raphael]",
+  "license": "MIT",
+  "repository": "https://github.com/Suei43/image-file-classification"
 }

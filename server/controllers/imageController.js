@@ -1,12 +1,7 @@
-const express = require('express');
-const multer = require('multer');
 const sharp = require('sharp');
-const detectObject = require('../detection');
+const detectObject = require('../utils/detection');
 
-const router = express.Router();
-let upload = multer({ dest: 'uploads/' })
-
-router.post('/image-recognition', upload.single('image'), async (req, res) => {
+const imageController = async (req, res) => {
     if (!req.file)
       return res.status(400).json({ error: 'Please upload an image' });
 
@@ -35,6 +30,6 @@ router.post('/image-recognition', upload.single('image'), async (req, res) => {
         .status(500)
         .json({ error: err, message: 'Image classification failed' });
     });
-});
+};
 
-module.exports = router;
+module.exports = imageController;
