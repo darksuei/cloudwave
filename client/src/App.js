@@ -1,14 +1,18 @@
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import {useState, useEffect} from 'react';
 import Home from './components/Home';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import Upload from './components/Upload';
+import View from './components/View';
 
 function App() {
   return (
-    <>
-      <Switch>
-        <Route path="/" exact component={Home} />
-      </Switch>
-    </>
+    <Router>
+      <Routes>
+        <Route exact path="/" Component={Home}/>
+        <Route exact path="/image-recognition" Component={Upload}/>
+        <Route exact path="/view" Component={View}/>
+      </Routes>
+    </Router>
   );
 }
 
