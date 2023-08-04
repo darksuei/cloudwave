@@ -4,3 +4,7 @@
 @import 'tailwindcss/utilities';
 
 /* Your custom CSS styles go here */
+
+body{
+    font-family: 'Ubuntu', sans-serif;
+}

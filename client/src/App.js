@@ -1,16 +1,21 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import {useState, useEffect} from 'react';
 import Home from './components/Home';
-import Upload from './components/Upload';
-import View from './components/View';
+import Settings from './components/Settings';
+import Shared from './components/Shared';
+import Uploads from './components/Uploads';
+import Favorites from './components/Favorites';
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route exact path="/" Component={Home}/>
-        <Route exact path="/image-recognition" Component={Upload}/>
-        <Route exact path="/view" Component={View}/>
+        <Route exact path="/upload" Component={Uploads}/>
+        <Route exact path="/shared" Component={Shared}/>
+        <Route exact path="/favorites" Component={Favorites}/>
+        <Route exact path="/settings" Component={Settings}/>
       </Routes>
     </Router>
   );

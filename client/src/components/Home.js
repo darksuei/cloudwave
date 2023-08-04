@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import serverUrl from '../config';
-import NavBar from './Home/NavBar';
+import LeftSideBar from './Home/LeftSideBar';
 
 export default function Home() {
     const [data, setData] = useState(null);
@@ -13,9 +13,8 @@ export default function Home() {
     }, []);
     return (
         <>
-            <NavBar />
+            <LeftSideBar />
             {data ? <h1>{data}</h1> : <h1>Loading...</h1>}
-            
         </>
     )
 }
