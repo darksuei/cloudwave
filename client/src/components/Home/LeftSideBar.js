@@ -1,11 +1,13 @@
 import '../../index.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import { Avatar } from './Minor';
 
 export default function LeftSideBar() {
     return (
-      <nav className="flex w-2/12 h-screen bg-blue-800 text-white rounded-r-3xl">
+      <nav className="flex w-2/12 h-screen bg-blue-800 text-white">
         <ul className="flex flex-col w-full relative">
-          <div className='h-20'></div>
+          <Avatar />
+          {/* <div className='h-20 w-2/12'></div> */}
           <div>
             <a href='/'><li className='bg-blue-950 px-12 py-4 flex items-center gap-x-2 rounded-r-2xl'><i className="fas fa-home"></i>Home</li></a>
             <a href='/shared'><li className='px-12 py-4 flex items-center gap-x-2'><i className="fas fa-share-alt"></i>Shared Files</li></a>

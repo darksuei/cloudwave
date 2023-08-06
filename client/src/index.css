@@ -8,3 +8,16 @@
 body{
     font-family: 'Ubuntu', sans-serif;
 }
+.loading-bar-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+  
+.loading-bar {
+height: 8px;
+background-color: #007bff;
+width: 0%;
+transition: width 0.3s ease;
+}
