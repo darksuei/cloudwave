@@ -1,6 +1,6 @@
 import '../../index.css';
 import '@fortawesome/fontawesome-free/css/all.css';
-import { Avatar } from './Minor';
+import { Avatar } from './utils/utils';
 
 export default function LeftSideBar() {
     return (

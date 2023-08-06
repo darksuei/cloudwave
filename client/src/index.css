@@ -21,3 +21,11 @@ background-color: #007bff;
 width: 0%;
 transition: width 0.3s ease;
 }
+
+.white {
+    color: white;
+}
+
+.white .favorite {
+    background-color: rgb(245 158 11);
+}

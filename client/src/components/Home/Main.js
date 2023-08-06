@@ -1,6 +1,6 @@
-import Search from "./Search";
-import RecentUploads from "./RecentUploads";
-import DragDrop from "./Minor";
+import Search from "./utils/Search";
+import RecentUploads from "./utils/RecentUploads";
+import DragDrop from "./utils/utils";
 
 export default function Main() {
     return (
