@@ -7,6 +7,7 @@
 
 body{
     font-family: 'Ubuntu', sans-serif;
+    position: relative;
 }
 .loading-bar-container {
     width: 100%;
@@ -26,6 +27,6 @@ transition: width 0.3s ease;
     color: white;
 }
 
-.white .favorite {
-    background-color: rgb(245 158 11);
+.favorite {
+    color: rgb(245 158 11);
 }
