@@ -29,7 +29,8 @@ const data = {
         title: "Social Security Card",
         date: "2021-01-04",
         description: "Social Security Card",
-        when: "3 days ago"
+        when: "3 days ago",
+        doThis: true
     },
     day5 : {
         id: 5,
@@ -37,7 +38,8 @@ const data = {
         title: "Marriage Certificate",
         date: "2021-01-05",
         description: "Marriage Certificate",
-        when: "3 days ago"
+        when: "3 days ago",
+        doThis: true
     }
 }
 
