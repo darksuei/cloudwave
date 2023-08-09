@@ -1,0 +1,19 @@
+import SignUp from "./Reusable/SignUp"
+export default function Default (){
+    return (
+        <div className="bg-slate flex flex-row w-full h-screen">
+            <div className="w-6/12 flex flex-col justify-center items-center gap-y-5">
+                <div className="p-5 w-10/12 flex flex-col gap-y-7">
+                    <h1 className="text-blue-700 text-5xl font-black"> All your files in one safe place</h1>
+                    <p className="text-sm text-blue-400">Free file storage for everyone. Store your files securely in the cloud and access them from any device.</p>
+                </div>
+                <div className="w-10/12 px-4">
+                    <button className="bg-blue-500 rounded-lg py-3 px-6 text-white">Start Uploading</button>
+                </div>
+            </div>
+            <div className="w-6/12 bg-slate-200">
+                <SignUp />
+            </div>
+        </div>
+    )
+}

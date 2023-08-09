@@ -10,7 +10,7 @@ export default function FavMain(){
             style={'flex flex-row gap-x-2.5'}
             elementWidth={'w-36'}
             title={<h2 className='font-extrabold py-4 text-blue-500 text-2xl'>Favorites</h2>}
-            checkFav={false}  />
+            checkFav={true}  />
             <FavFiles />
         </div>
     )
