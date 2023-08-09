@@ -20,7 +20,7 @@ export function Avatar (){
     )
 }
 
-export function Categories() {
+export function Categories(props) {
     const [favorites, setFavorites] = useState([]);
 
     const toggleFavorite = (index) => {
@@ -38,15 +38,16 @@ export function Categories() {
         { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: 6, iconColor: 'text-sky-600' },
         { color: 'bg-gray-100', noIcons : true }
     ];
-
+    
     return (
         <div className='flex flex-col p-3 bg-gray-200 rounded-xl w-full gap-y-2.5'>
-            <h2 className='font-semibold p-2 text-blue-500'>Categories</h2>
-            <div className='flex flex-col items-center justify-center gap-y-2.5'>
+            {props.title}
+            <div className={props.style}>
                 {categoryData.map((category, index) => (
-                    <div key={index} className={`rounded-xl p-3.5 flex flex-row w-9/12 items-center cursor-pointer ${category.color}`}>
+                    (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
+                        <div key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color}`}>
                         {category.noIcons ? (
-                           <div className='flex justify-center items-center w-full h-20 shadow-sm'>
+                           <div className='flex justify-center items-center w-full h-20'>
                              <i
                                 className={`fas fa-plus text-gray-400 text-lg cursor-pointer ${favorites.includes(index) ? 'favorite' : ''}`}
                                 onClick={() => toggleFavorite(index)}
@@ -66,8 +67,10 @@ export function Categories() {
                             </>
                         )}
                     </div>
+                    )
                 ))}
             </div>
         </div>
     );
+    
 };
