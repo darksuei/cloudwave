@@ -35,7 +35,7 @@ export default function FavFiles(){
                                 />
                             </div>
                             <div className="flex flex-row justify-between items-center">
-                                <div>
+                                <div className="flex flex-col gap-y-1.5">
                                     <h3 className="text-indigo-500 text-sm">IMG_{idx+1}</h3>
                                     <p className="text-xs text-gray-400">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date())}</p>
                                 </div>

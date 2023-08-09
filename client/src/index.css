@@ -17,7 +17,7 @@ body{
 }
   
 .loading-bar {
-height: 8px;
+height: 6px;
 background-color: #007bff;
 width: 0%;
 transition: width 0.3s ease;
@@ -30,3 +30,12 @@ transition: width 0.3s ease;
 .favorite {
     color: rgb(245 158 11);
 }
+
+.loading-spinner {
+    animation: spin 1.5s linear infinite;
+  }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
