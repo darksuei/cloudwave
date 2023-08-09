@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import serverUrl from '../config';
-import LeftSideBar from './Home/LeftSideBar';
+import LeftSideBar from './Reusable/LeftSideBar';
 import RightSideBar from './Home/RightSideBar';
 import Main from './Home/Main';
 
