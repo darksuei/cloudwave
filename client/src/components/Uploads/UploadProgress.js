@@ -21,7 +21,7 @@ export default function UploadProgress(props){
             <div className='text-blue-700 flex flex-row items-center gap-x-3'>
                 <h1 className='font-black text-md'>Upload progress</h1>
             </div>
-            <div className='bg-slate-200 flex flex-row w-11/12 justify-between p-3 rounded-lg items-center cursor-pointer'>
+            <div className='bg-slate-200 flex flex-row w-11/12 justify-between p-3 rounded-lg items-center cursor-pointer hover:transform hover:scale-105 transition-transform duration-300'>
                 <div className='bg-emerald-500 rounded-lg p-2.5 flex items-center'>
                     <i className='fas fa-music text-white'></i>
                 </div>

@@ -26,7 +26,7 @@ export default function FavFiles(){
                     <i className='fas fa-spinner loading-spinner text-6xl text-blue-500'></i>
                 </div> :fileUrl.map((url,idx)=>{
                     return (
-                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5" key={idx}>
+                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx}>
                             <div className="h-24">
                                 <img
                                     src={url}

@@ -3,7 +3,7 @@ import '../../index.css';
 
 export default function DragDrop(){
     return(
-        <div className='flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer'>
+        <div className='flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300'>
             <div className='flex flex-col justify-center items-center gap-y-4'>
                 <i className="fas fa-upload text-gray-500 text-3xl"></i>
                 <p className='text-gray-400 text-sm font-semibold'>Drag and drop files here</p>
@@ -45,7 +45,7 @@ export function Categories(props) {
             <div className={props.style}>
                 {categoryData.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
-                        <div key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color}`}>
+                            <div key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-110 transition-transform duration-300`}>
                         {category.noIcons ? (
                            <div className='flex justify-center items-center w-full h-20'>
                              <i
