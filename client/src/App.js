@@ -12,8 +12,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/default" Component={Default}/>
-        <Route exact path="/" Component={Home}/>
+        <Route exact path="/" Component={Default}/>
+        <Route exact path="/home" Component={Home}/>
         <Route exact path="/upload" Component={Uploads}/>
         <Route exact path="/shared" Component={Shared}/>
         <Route exact path="/favorites" Component={Favorites}/>

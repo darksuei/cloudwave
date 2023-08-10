@@ -8,10 +8,10 @@ export default function Default (){
                     <p className="text-sm text-blue-400">Free file storage for everyone. Store your files securely in the cloud and access them from any device.</p>
                 </div>
                 <div className="w-10/12 px-4">
-                    <button className="bg-blue-500 rounded-lg py-3 px-6 text-white">Start Uploading</button>
+                    <a href="/home"><button className="bg-blue-500 rounded-lg py-3 px-6 text-white">Start Uploading</button></a>
                 </div>
             </div>
-            <div className="w-6/12 bg-slate-200">
+            <div className="w-6/12 bg-slate-200 flex items-center justify-center">
                 <SignUp />
             </div>
         </div>

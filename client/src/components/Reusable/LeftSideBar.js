@@ -16,7 +16,7 @@ export default function LeftSideBar() {
           <div className='rounded-r-3xl absolute bottom-3.5'>
             {/* <a href='/login'><li className='px-14 py-4 flex items-center gap-x-2'><i className="fas fa-sign-in-alt"></i>Login</li></a> */}
             <a href='/settings'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-cog"></i></div>Settings</li></a>
-            <a href='/logout'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-sign-out-alt"></i></div>Logout</li></a>
+            <a href='/'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-sign-out-alt"></i></div>Logout</li></a>
           </div>
         </ul>
       </nav>
