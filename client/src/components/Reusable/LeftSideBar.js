@@ -1,6 +1,7 @@
 import '../../index.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { Avatar } from './utils';
+import LogoutButton from './LogoutButton';
 
 export default function LeftSideBar() {
     return (
@@ -14,9 +15,8 @@ export default function LeftSideBar() {
             <a href='/upload'><li className='px-12 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-upload"></i></div>Upload Files</li></a>
           </div>
           <div className='rounded-r-3xl absolute bottom-3.5'>
-            {/* <a href='/login'><li className='px-14 py-4 flex items-center gap-x-2'><i className="fas fa-sign-in-alt"></i>Login</li></a> */}
             <a href='/settings'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-cog"></i></div>Settings</li></a>
-            <a href='/'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-sign-out-alt"></i></div>Logout</li></a>
+            <LogoutButton />
           </div>
         </ul>
       </nav>
