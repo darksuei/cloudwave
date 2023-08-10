@@ -15,15 +15,16 @@ export default function FavFiles(){
             }
             setFileUrl(imgUrls);
         }
-        fetchImgUrls()
-            
+        fetchImgUrls();
         }
     , []);
     return (
         <div className="w-full p-3">
             <h1 className="text-blue-500 font-black text-lg py-3">Files</h1>
             <div className="flex flex-row w-full gap-x-3 flex-wrap gap-y-7 justify-between">
-                {fileUrl.map((url,idx)=>{
+                {fileUrl.length === 0 ? <div className="w-full flex items-center justify-center h-60">
+                    <i className='fas fa-spinner loading-spinner text-6xl text-blue-500'></i>
+                </div> :fileUrl.map((url,idx)=>{
                     return (
                         <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5" key={idx}>
                             <div className="h-24">

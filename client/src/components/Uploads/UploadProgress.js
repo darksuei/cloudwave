@@ -19,7 +19,6 @@ export default function UploadProgress(props){
     return (
         <div className="bg-white w-7/12 flex items-center flex-col rounded-xl p-7 gap-y-5">
             <div className='text-blue-700 flex flex-row items-center gap-x-3'>
-                <i className='fas fa-spinner loading-spinner'></i>
                 <h1 className='font-black text-md'>Upload progress</h1>
             </div>
             <div className='bg-slate-200 flex flex-row w-11/12 justify-between p-3 rounded-lg items-center cursor-pointer'>
@@ -28,7 +27,10 @@ export default function UploadProgress(props){
                 </div>
                 <div className='flex flex-col w-10/12 justify-center gap-y-3 h-full'>
                     <div className='flex flew-row items-center justify-between'>
-                        <h3 className='text-blue-700 text-sm'>Hello.mp3</h3>
+                        <div className='flex flex-row gap-x-2 items-center'>
+                            <i className='fas fa-spinner loading-spinner text-blue-700'></i>
+                            <h3 className='text-blue-700 text-sm'>Hello.mp3</h3>
+                        </div>
                         <p className='text-xs text-slate-400'>1.2 MB</p>
                     </div>
                     <div className="loading-bar-container">

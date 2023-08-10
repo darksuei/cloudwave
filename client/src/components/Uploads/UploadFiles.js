@@ -8,7 +8,7 @@ export default function UploadFiles(){
                     <div className="flex flex-col gap-y-2.5 items-center">
                         <p className='text-sm font-extrabold'>Drag and drop your files here</p>
                         <p className="text-xs text-gray-500">or</p>
-                        <button className="text-sm border-current border py-2.5 px-7 rounded-lg">Choose a file from your computer</button>
+                        <button className="text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white">Choose a file from your computer</button>
                     </div>
                 </div>
             </div>

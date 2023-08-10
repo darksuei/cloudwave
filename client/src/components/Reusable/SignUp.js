@@ -2,7 +2,7 @@ export default function SignUp (){
     return (
         <form className='bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-7/12 shadow-md' method="POST" action='/home'>
             <div className='text-center'>
-                <h1 className='text-2xl font-extrabold text-indigo-500'>Sign Up</h1>
+                <h1 className='text-2xl font-black text-indigo-500'>Sign Up</h1>
                 <p className='text-gray-500 mt-3 text-xs'>Let's get started by creating a free account for you!</p>
             </div>
 
