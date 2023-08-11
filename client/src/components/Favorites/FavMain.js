@@ -4,7 +4,7 @@ import FavFiles from "./FavFiles"
 
 export default function FavMain(){
     return(
-        <div className="w-10/12 flex flex-col p-8 items-center">
+        <div className="w-10/12 flex flex-col p-8 items-center relative">
             <Search />
             <Categories
             style={'flex flex-row gap-x-2.5'}

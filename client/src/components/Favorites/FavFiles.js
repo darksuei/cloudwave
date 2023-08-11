@@ -1,7 +1,15 @@
 import { useState,useEffect } from "react"
+import ImagePreview from "../Reusable/ImagePreview";
 
 export default function FavFiles(){
-    const [fileUrl,setFileUrl] = useState([])
+    const [fileUrl,setFileUrl] = useState([]);
+    const [showPreview, setShowPreview] = useState(false);
+    const [previewItemUrl, setPreviewItemUrl] = useState('');
+
+    const togglePreview = (itemurl) => {
+        setPreviewItemUrl(itemurl);
+        setShowPreview(!showPreview);
+    };
     useEffect(() => {
         let imgUrls = [];
         const fetchImgUrls = async () => {
@@ -19,14 +27,22 @@ export default function FavFiles(){
         }
     , []);
     return (
-        <div className="w-full p-3">
+        <div className={`w-full p-2.5`}>
+            {showPreview && (
+                <div className="flex p-8 bg-white absolute w-8/12 h-4/6 rounded-xl top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
+                    <button className="absolute top-2 right-2 text-white" onClick={togglePreview}>
+                        <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
+                    </button>
+                    <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
+                </div>
+            )}
             <h1 className="text-blue-500 font-black text-lg py-3">Files</h1>
             <div className="flex flex-row w-full gap-x-3 flex-wrap gap-y-7 justify-between">
                 {fileUrl.length === 0 ? <div className="w-full flex items-center justify-center h-60">
                     <i className='fas fa-spinner loading-spinner text-6xl text-blue-500'></i>
                 </div> :fileUrl.map((url,idx)=>{
                     return (
-                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx}>
+                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview(url)}>
                             <div className="h-24">
                                 <img
                                     src={url}

@@ -5,7 +5,7 @@ export default function SharedFolders (){
             <div className="w-full">
                 <div className="flex p-5 px-6 flex-col gap-y-2 w-fit hover:bg-gray-300 rounded-lg hover:border cursor-pointer">
                     <i className="fas fa-folder-open fa-4x text-indigo-500"></i>
-                    <h2 className="text-gray-500 text-sm">Yesterday</h2>
+                    <h2 className="text-gray-500 text-sm">All Shared Files</h2>
                 </div>
             </div>
         </div>
