@@ -40,7 +40,7 @@ export default function DragDrop(){
     )
 }
 
-export function Avatar (){
+export function Avatar ({size}){
     const [userImage, setUserImage] = useState('');
     function handleImageChange(e) {
         e.preventDefault();
@@ -54,7 +54,7 @@ export function Avatar (){
     return(
         <div className='flex justify-center items-center py-5 relative'>
             <div className='relative rounded-full' onClick={(e)=>handleImageChange(e)}>
-                <i className="fas fa-user-circle text-6xl text-white rounded-full bg-slate-400 cursor-pointer"></i>
+                <i className={`fas fa-user-circle ${size} text-white rounded-full bg-slate-400 cursor-pointer`}></i>
                 <div className='rounded-full bg-blue-500 p-1 absolute right-0 bottom-1 flex items-center justify-center'><i className='fas fa-pen text-gray-200 text-xs cursor-pointer'></i></div>
             </div>
         </div>    
@@ -85,7 +85,9 @@ export function Categories(props) {
 
     }
 
-    const toggleFavorite = (index) => {
+    const toggleFavorite = (index,e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (favorites.includes(index)) {
             setFavorites(favorites.filter(itemIndex => itemIndex !== index));
         } else {
@@ -127,7 +129,7 @@ export function Categories(props) {
                                 </div>
                                 <i
                                     className={`fas fa-star white text-lg ml-4 cursor-pointer ${favorites.includes(index) ? 'favorite' : ''}`}
-                                    onClick={() => toggleFavorite(index)}
+                                    onClick={(e) => toggleFavorite(index,e)}
                                 ></i>
                             </>
                         )}
