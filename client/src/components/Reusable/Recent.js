@@ -2,11 +2,20 @@ import data from '../../data';
 import '../../index.css';
 import { useState, useEffect } from 'react';
 import SharePopUp from './SharePopUp';
+import ImagePreview from './ImagePreview';
  
 
 export default function Recent({title}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
+    const [previewItemUrl, setPreviewItemUrl] = useState('');
+    
+    const togglePreview = async (idx) => {
+        const img = await fetch("https://picsum.photos/200/300");
+        setPreviewItemUrl(img);
+        setShowPreview(!showPreview);
+    };
 
     useEffect(() => {
         function handleDocumentClick() {
@@ -42,7 +51,15 @@ export default function Recent({title}){
             <div className='flex flex-col gap-y-2.5'>
             {Object.values(data).map((item,idx) => {
                 return(
-                    <div className='flex flex-row bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 relative cursor-pointer'>
+                    <div className='flex flex-row bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 relative cursor-pointer hover:shadow-md' onClick={()=>togglePreview(idx)}>
+                        {showPreview && (
+                            <div className="flex p-8 bg-white absolute w-8/12 h-4/6 rounded-xl top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
+                                <button className="absolute top-2 right-2 text-white" onClick={togglePreview}>
+                                    <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
+                                </button>
+                                <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
+                            </div>
+                        )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
                             <h2 className='w-4/12 p-2'>{item.image}</h2>
