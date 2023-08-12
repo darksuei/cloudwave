@@ -13,7 +13,7 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
     document.body.addEventListener("click", handleDocumentClick);
   }, []);
   return (
-    <div className="flex flex-col w-full h-4/5">
+    <div className=" relative z-50 flex flex-col w-full h-4/5">
         <div className="relative h-full flex items-center justify-center">
           <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/>
         </div>
@@ -23,7 +23,7 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
             <p className="text-xs text-gray-400">{uploadDate}</p>
             <div className='text-sm bg-emerald-100 text-emerald-500 flex items-center rounded-xl px-4'>{fileCategory}</div>
           </div>
-          <div className='flex flex-row gap-x-3 py-3'>
+          <div className='relative flex flex-row gap-x-3 py-3'>
             <i className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200"></i>
             <i className="fas fa-trash text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200"></i>
             <i className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200" onClick={(e)=>toggleDropDown(e)}></i>

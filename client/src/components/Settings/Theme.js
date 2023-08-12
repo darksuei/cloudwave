@@ -4,7 +4,6 @@ export default function Theme() {
 
   const handleThemeChange = (theme) => {
     setSelectedTheme(theme);
-    // Here, you would typically apply the theme change to your application's styles
   };
   return (
     <div className="w-full p-8 flex flex-col gap-y-6">
