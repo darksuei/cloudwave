@@ -10,7 +10,7 @@ export default function SharedMain(){
             {/* <SharedFiles /> */}
             <SharedFolders />
             <Recent 
-            title={"Shared"}/>
+            title={"Shared Recently"}/>
         </div>
     )
 }

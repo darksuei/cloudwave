@@ -47,7 +47,7 @@ export default function Recent({title}){
             {share && (
                 <SharePopUp/>
             )}
-            <h1 className='text-blue-700 text-xl font-extrabold'>Recently {title}</h1>
+            <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1>
             <div className='flex flex-col gap-y-2.5'>
             {Object.values(data).map((item,idx) => {
                 return(

@@ -8,7 +8,7 @@ export default function Main() {
             <Search />
             <DragDrop />
             <Recent 
-            title={"Uploaded"}/>
+            title={"Recently Uploaded"}/>
         </div>
     )
 }

@@ -6,7 +6,7 @@ import Shared from './components/Shared';
 import Uploads from './components/Uploads';
 import Favorites from './components/Favorites';
 import Default from './components/Default';
-
+import Files from './components/Files';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route exact path="/shared" Component={Shared}/>
         <Route exact path="/favorites" Component={Favorites}/>
         <Route exact path="/settings" Component={Settings}/>
+        <Route exact path="/files" Component={Files}/>
       </Routes>
     </Router>
   );
