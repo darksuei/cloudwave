@@ -41,9 +41,22 @@ export default function DragDrop(){
 }
 
 export function Avatar (){
+    const [userImage, setUserImage] = useState('');
+    function handleImageChange(e) {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+          setUserImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
     return(
-        <div className='flex justify-center items-center py-5 '>
-            <i className="fas fa-user-circle text-6xl text-white rounded-full bg-slate-400 cursor-pointer"></i>
+        <div className='flex justify-center items-center py-5 relative'>
+            <div className='relative rounded-full' onClick={(e)=>handleImageChange(e)}>
+                <i className="fas fa-user-circle text-6xl text-white rounded-full bg-slate-400 cursor-pointer"></i>
+                <div className='rounded-full bg-blue-500 p-1 absolute right-0 bottom-1 flex items-center justify-center'><i className='fas fa-pen text-gray-200 text-xs cursor-pointer'></i></div>
+            </div>
         </div>    
     )
 }
@@ -91,7 +104,7 @@ export function Categories(props) {
                            onClick={toggleInput}>
                             {showInput ? (
                                 <div className='w-full p-3 h-full'>
-                                    <input type='text' className='w-full p-2 text-md' placeholder='Title' onClick={(e)=>{e.stopPropagation(); e.preventDefault()}}
+                                    <input type='text' className='w-full p-2 text-sm' placeholder='Enter title' onClick={(e)=>{e.stopPropagation(); e.preventDefault()}}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                           toggleNewCategory(e.target.value);

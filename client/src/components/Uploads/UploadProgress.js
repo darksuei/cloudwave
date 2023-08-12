@@ -38,7 +38,7 @@ export default function UploadProgress(props){
                     </div>
                 </div>
                 <div className='p-1.5 flex items-center'>
-                    <i className='fas fa-times text-blue-400 text-2xl'></i>
+                    <i className='fas fa-times text-blue-600 text-2xl'></i>
                 </div>
             </div>
         </div>
