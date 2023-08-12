@@ -79,7 +79,8 @@ export function Categories(props) {
         setCategories(updatedCategories);
         setShowInput(false);
     }
-    function toggleInput(){
+    function toggleInput(e){
+        e.preventDefault();
         setShowInput(!showInput);
 
     }
@@ -98,13 +99,13 @@ export function Categories(props) {
             <div className={props.style}>
                 {categories.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
-                            <div key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-110 transition-transform duration-300`}>
+                            <a href='/files' key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-110 transition-transform duration-300`}>
                         {category.noIcons ? (
                            <div className='flex justify-center items-center w-full h-20'
-                           onClick={toggleInput}>
+                           onClick={(e)=>toggleInput(e)}>
                             {showInput ? (
                                 <div className='w-full p-3 h-full'>
-                                    <input type='text' className='w-full p-2 text-sm' placeholder='Enter title' onClick={(e)=>{e.stopPropagation(); e.preventDefault()}}
+                                    <input type='text' className='w-full p-2 text-xs' placeholder='Enter title' onClick={(e)=>{e.stopPropagation(); e.preventDefault()}}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                           toggleNewCategory(e.target.value);
@@ -130,7 +131,7 @@ export function Categories(props) {
                                 ></i>
                             </>
                         )}
-                    </div>
+                    </a>
                     )
                 ))}
             </div>
