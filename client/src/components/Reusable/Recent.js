@@ -1,10 +1,12 @@
 import data from '../../data';
 import '../../index.css';
 import { useState, useEffect } from 'react';
+import SharePopUp from './SharePopUp';
  
 
 export default function Recent({title}){
     const [dropdownState, setDropdownState] = useState([]);
+    const [share,setShare] = useState(false);
 
     useEffect(() => {
         function handleDocumentClick() {
@@ -25,9 +27,17 @@ export default function Recent({title}){
             setDropdownState([...dropdownState, index]);
             } 
       }
+      function handleShare(e){
+            e.preventDefault();
+            e.stopPropagation();
+            setShare(!share);
+      }
 
     return(
         <div className=' flex gap-y-4 flex-col p-12 py-4 w-full'>
+            {share && (
+                <SharePopUp/>
+            )}
             <h1 className='text-blue-700 text-xl font-extrabold'>Recently {title}</h1>
             <div className='flex flex-col gap-y-2.5'>
             {Object.values(data).map((item,idx) => {
@@ -37,12 +47,12 @@ export default function Recent({title}){
                         <div className='flex flex-row w-9/12 justify-between items-center'>
                             <h2 className='w-4/12 p-2'>{item.image}</h2>
                             <p className='text-gray-400 text-sm'>{item.when}</p>
-                            <div><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
+                            <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={handleShare}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
                         <div className="absolute right-5 inline-block">
                             <button
                                 type="button"
-                                className="inline-flex items-center p-1 focus:outline-none"
+                                className="inline-flex items-center p-1 focus:outline-none hover:bg-gray-100 hover:bg-slate-100"
                                 onClick={(e) => handleDropdownClick(item,e)}
                             >
                                 <i className="fas fa-ellipsis-h text-indigo-500 text-lg"></i>
