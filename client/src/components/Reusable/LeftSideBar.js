@@ -9,13 +9,13 @@ export default function LeftSideBar() {
         <ul className="flex flex-col w-full relative">
           <Avatar />
           <div>
-            <a href='/home'><li className='bg-blue-900 px-12 py-4 flex items-center gap-x-2 rounded-r-2xl'><div className='p-1 w-5'><i className="fas fa-home"></i></div>Home</li></a>
-            <a href='/shared'><li className='px-12 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-share-alt"></i></div>Shared</li></a>
-            <a href='/favorites'><li className='px-12 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-star"></i></div>Favorites</li></a>
-            <a href='/upload'><li className='px-12 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-upload"></i></div>Upload Files</li></a>
+            <a href='/home'><li className='bg-blue-900 px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800'><div className='p-1 w-5'><i className="fas fa-home"></i></div>Home</li></a>
+            <a href='/shared'><li className='px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800'><div className='p-1 w-5'><i className="fas fa-share-alt"></i></div>Shared</li></a>
+            <a href='/favorites'><li className='px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800'><div className='p-1 w-5'><i className="fas fa-star"></i></div>Favorites</li></a>
+            <a href='/upload'><li className='px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800'><div className='p-1 w-5'><i className="fas fa-upload"></i></div>Upload Files</li></a>
           </div>
-          <div className='rounded-r-3xl absolute bottom-3.5'>
-            <a href='/settings'><li className='px-14 py-4 flex items-center gap-x-2'><div className='p-1 w-5'><i className="fas fa-cog"></i></div>Settings</li></a>
+          <div className='absolute bottom-3.5 w-full'>
+            <a href='/settings'><li className='px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800'><div className='p-1 w-5'><i className="fas fa-cog"></i></div>Settings</li></a>
             <LogoutButton />
           </div>
         </ul>
