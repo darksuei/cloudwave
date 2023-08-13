@@ -73,6 +73,17 @@ export function Categories(props) {
     const [showInput, setShowInput] = useState(false);
     const [categories, setCategories] = useState(categoryData);
 
+    useEffect(() => {
+        function handleDocumentClick() {
+          setShowInput(false);
+        }
+        document.body.addEventListener("click", handleDocumentClick);
+    
+        return () => {
+          document.removeEventListener("click", handleDocumentClick);
+        };
+      }, []);
+
     function toggleNewCategory(value){
         let updatedCategories = [...categories];
         updatedCategories.splice(categories.length - 1, 0, { icon: 'fas fa-folder-open', color: 'bg-emerald-500', title: value, count: 0, iconColor: 'text-emerald-500' });
@@ -81,6 +92,7 @@ export function Categories(props) {
     }
     function toggleInput(e){
         e.preventDefault();
+        e.stopPropagation();
         setShowInput(!showInput);
 
     }
@@ -101,7 +113,7 @@ export function Categories(props) {
             <div className={props.style}>
                 {categories.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
-                            <a href='/files' key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-110 transition-transform duration-300`}>
+                            <a href='/files' key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
                         {category.noIcons ? (
                            <div className='flex justify-center items-center w-full h-20'
                            onClick={(e)=>toggleInput(e)}>

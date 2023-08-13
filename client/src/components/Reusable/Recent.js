@@ -12,7 +12,9 @@ export default function Recent({title}){
     const [showPreview, setShowPreview] = useState([]);
     const [previewItemUrl, setPreviewItemUrl] = useState('');
     
-    const togglePreview = (item) => {
+    const togglePreview = (item,e) => {
+        e.preventDefault();
+        e.stopPropagation();
         setPreviewItemUrl(Cloudwavehome);
         if (showPreview.includes(item)) {
             setShowPreview(showPreview.filter(itemIndex => itemIndex !== item));
@@ -24,6 +26,7 @@ export default function Recent({title}){
     useEffect(() => {
         function handleDocumentClick() {
           setDropdownState([]);
+          setShowPreview([]);
         }
         document.body.addEventListener("click", handleDocumentClick);
     
@@ -32,45 +35,45 @@ export default function Recent({title}){
         };
       }, []);
     
-      function handleDropdownClick(index,e) {
+    function handleDropdownClick(index,e) {
+    e.stopPropagation();
+    if (dropdownState.includes(index)) {
+        setDropdownState(dropdownState.filter(itemIndex => itemIndex !== index));
+        } else {
+        setDropdownState([...dropdownState, index]);
+        } 
+    }
+    function handleShare(e){
+        e.preventDefault();
         e.stopPropagation();
-        if (dropdownState.includes(index)) {
-            setDropdownState(dropdownState.filter(itemIndex => itemIndex !== index));
-            } else {
-            setDropdownState([...dropdownState, index]);
-            } 
-      }
-      function handleShare(e){
-            e.preventDefault();
-            e.stopPropagation();
-            setShare(!share);
+        setShare(!share);
       }
 
     return(
         <div className=' flex gap-y-4 flex-col p-12 py-4 w-full'>
             {share && (
-                <SharePopUp/>
+                <SharePopUp toggle={handleShare} width={'w-4/12'}/>
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className='flex flex-col gap-y-2.5'>
             {Object.values(data).map((item) => {
                 return(
-                    <div className='flex flex-row bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:shadow-md' onClick={()=>togglePreview(item)}>
-                        {showPreview.includes(item) && (
-                            <div className="flex p-8 bg-slate-100 absolute w-8/12 h-4/6 rounded-xl top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
-                                <button className="absolute top-2 right-2 text-white" onClick={togglePreview}>
+                    <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)}>
+                        {showPreview.includes(item) && ( 
+                            <div className="flex p-8 bg-slate-100 absolute w-8/12 h-4/6 rounded-xl top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border" onClick={(e)=>{e.stopPropagation()}}>
+                                <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                 </button>
-                                <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
+                                <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
                             </div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
                             <h2 className='w-4/12 p-2'>{item.image}</h2>
                             <p className='text-gray-400 text-sm'>{item.when}</p>
-                            <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={handleShare}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
+                            <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
-                        <div className="ml-24 relative"> {/* ml-24 is not appropriate to use here */}
+                        <div className={`${showPreview.includes(item)? ' ': 'relative'} w-2/12 text-right`}>
                             <button
                                 type="button"
                                 className="inline-flex items-center p-1 focus:outline-none hover:bg-gray-100 hover:bg-slate-100"
