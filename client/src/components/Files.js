@@ -1,8 +1,13 @@
 import LeftSideBar from "./Reusable/LeftSideBar"
 import Recent from "./Reusable/Recent"
 import Search from "./Reusable/Search"
+import { useContext } from "react"
+import { LocationContext } from "../Contexts/LocationContext"
 
 export default function Files() {
+    const Location = useContext(LocationContext);
+    Location.setLocation('files');
+    console.log(Location.location);
     return (
         <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen" >
             <LeftSideBar/>

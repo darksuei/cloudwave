@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import Home from './components/Home';
 import Settings from './components/Settings';
 import Shared from './components/Shared';
@@ -7,9 +7,13 @@ import Uploads from './components/Uploads';
 import Favorites from './components/Favorites';
 import Default from './components/Default';
 import Files from './components/Files';
+import { LocationContext } from './Contexts/LocationContext';
 
 function App() {
+  const [location, setLocation] = useState('home');
   return (
+    <LocationContext.Provider value={{location, setLocation}}>
+      
     <Router>
       <Routes>
         <Route exact path="/" Component={Default}/>
@@ -21,6 +25,7 @@ function App() {
         <Route exact path="/files" Component={Files}/>
       </Routes>
     </Router>
+    </LocationContext.Provider>
   );
 }
 
