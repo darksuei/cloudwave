@@ -4,11 +4,13 @@ import Search from "./Reusable/Search"
 
 export default function Files() {
     return (
-        <div className="flex flex-row w-full bg-slate-200 justify-center" >
+        <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen" >
             <LeftSideBar/>
-            <div className="flex flex-col w-10/12 py-8 items-center">
+            <div className="flex flex-col w-10/12 py-8 items-center relative">
                 <Search/>
-                <Recent title={'All Files'}/>
+                <div className="w-full min-h-full">
+                    <Recent title={'All Files'}/>
+                </div>
             </div>
         </div>
     )

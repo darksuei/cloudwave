@@ -50,22 +50,23 @@ export default function Recent({title}){
       }
 
     return(
-        <div className=' flex gap-y-4 flex-col p-12 py-4 w-full'>
+        <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
             {share && (
                 <SharePopUp toggle={handleShare} width={'w-4/12'}/>
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
-            <div className='flex flex-col gap-y-2.5'>
+            <div className={`flex flex-col gap-y-2.5`}>
             {Object.values(data).map((item) => {
                 return(
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)}>
                         {showPreview.includes(item) && ( 
-                            <div className="flex p-8 bg-slate-100 absolute w-8/12 h-4/6 rounded-xl top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border" onClick={(e)=>{e.stopPropagation()}}>
+                            <div className='absolute top-0 left-0 flex justify-center items-center w-full h-screen'>
+                                <div className={`flex p-8 bg-slate-100 w-9/12 relative h-5/6 rounded-xl border`} onClick={(e)=>{e.stopPropagation()}}>
                                 <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                 </button>
                                 <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
-                            </div>
+                            </div></div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
