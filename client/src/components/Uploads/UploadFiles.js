@@ -1,8 +1,53 @@
+import { useState,useEffect } from 'react';
+
 export default function UploadFiles(){
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [highlight, setHighlight] = useState(false);
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        setHighlight(true);
+      };
+      
+      const handleDragLeave = () => {
+        setHighlight(false);
+      };
+      
+      const handleDragOver = (e) => {
+        e.preventDefault();
+      };
+      
+      const handleDrop = (e) => {
+        e.preventDefault();
+        setHighlight(false);
+      
+        handleFileUpload(e);
+      };      
+
+    const handleFileUpload = (e) => {
+        let files;
+        e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
+        const newUploadedFiles = [...uploadedFiles];
+    
+        for (let file of files) {
+          newUploadedFiles.push(file);
+        }
+    
+        setUploadedFiles(newUploadedFiles);
+      };
+      useEffect(() => {
+        console.log(uploadedFiles);
+      },[uploadedFiles]);
+
     return (
         <div className="flex flex-col p-4 items-center bg-white w-7/12 rounded-lg gap-y-5">
             <h1 className="text-2xl text-blue-500 font-black py-2">Upload Files</h1>
-            <div className='flex flex-col w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300'>
+            <div className={`flex flex-col w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300
+            ${highlight ? ' border-2 border-blue-500 ' : ''}`}
+            onDragEnter={handleDragEnter}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}>
                 <div className='flex flex-col justify-center items-center gap-y-7 text-blue-500 '>
                     <i className="fas fa-cloud-upload-alt text-4xl"></i>
                     <div className="flex flex-col gap-y-2.5 items-center">
@@ -12,9 +57,10 @@ export default function UploadFiles(){
                         <span className="relative z-10">Choose a file from your computer</span>
                         <input
                             type="file"
-                            accept="image/*"
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer top-0 left-0"
-                        />
+                            className="bg-black absolute top-0 left-0 w-full h-full z-20 opacity-0 cursor-pointer"
+                            onChange={handleFileUpload}
+                            multiple
+                            />
                         </button>
                     </div>
                 </div>

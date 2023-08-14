@@ -2,40 +2,60 @@ import React, { useState, useEffect } from 'react';
 import '../../index.css';
 
 export default function DragDrop(){
-    const [droppedFiles, setDroppedFiles] = useState([]);
-    const loading = 20;
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [highlight, setHighlight] = useState(false);
 
-    useEffect(() => {
-        updateLoadingBar(loading);
-    }, [loading]);
-
-    function updateLoadingBar(loaded) {
-        const loadingBar = document.querySelector(".loading-bar");
-        if (loadingBar !== null) {
-            const progress = loaded;
-            loadingBar.style.width = `${progress}%`;
-        }
-    }
-
-    const handleDrop = (e) => {
+    const handleDragEnter = (e) => {
         e.preventDefault();
-        e.stopPropagation();
-        const newFiles = [...e.dataTransfer.files];
-        setDroppedFiles(newFiles);
-  };
+        setHighlight(true);
+      };
+      
+      const handleDragLeave = () => {
+        setHighlight(false);
+      };
+      
+      const handleDragOver = (e) => {
+        e.preventDefault();
+      };
+      
+      const handleDrop = (e) => {
+        e.preventDefault();
+        setHighlight(false);
+      
+        handleFileUpload(e);
+      };      
+
+    const handleFileUpload = (e) => {
+        let files;
+        e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
+        const newUploadedFiles = [...uploadedFiles];
+    
+        for (let file of files) {
+          newUploadedFiles.push(file);
+        }
+    
+        setUploadedFiles(newUploadedFiles);
+      };
+
+      useEffect(() => {
+        console.log(uploadedFiles);
+      },[uploadedFiles]);
+
     return(
-        <div className='flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300' onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}>
-            {droppedFiles.length > 0 ? (<div>
+        <div className={`flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${highlight ? ' border-2 border-blue-500 ' : ''}`}
+            onDragEnter={handleDragEnter}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}>
+            <div>
                 <div className="loading-bar-container">
                     <div className="loading-bar"></div>
                 </div>
-            </div>) : (
+            </div>
                 <div className='flex flex-col justify-center items-center gap-y-4'>
                     <i className="fas fa-upload text-gray-500 text-3xl"></i>
                     <p className='text-gray-400 text-sm font-semibold'>Drag and drop files here</p>
             </div>
-            )}
         </div>
     )
 }
@@ -113,9 +133,9 @@ export function Categories(props) {
             <div className={props.style}>
                 {categories.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
-                            <a href='/files' key={index} className={`rounded-xl p-3.5 flex flex-row ${props.elementWidth? props.elementWidth : 'w-9/12'} items-center cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
+                            <a href='/files' key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
                         {category.noIcons ? (
-                           <div className='flex justify-center items-center w-full h-20'
+                           <div className='flex justify-center items-center w-full h-28 rounded--xl'
                            onClick={(e)=>toggleInput(e)}>
                             {showInput ? (
                                 <div className='w-full p-3 h-full'>
@@ -133,7 +153,7 @@ export function Categories(props) {
                             }
                            </div>)
                          : (
-                            <>
+                            <div className='flex flex-row items-center p-3.5'>
                                 <div className='flex gap-y-1.5 flex-col w-8/12 h-20'>
                                     <i className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}></i>
                                     <div className='text-white font-bold text-sm'>{category.title}</div>
@@ -143,7 +163,7 @@ export function Categories(props) {
                                     className={`fas fa-star white text-lg ml-4 cursor-pointer ${favorites.includes(index) ? 'favorite' : ''}`}
                                     onClick={(e) => toggleFavorite(index,e)}
                                 ></i>
-                            </>
+                            </div>
                         )}
                     </a>
                     )
