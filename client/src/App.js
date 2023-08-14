@@ -9,13 +9,12 @@ import Default from './components/Default';
 import Files from './components/Files';
 import { LocationContext } from './Contexts/LocationContext';
 import SearchPage from './components/SearchPage';
-import hi from './components/hi';
 
 function App() {
   const [location, setLocation] = useState('home');
+  
   return (
-    <LocationContext.Provider value={{location, setLocation}}>
-      
+    <LocationContext.Provider value={{ location, setLocation }}>
     <Router>
       <Routes>
         <Route exact path="/" Component={Default}/>

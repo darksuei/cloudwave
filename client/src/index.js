@@ -4,7 +4,6 @@ import App from './App';
 import {KindeProvider} from "@kinde-oss/kinde-auth-react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-console.log(process.env.REACT_APP_KINDE_CLIENT_ID)
 
 root.render(
   <KindeProvider

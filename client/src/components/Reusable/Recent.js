@@ -58,7 +58,7 @@ export default function Recent({title}){
             <div className={`flex flex-col gap-y-2.5`}>
             {Object.values(data).map((item) => {
                 return(
-                    <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)}>
+                    <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 
                             <div className='absolute top-0 left-0 flex justify-center items-center w-full h-screen'>
                                 <div className={`flex p-8 bg-slate-100 w-9/12 relative h-5/6 rounded-xl border`} onClick={(e)=>{e.stopPropagation()}}>
