@@ -8,6 +8,7 @@ import Favorites from './components/Favorites';
 import Default from './components/Default';
 import Files from './components/Files';
 import { LocationContext } from './Contexts/LocationContext';
+import SearchPage from './components/SearchPage';
 
 function App() {
   const [location, setLocation] = useState('home');
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/favorites" Component={Favorites}/>
         <Route exact path="/settings" Component={Settings}/>
         <Route exact path="/files" Component={Files}/>
+        <Route exact path="/search" Component={SearchPage}/>
       </Routes>
     </Router>
     </LocationContext.Provider>
