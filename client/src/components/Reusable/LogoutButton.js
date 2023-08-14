@@ -1,11 +1,11 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useKindeAuth} from '@kinde-oss/kinde-auth-react';
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { logout } = useKindeAuth();
 
   return (
-    <button className='px-14 py-4 flex items-center gap-x-2' onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+    <button className='px-14 py-4 flex items-center gap-x-2' onClick={logout}>
         <div className='p-1 w-5'><i className="fas fa-sign-out-alt"></i></div>
         Log Out
     </button>

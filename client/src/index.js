@@ -1,23 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { Auth0Provider } from "@auth0/auth0-react";
+import {KindeProvider} from "@kinde-oss/kinde-auth-react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
-root.render(
+console.log(process.env.REACT_APP_KINDE_CLIENT_ID)
 
-    <Auth0Provider
-      domain= {process.env.AUTH0_DOMAIN}
-      clientId={process.env.AUTH0_CLIENT_ID}
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-    >
-        <React.StrictMode><App /></React.StrictMode>
-    </Auth0Provider>
+root.render(
+  <KindeProvider
+  clientId= {process.env.REACT_APP_KINDE_CLIENT_ID}
+  domain= {process.env.REACT_APP_KINDE_DOMAIN}
+  logoutUri={window.location.origin}
+  redirectUri={window.location.origin}
+>
+<React.StrictMode><App /></React.StrictMode>
+     </KindeProvider>
+    
   );

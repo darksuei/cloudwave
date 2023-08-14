@@ -1,10 +1,16 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useKindeAuth} from '@kinde-oss/kinde-auth-react';
 
-const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
+export default function LoginButton(){
+  const { login, register } = useKindeAuth();
 
-  return <button className="bg-blue-500 rounded-lg py-3 px-6 text-white" onClick={() => loginWithRedirect()}>Start Uploading ✨</button>;
+  return (
+    <button className="bg-blue-500 rounded-lg py-3 px-6 text-white" onClick={register} type="button">Start Uploading ✨</button>
+  )
 };
 
-export default LoginButton;
+
+
+
+
+

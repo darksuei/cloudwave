@@ -1,7 +1,18 @@
 import LoginButton from "./Reusable/LoginButton"
 import Cloudwavehome from '../assets/Cloudwavehome.jpeg';
+import {useKindeAuth} from '@kinde-oss/kinde-auth-react';
+import {useEffect} from 'react';
 
 export default function Default (){
+    let { user } = useKindeAuth();
+    
+    useEffect(() => {
+        console.log(user);
+        if(user){
+            window.location.href = "/home";
+        }
+    }, [user]);
+
     return (
         <div className="bg-slate-200 flex flex-row w-full h-screen">
             <div className="w-6/12 flex flex-col justify-center items-center gap-y-5">
