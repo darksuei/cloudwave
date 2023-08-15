@@ -1,10 +1,16 @@
 
 const fs = require('fs');
+const path = require('path');
 const { storage } = require('./loginToStorage');
+
+const createUserFolder = async () => {
+  const folder = await folder.mkdir('New Folder')
+  console.log(folder)
+}
 
 const uploadToStorage = async () => {
     // Read the image file
-const imagePath = './download.jpeg';
+const imagePath = path.join(__dirname, 'download.jpeg');
 
 fs.readFile(imagePath, (error, imageContent) => {
   if (error) {
@@ -17,7 +23,7 @@ fs.readFile(imagePath, (error, imageContent) => {
       console.error('Error uploading image:', err);
       return;
     }
-    console.log('The image was uploaded!', file);
+    console.log('The image was uploaded!');
   });
 });
 }

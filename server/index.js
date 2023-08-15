@@ -3,6 +3,7 @@ const app = express();
 const Config = require('./config');
 const cors = require('cors');
 const path = require('path');
+const db = require('./models/database');
 const {loginToStorage} = require('./utils/loginToStorage');
 const uploadToStorage = require('./utils/uploadToStorage');
 
