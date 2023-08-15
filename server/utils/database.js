@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
-const uri = 'mongodb+srv://Suei:Rrxgio43@cluster0.ryvunza.mongodb.net/Cloudwave?retryWrites=true&w=majority';
+const uri = process.env.DB_URI;
 
 const db = mongoose.connect(uri, { useNewUrlParser : true, useUnifiedTopology : true })
   .then(result =>{

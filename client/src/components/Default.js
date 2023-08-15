@@ -8,11 +8,10 @@ export default function Default (){
     
     useEffect(() => {
         if(user){
+            console.log(user);
             window.location.href = "/home";
         }
-        console.log(user)
-        console.log(isAuthenticated)
-    }, [user]); 
+    }, [user]);
 
     return (
         <div className="bg-slate-200 flex flex-row w-full h-screen">
