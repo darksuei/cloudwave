@@ -7,13 +7,10 @@ const bodyParser = require('body-parser');
 const db = require('./utils/database');
 const {loginToStorage} = require('./utils/loginToStorage');
 const uploadToStorage = require('./utils/uploadToStorage');
-const hashPassword = require('./controllers/userController');
-const User = require('./models/userSchema');
-const bcrypt = require('bcrypt');
 
 const imageRouter = require('./routes/imageRoute');
+const userRouter = require('./routes/userRouter');
 const errorMiddleware = require('./middleware/errorMiddleware');
-const { brotliCompressSync } = require('zlib');
 
 app.use(
     cors({
@@ -22,9 +19,11 @@ app.use(
 );
 
 app.use(errorMiddleware)
-app.use('/api', imageRouter);
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
+app.use(express.json());
+app.use('/api', imageRouter);
+app.use('/api',userRouter);
 
 app.get('/', async (req, res)=>{
     await loginToStorage();
@@ -36,40 +35,6 @@ app.post('/api',(req, res)=>{
     console.log("Here:",req.body);
     res.status(200).json({ "message" : "Hehe, Welcome to image classification API" })
 })
-
-app.post('/api/newuser', async (req, res)=>{
-    try{
-        const {password, ...rest} = req.body;
-        const hash = await hashPassword(password,10)
-        const newUser = new User({
-            ...rest,
-            hash
-        })
-        await newUser.save();
-    }catch(err){console.err(err)}
-    res.status(201).json({ "message" : "User created successfully" })
-})
-
-app.post('/api/login', async (req, res)=>{
-    try{
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({message: "User not found"});
-        bcrypt.compare(password, user.hash, (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: "Internal server error" });
-            }
-            if (result === true) {
-                console.log('Login successful');
-                return res.status(200).json({ message: "Login successful" });
-            } else {
-                console.log('Login failed');
-                return res.status(401).json({ message: "Login failed" });
-            }
-        });
-    }catch(err){console.error(err)}
-});
 
 app.get('*',(req, res)=>{
     res.sendFile(path.join(__dirname, '../client/public/index.html'));

@@ -8,4 +8,8 @@ let upload = multer({ dest: 'public' })
 
 router.post('/image-recognition', upload.single('image'), imageController);
 
+router.get('/image-recognition', (req, res) => {
+    res.send('index');
+})
+
 module.exports = router;

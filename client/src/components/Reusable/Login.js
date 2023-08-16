@@ -17,6 +17,7 @@ export default function Login(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log('Form data:', formData);
             const response = await axios.post('http://localhost:5000/api/login', formData);
             if(response.status === 200){
                 console.log('Server response:', response.data);
