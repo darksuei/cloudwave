@@ -5,10 +5,22 @@ const { storage } = require('./loginToStorage');
 const createStorage = async (id) => {
   try{
     const folder = await storage.mkdir(id);
+    await createStorageCategories(folder);
     console.log(`Created folder: ${folder.name}`);
     return true;
   }catch(err){
     console.error(err)
+    return false;}
+}
+
+const createStorageCategories = async (folder) => {
+  try{
+    await folder.mkdir('Pictures');
+    await folder.mkdir('Documents');
+    await folder.mkdir('Videos');
+    await folder.mkdir('Audio');
+  }catch(err){
+    console.error("Unable to create categories")
     return false;}
 }
 
