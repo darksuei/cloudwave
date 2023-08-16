@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const db = require('./utils/database');
 const {loginToStorage} = require('./utils/loginToStorage');
 const uploadToStorage = require('./utils/uploadToStorage');
+const hashPassword = require('./controllers/userController');
+const User = require('./models/userSchema')
 
 const imageRouter = require('./routes/imageRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
@@ -33,12 +35,16 @@ app.post('/api',(req, res)=>{
     res.status(200).json({ "message" : "Hehe, Welcome to image classification API" })
 })
 
-app.post('/api/user', (req, res)=>{
-    if(!req.body){
-        return res.status(400).json({ "message" : "User data is required" })
-    }
-    const User = req.body;
-    console.log(User);
+app.post('/api/newuser', async (req, res)=>{
+    try{
+        const {password, ...rest} = req.body;
+        const hash = await hashPassword(password,10)
+        const newUser = new User({
+            ...rest,
+            hash
+        })
+        await newUser.save();
+    }catch(err){console.err(err)}
     res.status(201).json({ "message" : "User created successfully" })
 })
 

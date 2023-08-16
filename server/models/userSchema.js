@@ -1,8 +1,11 @@
-import {Schema, models, model} from 'mongoose';
+const {Schema, models, model} = require('mongoose');
 
 const userSchema = new Schema({
     firstname: {
         type: String,
+    },
+    hash: {
+        type: String
     },
     lastname: {
         type: String,
