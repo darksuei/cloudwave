@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 export default function SignUp (){
     const [formData, setFormData] = useState({
-        name:'',
+        firstname:'',
         email:'',
         password:''
     });
@@ -36,8 +36,8 @@ export default function SignUp (){
                 </div>
                 <div className='w-full flex flex-col gap-y-5'>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor="name" className="text-sm font-medium text-gray-500">Name</label>
-                        <input type='text' name='name' className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm" placeholder='John Doe' value={formData.name} onChange={(e)=>handleChange(e)}/>
+                        <label htmlFor="firstname" className="text-sm font-medium text-gray-500">Name</label>
+                        <input type='text' name='firstname' className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm" placeholder='John Doe' value={formData.name} onChange={(e)=>handleChange(e)}/>
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="email" className="text-sm font-medium text-gray-500">E-mail</label>

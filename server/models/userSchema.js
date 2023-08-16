@@ -16,12 +16,16 @@ const userSchema = new Schema({
     picture: {
         type: Buffer,
     },
-    folderName: {
-        type: String
-    },
     date: {
         type: Date,
         default: Date.now
+    },
+    storage: {
+       type: String,
+    },
+    hasStorage: {
+        type: Boolean,
+        default: false
     }
 })
 

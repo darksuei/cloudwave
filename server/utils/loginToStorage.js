@@ -1,15 +1,16 @@
 const { Storage } = require('megajs');
+require('dotenv').config();
 
 const storage = new Storage({
-  email: 'sueiraphael@gmail.com',
-  password: '^y7)8,Y_4b:2JW&',
+  email: process.env.MEGA_USER,
+  password: process.env.MEGA_PASS,
   userAgent: 'null',
 });
 
 const loginToStorage = async () => {
   try {
     await storage.ready;
-    console.log('Logged in');
+    console.log('Succesfully logged in to storage');
   } catch (error) {
     console.error(error);
   }

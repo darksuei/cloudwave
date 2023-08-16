@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 
 const User = require('../models/userSchema');
+const { loginToStorage } = require('../utils/loginToStorage');
+const { createStorage } = require('../utils/Storage');
 
 const userLogin = async (req, res)=>{
     try{
@@ -14,6 +16,7 @@ const userLogin = async (req, res)=>{
             }
             if (result === true) {
                 console.log('Login successful');
+                loginToStorage();
                 return res.status(200).json({ message: "Login successful" });
             } else {
                 console.log('Login failed');
@@ -31,8 +34,14 @@ const userRegister = async (req, res)=>{
             ...rest,
             hash
         })
-        await newUser.save();
-    }catch(err){console.err(err)}
+        await loginToStorage();
+        if (await createStorage(newUser.email)){
+            newUser.storage = newUser.email;
+            newUser.hasStorage = true;
+        }
+        const savedUser = await newUser.save();
+        console.log(savedUser);
+    }catch(err){console.error(err)}
     res.status(201).json({ "message" : "User created successfully" })
 }
 

@@ -1,11 +1,15 @@
-
 const fs = require('fs');
 const path = require('path');
 const { storage } = require('./loginToStorage');
 
-const createUserFolder = async () => {
-  const folder = await folder.mkdir('New Folder')
-  console.log(folder)
+const createStorage = async (id) => {
+  try{
+    const folder = await storage.mkdir(id);
+    console.log(`Created folder: ${folder.name}`);
+    return true;
+  }catch(err){
+    console.error(err)
+    return false;}
 }
 
 const uploadToStorage = async () => {
@@ -40,4 +44,4 @@ const deleteFile = async () => {
 };
 
 
-module.exports = uploadToStorage;
+module.exports = {createStorage, uploadToStorage, shareFile, deleteFile};
