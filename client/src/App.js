@@ -9,6 +9,8 @@ import Default from './components/Default';
 import Files from './components/Files';
 import { LocationContext } from './Contexts/LocationContext';
 import SearchPage from './components/SearchPage';
+import SignUp from './components/SignUp';
+import Login from './components/Reusable/Login';
 
 function App() {
   const [location, setLocation] = useState('home');
@@ -25,6 +27,8 @@ function App() {
         <Route exact path="/settings" Component={Settings}/>
         <Route exact path="/files" Component={Files}/>
         <Route exact path="/search" Component={SearchPage}/>
+        <Route exact path="/signup" Component={SignUp}/>
+        <Route exact path="/login" Component={Login}/>
       </Routes>
     </Router>
     </LocationContext.Provider>
