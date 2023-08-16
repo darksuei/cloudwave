@@ -8,10 +8,12 @@ const db = require('./utils/database');
 const {loginToStorage} = require('./utils/loginToStorage');
 const uploadToStorage = require('./utils/uploadToStorage');
 const hashPassword = require('./controllers/userController');
-const User = require('./models/userSchema')
+const User = require('./models/userSchema');
+const bcrypt = require('bcrypt');
 
 const imageRouter = require('./routes/imageRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
+const { brotliCompressSync } = require('zlib');
 
 app.use(
     cors({
@@ -47,6 +49,27 @@ app.post('/api/newuser', async (req, res)=>{
     }catch(err){console.err(err)}
     res.status(201).json({ "message" : "User created successfully" })
 })
+
+app.post('/api/login', async (req, res)=>{
+    try{
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) return res.status(401).json({message: "User not found"});
+        bcrypt.compare(password, user.hash, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Internal server error" });
+            }
+            if (result === true) {
+                console.log('Login successful');
+                return res.status(200).json({ message: "Login successful" });
+            } else {
+                console.log('Login failed');
+                return res.status(401).json({ message: "Login failed" });
+            }
+        });
+    }catch(err){console.error(err)}
+});
 
 app.get('*',(req, res)=>{
     res.sendFile(path.join(__dirname, '../client/public/index.html'));
