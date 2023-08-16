@@ -1,17 +1,9 @@
 import LoginButton from "./Reusable/LoginButton"
 import Cloudwavehome from '../assets/Cloudwavehome.jpeg';
-import {useKindeAuth} from '@kinde-oss/kinde-auth-react';
 import { useEffect } from 'react';
 
 export default function Default (){
-    const { user, isAuthenticated } = useKindeAuth();
-    
-    useEffect(() => {
-        if(user){
-            console.log(user);
-            window.location.href = "/home";
-        }
-    }, [user]);
+    let isAuthenticated = false;
 
     return (
         <div className="bg-slate-200 flex flex-row w-full h-screen">
