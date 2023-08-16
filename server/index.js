@@ -8,6 +8,7 @@ const db = require('./utils/database');
 
 const imageRouter = require('./routes/imageRoute');
 const userRouter = require('./routes/userRouter');
+const fileRouter = require('./routes/filesRouter');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
 app.use(
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use('/api', imageRouter);
 app.use('/api',userRouter);
+app.use('/api',fileRouter)
 
 app.get('/', async (req, res)=>{
     await loginToStorage();

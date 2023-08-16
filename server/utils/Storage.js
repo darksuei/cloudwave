@@ -19,6 +19,7 @@ const createStorageCategories = async (folder) => {
     await folder.mkdir('Documents');
     await folder.mkdir('Videos');
     await folder.mkdir('Audio');
+    await folder.mkdir('All Files');
   }catch(err){
     console.error("Unable to create categories")
     return false;}
