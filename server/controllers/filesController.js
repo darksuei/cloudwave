@@ -18,11 +18,13 @@ const searchFiles = (req, res) => {
     }
 }
 
-const uploadFile = (req, res) => {
+const uploadFile = async (req, res, next) => {
     try {
-        loginToStorage();
+        await loginToStorage();
+        console.log(req.user.email)
+        const folder = storage.root.children.find(folder => folder.name === req.user.email);
         for(const file of req.files){
-            let status = uploadToStorage(file.originalname, file.path);
+            let status = uploadToStorage(file.originalname, file.path, folder);
             if(status === false)
                 res.status(400).json({message: 'Error uploading file'});
         }

@@ -8,11 +8,13 @@ const multer = require('multer');
 
 const upload = multer({ dest: "utils/public" });
 
+const { authenticate } = require('../utils/authenticate');
+
 filesRouter.get('/search', searchFiles);
 
 filesRouter.get('/allfiles', getAllFiles);
 
-filesRouter.post('/upload', upload.array("files"), uploadFile);
+filesRouter.post('/upload', authenticate, upload.array("files"), uploadFile);
 
 filesRouter.get('/sharedfiles', sharedFiles);
 

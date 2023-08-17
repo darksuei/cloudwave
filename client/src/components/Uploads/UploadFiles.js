@@ -1,9 +1,17 @@
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function UploadFiles(){
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [highlight, setHighlight] = useState(false);
+    const [authToken, setAuthToken] = useState(null);
+
+    useEffect(() => {
+      const authToken = Cookies.get('authToken');
+      console.log('Token from cookie:', authToken);
+      setAuthToken(authToken);
+    }, []);
 
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -24,23 +32,6 @@ export default function UploadFiles(){
         handleFileUpload(e);
       };      
 
-    // const handleFileUpload = async (e) => {
-    //     let files;
-    //     e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
-    //     const newUploadedFiles = [...uploadedFiles];
-
-    //     for (let file of files) {
-    //       newUploadedFiles.push(file);
-    //       try {
-    //         const response = await axios.post('http://localhost:5000/api/upload', file);
-    //         console.log('Upload success:', response.data);
-    //       } catch (error) {
-    //         console.error('Upload error:', error);
-    //       }
-    //     }
-    //     setUploadedFiles(newUploadedFiles);
-    //   };
-
     const handleFileUpload = async (e) => {
       e.preventDefault();
       
@@ -57,7 +48,8 @@ export default function UploadFiles(){
       try {
         const response = await axios.post('http://localhost:5000/api/upload', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data', // Important to set the correct content type
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${authToken}`, 
           },
         });
         console.log('Upload success:', response.data);

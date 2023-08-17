@@ -67,21 +67,5 @@ const generateToken = (email) => {
     return token;
 };
 
-const authenticate = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is in the Authorization header
-  
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  
-    try {
-      const decodedToken = jwt.verify(token, 'your-secret-key');
-      req.user = { _id: decodedToken.id };
-      next();
-    } catch (error) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  };
-
 module.exports = {hashPassword, userLogin, userRegister}
 

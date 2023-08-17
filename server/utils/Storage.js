@@ -26,26 +26,23 @@ const createStorageCategories = async (folder) => {
     return false;}
 }
 
-const uploadToStorage = async (name, filepath) => {
+const uploadToStorage = async (name, filepath, folder) => {
   const imagePath = path.join(__dirname, filepath.slice(6));
 
-  // const folder = await User.find({_id: id}).storage;
+  if(!folder)
+    return false;
 
-  // if(!folder)
-  //   return false;
-
-  fs.readFile(imagePath, (error, imageContent) => {
+  fs.readFile(imagePath, (err, imageContent) => {
     if (err) {
       console.error('Error reading image:', err);
       return false;
     }
 
-    storage.upload(name, imageContent, (err, file) => {
+    folder.upload(name, imageContent, (err, file) => {
       if (err) {
         console.error('Error uploading image:', err);
         return false;
       }
-
       return true;
 
     });
