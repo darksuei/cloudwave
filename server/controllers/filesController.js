@@ -2,13 +2,7 @@ const {storage} = require('../utils/loginToStorage')
 const {uploadToStorage} = require('../utils/Storage')
 
 const getAllFiles = async (req, res) => {
-    try {
-        console.log(storage.root.children[0])
-        res.send('OK')
-    }catch(err){
-        console.error(err);
-        res.status(404).json({message: err.message});
-    }
+    
 }
 
 const searchFiles = (req, res) => {
@@ -24,13 +18,14 @@ const searchFiles = (req, res) => {
 }
 
 const uploadFile = (req, res) => {
-    const { file } = req.body;
-    try{
-        res.status(200).json({message: 'File uploaded successfully'});
+    try {
+        console.log('hi')
+        console.log(req.files)
+        res.status(201).json({message:'OK'});
     }catch(err){
         console.error(err);
         res.status(404).json({message: err.message});
-    }   
+    }
 }
 
 const favorites = (req,res) => {};

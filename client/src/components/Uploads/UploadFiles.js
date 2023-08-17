@@ -1,4 +1,5 @@
 import { useState,useEffect } from 'react';
+import axios from 'axios';
 
 export default function UploadFiles(){
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -20,21 +21,26 @@ export default function UploadFiles(){
       const handleDrop = (e) => {
         e.preventDefault();
         setHighlight(false);
-      
         handleFileUpload(e);
       };      
 
-    const handleFileUpload = (e) => {
+    const handleFileUpload = async (e) => {
         let files;
         e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
         const newUploadedFiles = [...uploadedFiles];
-    
+
         for (let file of files) {
           newUploadedFiles.push(file);
+          try {
+            const response = await axios.post('http://localhost:5000/api/upload', file);
+            console.log('Upload success:', response.data);
+          } catch (error) {
+            console.error('Upload error:', error);
+          }
         }
-    
         setUploadedFiles(newUploadedFiles);
       };
+      
       useEffect(() => {
         console.log(uploadedFiles);
       },[uploadedFiles]);
