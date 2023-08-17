@@ -23,6 +23,7 @@
     "fs": "^0.0.1-security",
     "get-image-data": "^5.0.0",
     "jimp": "^0.22.10",
+    "jsonwebtoken": "^9.0.1",
     "megajs": "1",
     "mongoose": "^7.4.3",
     "multer": "^1.4.5-lts.1",

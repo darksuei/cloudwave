@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { storage } = require('./loginToStorage');
+const User = require('../models/userSchema');
 
 const createStorage = async (id) => {
   try{
@@ -28,9 +29,14 @@ const createStorageCategories = async (folder) => {
 const uploadToStorage = async (name, filepath) => {
   const imagePath = path.join(__dirname, filepath.slice(6));
 
+  // const folder = await User.find({_id: id}).storage;
+
+  // if(!folder)
+  //   return false;
+
   fs.readFile(imagePath, (error, imageContent) => {
-    if (error) {
-      console.error('Error reading image:', error);
+    if (err) {
+      console.error('Error reading image:', err);
       return false;
     }
 
@@ -39,7 +45,9 @@ const uploadToStorage = async (name, filepath) => {
         console.error('Error uploading image:', err);
         return false;
       }
+
       return true;
+
     });
   });
 }

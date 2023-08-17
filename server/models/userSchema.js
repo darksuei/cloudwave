@@ -26,6 +26,9 @@ const userSchema = new Schema({
     hasStorage: {
         type: Boolean,
         default: false
+    },
+    token: {
+        type: String,
     }
 })
 

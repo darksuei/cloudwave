@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/userSchema');
 const { loginToStorage } = require('../utils/loginToStorage');
@@ -28,12 +29,16 @@ const userLogin = async (req, res)=>{
 
 const userRegister = async (req, res)=>{
     try{
-        const {password, ...rest} = req.body;
+        const {email, password, ...rest} = req.body;
         const hash = await hashPassword(password,10)
+        const jwtToken = generateToken(email);
         const newUser = new User({
+            email,
+            hash,
             ...rest,
-            hash
+            token: jwtToken   
         })
+        console.log(newUser);
         await loginToStorage();
         if (await createStorage(newUser.email)){
             newUser.storage = newUser.email;
@@ -41,7 +46,9 @@ const userRegister = async (req, res)=>{
         }
         const savedUser = await newUser.save();
         console.log(savedUser);
-    }catch(err){console.error(err)}
+    }catch(err){
+        console.error(err)
+        return res.status(500).json({ message: "Internal server error" })};
     res.status(201).json({ "message" : "User created successfully" })
 }
 
@@ -54,6 +61,27 @@ const hashPassword = async (password, saltRounds) => {
         throw error;
     }
 };
+
+const generateToken = (email) => {
+    const token = jwt.sign({ email: email }, 'your-secret-key', { expiresIn: '1h' });
+    return token;
+};
+
+const authenticate = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is in the Authorization header
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+  
+    try {
+      const decodedToken = jwt.verify(token, 'your-secret-key');
+      req.user = { _id: decodedToken.id };
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+  };
 
 module.exports = {hashPassword, userLogin, userRegister}
 
