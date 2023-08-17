@@ -24,22 +24,48 @@ export default function UploadFiles(){
         handleFileUpload(e);
       };      
 
-    const handleFileUpload = async (e) => {
-        let files;
-        e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
-        const newUploadedFiles = [...uploadedFiles];
+    // const handleFileUpload = async (e) => {
+    //     let files;
+    //     e.dataTransfer !== undefined ? files = e.dataTransfer.files : files = e.target.files 
+    //     const newUploadedFiles = [...uploadedFiles];
 
-        for (let file of files) {
-          newUploadedFiles.push(file);
-          try {
-            const response = await axios.post('http://localhost:5000/api/upload', file);
-            console.log('Upload success:', response.data);
-          } catch (error) {
-            console.error('Upload error:', error);
-          }
-        }
-        setUploadedFiles(newUploadedFiles);
-      };
+    //     for (let file of files) {
+    //       newUploadedFiles.push(file);
+    //       try {
+    //         const response = await axios.post('http://localhost:5000/api/upload', file);
+    //         console.log('Upload success:', response.data);
+    //       } catch (error) {
+    //         console.error('Upload error:', error);
+    //       }
+    //     }
+    //     setUploadedFiles(newUploadedFiles);
+    //   };
+
+    const handleFileUpload = async (e) => {
+      e.preventDefault();
+      
+      let files;
+      e.dataTransfer !== undefined ? (files = e.dataTransfer.files) : (files = e.target.files);
+      
+      const formData = new FormData(); // Create FormData object
+      
+      // Append each file to the FormData object
+      for (let file of files) {
+        formData.append('files', file);
+      }
+    
+      try {
+        const response = await axios.post('http://localhost:5000/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Important to set the correct content type
+          },
+        });
+        console.log('Upload success:', response.data);
+      } catch (error) {
+        console.error('Upload error:', error);
+      }
+    };
+    
       
       useEffect(() => {
         console.log(uploadedFiles);
@@ -64,6 +90,7 @@ export default function UploadFiles(){
                         <input
                             type="file"
                             className="bg-black absolute top-0 left-0 w-full h-full z-20 opacity-0 cursor-pointer"
+                            name="file"
                             onChange={handleFileUpload}
                             multiple
                             />

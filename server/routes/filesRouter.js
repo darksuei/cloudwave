@@ -4,11 +4,15 @@ const { getAllFiles, searchFiles, uploadFile, favorites, sharedFiles } = require
 
 const filesRouter = Router();
 
+const multer = require('multer');
+
+const upload = multer({ dest: "public" });
+
 filesRouter.get('/search', searchFiles);
 
 filesRouter.get('/allfiles', getAllFiles);
 
-filesRouter.post('/upload', uploadFile);
+filesRouter.post('/upload', upload.array("files"), uploadFile);
 
 filesRouter.get('/sharedfiles', sharedFiles);
 
