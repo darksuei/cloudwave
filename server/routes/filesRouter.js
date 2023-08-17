@@ -12,7 +12,7 @@ const { authenticate } = require('../utils/authenticate');
 
 filesRouter.get('/search', searchFiles);
 
-filesRouter.get('/allfiles', getAllFiles);
+filesRouter.get('/files',authenticate, getAllFiles);
 
 filesRouter.post('/upload', authenticate, upload.array("files"), uploadFile);
 

@@ -26,6 +26,23 @@ const createStorageCategories = async (folder) => {
     return false;}
 }
 
+const getStorageFiles = async (folder) => {
+  try{
+    const list = [];
+    const files = await folder.children;
+    if(!files)
+      return false;
+    for(let i=0; i<files.length; i++){
+      if(!files[i])
+        break;
+      list.push(files[i].name);
+    };
+    return list;
+  }catch(err){
+    console.error(err)
+    return false;}
+}
+
 const uploadToStorage = async (name, filepath, folder) => {
   const imagePath = path.join(__dirname, filepath.slice(6));
 
@@ -61,4 +78,4 @@ const deleteFile = async () => {
 };
 
 
-module.exports = {createStorage, uploadToStorage, shareFile, deleteFile};
+module.exports = {createStorage, getStorageFiles, uploadToStorage, shareFile, deleteFile};

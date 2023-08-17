@@ -1,16 +1,41 @@
-import data from '../../data';
+// import data from '../../data';
 import '../../index.css';
 import { useState, useEffect } from 'react';
 import SharePopUp from './SharePopUp';
 import ImagePreview from './ImagePreview';
 import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
- 
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default function Recent({title}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
     const [previewItemUrl, setPreviewItemUrl] = useState('');
+    const [authToken, setAuthToken] = useState(null);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      const authToken = Cookies.get('authToken');
+      console.log('Token from cookie:', authToken);
+      setAuthToken(authToken);
+      const filesData = getFiles(authToken);
+            setData(filesData);
+    }, []);
+
+    const getFiles = async (authToken) => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/files', {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          console.log('Files:', response.data.files);
+          return response.data.files;
+        } catch (error) {
+          console.error('Files error:', error);
+        }
+      };
     
     const togglePreview = (item,e) => {
         e.preventDefault();
@@ -56,7 +81,7 @@ export default function Recent({title}){
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className={`flex flex-col gap-y-2.5`}>
-            {Object.values(data).map((item) => {
+            {data.map((item) => {
                 return(
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 
@@ -70,8 +95,8 @@ export default function Recent({title}){
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
-                            <h2 className='w-4/12 p-2'>{item.image}</h2>
-                            <p className='text-gray-400 text-sm'>{item.when}</p>
+                            <h2 className='w-4/12 p-2'>{item.name}</h2>
+                            <p className='text-gray-400 text-sm'>{item.time}</p>
                             <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
                         <div className={`${showPreview.includes(item)? ' ': 'relative'} w-2/12 text-right`}>
