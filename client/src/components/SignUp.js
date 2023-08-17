@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useState, useEffect } from 'react';
 
 export default function SignUp (){
@@ -20,6 +21,8 @@ export default function SignUp (){
             const response = await axios.post('http://localhost:5000/api/newuser', formData);
             if(response.status === 201){
                 console.log('Server response:', response.data);
+                const token = response.data.token;
+                Cookies.set('authToken', token, { expires: 1 });
                 window.location.href = '/home'
             }
         } catch (error) {

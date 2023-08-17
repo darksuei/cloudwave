@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const User = require('../models/userSchema');
 const { loginToStorage } = require('../utils/loginToStorage');
@@ -32,24 +33,23 @@ const userRegister = async (req, res)=>{
         const {email, password, ...rest} = req.body;
         const hash = await hashPassword(password,10)
         const jwtToken = generateToken(email);
+        var decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
         const newUser = new User({
             email,
             hash,
             ...rest,
             token: jwtToken   
         })
-        console.log(newUser);
         await loginToStorage();
         if (await createStorage(newUser.email)){
             newUser.storage = newUser.email;
             newUser.hasStorage = true;
         }
-        const savedUser = await newUser.save();
-        console.log(savedUser);
+        await newUser.save();
+        return res.status(201).json({ "message" : "User created successfully", "token" : newUser.token })
     }catch(err){
         console.error(err)
         return res.status(500).json({ message: "Internal server error" })};
-    res.status(201).json({ "message" : "User created successfully" })
 }
 
 const hashPassword = async (password, saltRounds) => {
@@ -63,7 +63,7 @@ const hashPassword = async (password, saltRounds) => {
 };
 
 const generateToken = (email) => {
-    const token = jwt.sign({ email: email }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return token;
 };
 
