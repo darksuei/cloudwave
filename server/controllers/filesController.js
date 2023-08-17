@@ -1,5 +1,6 @@
-const {storage} = require('../utils/loginToStorage')
-const {uploadToStorage} = require('../utils/Storage')
+const {storage, loginToStorage} = require('../utils/loginToStorage');
+
+const {uploadToStorage} = require('../utils/Storage');
 
 const getAllFiles = async (req, res) => {
     
@@ -19,9 +20,13 @@ const searchFiles = (req, res) => {
 
 const uploadFile = (req, res) => {
     try {
-        console.log('hi')
-        console.log(req.files)
-        res.status(201).json({message:'OK'});
+        loginToStorage();
+        for(const file of req.files){
+            let status = uploadToStorage(file.originalname, file.path);
+            if(status === false)
+                res.status(400).json({message: 'Error uploading file'});
+        }
+        res.status(201).json({message:'Files uploaded successfully'});
     }catch(err){
         console.error(err);
         res.status(404).json({message: err.message});

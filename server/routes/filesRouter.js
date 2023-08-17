@@ -6,7 +6,7 @@ const filesRouter = Router();
 
 const multer = require('multer');
 
-const upload = multer({ dest: "public" });
+const upload = multer({ dest: "utils/public" });
 
 filesRouter.get('/search', searchFiles);
 

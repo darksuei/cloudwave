@@ -25,24 +25,23 @@ const createStorageCategories = async (folder) => {
     return false;}
 }
 
-const uploadToStorage = async () => {
-    // Read the image file
-const imagePath = path.join(__dirname, 'download.jpeg');
+const uploadToStorage = async (name, filepath) => {
+  const imagePath = path.join(__dirname, filepath.slice(6));
 
-fs.readFile(imagePath, (error, imageContent) => {
-  if (error) {
-    console.error('Error reading image:', error);
-    return;
-  }
-
-  storage.upload('image.jpg', imageContent, (err, file) => {
-    if (err) {
-      console.error('Error uploading image:', err);
-      return;
+  fs.readFile(imagePath, (error, imageContent) => {
+    if (error) {
+      console.error('Error reading image:', error);
+      return false;
     }
-    console.log('The image was uploaded!');
+
+    storage.upload(name, imageContent, (err, file) => {
+      if (err) {
+        console.error('Error uploading image:', err);
+        return false;
+      }
+      return true;
+    });
   });
-});
 }
 
 const shareFile = async () => {
