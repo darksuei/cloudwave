@@ -26,6 +26,27 @@ function App() {
         <Route exact path="/favorites" Component={Favorites}/>
         <Route exact path="/settings" Component={Settings}/>
         <Route exact path="/files" Component={Files}/>
+        <Route exact path="/files/picture" Component={Files}/>
+        <Route
+            exact
+            path="/files/pictures"
+            Component={(props) => <Files {...props} category="picture" />}
+        />
+        <Route
+            exact
+            path="/files/videos"
+            Component={(props) => <Files {...props} category="video" />}
+        />
+        <Route
+            exact
+            path="/files/audio"
+            Component={(props) => <Files {...props} category="audio" />}
+        />
+        <Route
+            exact
+            path="/files/documents"
+            Component={(props) => <Files {...props} category="document" />}
+        />
         <Route exact path="/search" Component={SearchPage}/>
         <Route exact path="/signup" Component={SignUp}/>
         <Route exact path="/login" Component={Login}/>

@@ -6,14 +6,20 @@ import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export default function Recent({title, showAll}){
+export default function Recent({title, showAll, category}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
     const [previewItemUrl, setPreviewItemUrl] = useState('');
     const [authToken, setAuthToken] = useState(null);
     const [data, setData] = useState([]);
-
+    let api;
+    if(category){
+        api = `http://localhost:5000/api/files/${category}`;
+    }else{
+        api = 'http://localhost:5000/api/files';
+    }
+    console.log('api:', api);
     useEffect(() => {
       const authToken = Cookies.get('authToken');
       console.log('Token from cookie:', authToken);
@@ -42,7 +48,7 @@ export default function Recent({title, showAll}){
 
     const getFiles = async (authToken) => {
         try {
-          const response = await axios.get('http://localhost:5000/api/files', {
+          const response = await axios.get(api, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
@@ -98,7 +104,7 @@ export default function Recent({title, showAll}){
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className={`flex flex-col gap-y-2.5`}>
-            {data.map((item) => {
+            {data && data.map((item) => {
                 return(
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 

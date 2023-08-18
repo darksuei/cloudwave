@@ -2,9 +2,43 @@ const {storage, loginToStorage} = require('../utils/loginToStorage');
 
 const {uploadToStorage, getStorageFiles} = require('../utils/Storage');
 
-const { formatDateLabel } = require('../utils/utils');
+const { formatDateLabel, getCategoryFromFileName } = require('../utils/utils');
 
 const User = require('../models/userSchema');
+
+const getFilesByCategory = async (req, res) => {
+    try{
+        await loginToStorage();
+        const userFolder = storage.root.children.find(folder => folder.name === req.user.email);
+        const folder = userFolder.children.find(folder => folder.name === 'All Files');
+        const filelist = await getStorageFiles(folder);
+        console.log(filelist);
+        if (!filelist)
+            return res.status(404).json({message: 'No files found'});
+        const files = [];
+        for(let i=0; i<filelist.length; i++){
+            const user = await User.findOne({ email: req.user.email });
+            if (user) {
+                const fileItem = user.files.find(file => file.name === filelist[i] && getCategoryFromFileName(file.name) === req.params.name);
+                if (fileItem) {
+                    const time = fileItem.date;
+                    console.log("Time:", time);
+                    files.push({
+                        id: i,
+                        name: filelist[i],
+                        time: formatDateLabel(time)
+                    });
+                } else {
+                    console.log("File not found in user's files array.");
+                }
+            } else {
+                console.log("User not found.");
+            }
+        };
+        console.log(files);
+        return res.status(200).json({message: 'Files found', files: files});
+    }catch(err){console.error(err);}
+};
 
 const getAllFiles = async (req, res) => {
     try{
@@ -64,7 +98,7 @@ const uploadFile = async (req, res, next) => {
             let status = uploadToStorage(file.originalname, file.path, folder);
             if(status === false)
                 return res.status(400).json({message: 'Error uploading file'});
-            await User.findOneAndUpdate({ email: req.user.email },{ $push: { files: {name:file.originalname, date:new Date() } } }, { new: true })
+            await User.findOneAndUpdate({ email: req.user.email },{ $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname) } } }, { new: true })
             .then(updatedUser => {
                 if (updatedUser) {
                     console.log('User updated successfully:', updatedUser);
@@ -87,4 +121,4 @@ const favorites = (req,res) => {};
 
 const sharedFiles = (req,res) => {};
 
-module.exports = { getAllFiles, searchFiles, uploadFile, favorites, sharedFiles }
+module.exports = { getAllFiles, getFilesByCategory, searchFiles, uploadFile, favorites, sharedFiles }

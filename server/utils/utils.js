@@ -24,4 +24,23 @@ const formatDateLabel = (date) => {
     }
 }
 
-module.exports = {formatDateLabel};
+const getCategoryFromFileName = (file) => {
+    const fileExtension = file.split('.').pop().toLowerCase();
+    
+    const categories = {
+        "picture": ['jpg', 'jpeg', 'png', 'gif'],
+        "audio": ['mp3', 'wav', 'ogg'],
+        "video": ['mp4', 'avi', 'mov', 'mkv'],
+        "document": ['pdf', 'doc', 'docx', 'txt']
+    };
+
+    for (const category in categories) {
+        if (categories[category].includes(fileExtension)) {
+            return category;
+        }
+    }
+
+    return 'document';
+}
+
+module.exports = {formatDateLabel, getCategoryFromFileName};

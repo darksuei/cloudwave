@@ -4,7 +4,9 @@ import Search from "./Reusable/Search"
 import { useContext } from "react"
 import { LocationContext } from "../Contexts/LocationContext"
 
-export default function Files() {
+export default function Files(props) {
+    const { category } = props;
+    console.log("Hi",category);
     const Location = useContext(LocationContext);
     Location.setLocation('files');
     console.log(Location.location);
@@ -15,7 +17,8 @@ export default function Files() {
                 <Search/>
                 <div className="w-full min-h-full">
                     <Recent title={'All Files'}
-                    showAll = {true}/>
+                    showAll = {true}
+                    category = {category}/>
                 </div>
             </div>
         </div>

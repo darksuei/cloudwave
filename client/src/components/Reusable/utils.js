@@ -106,10 +106,10 @@ export function Avatar ({size}){
 
 export function Categories(props) {
     const categoryData = [
-        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: 427, iconColor: 'text-indigo-500' },
-        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: 139, iconColor: 'text-emerald-500' },
-        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: 63, iconColor: 'text-red-500' },
-        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: 6, iconColor: 'text-sky-600' },
+        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: 427, iconColor: 'text-indigo-500', href: '/files/pictures' },
+        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: 139, iconColor: 'text-emerald-500', href: '/files/documents' },
+        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: 63, iconColor: 'text-red-500', href: '/files/videos' },
+        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: 6, iconColor: 'text-sky-600', href: '/files/audio' },
         { color: 'bg-gray-100', noIcons : true }
     ];
     const [favorites, setFavorites] = useState([]);
@@ -156,7 +156,7 @@ export function Categories(props) {
             <div className={props.style}>
                 {categories.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
-                            <a href='/files' key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
+                            <a href={category.href || '/files'} key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
                         {category.noIcons ? (
                            <div className='flex justify-center items-center w-full h-28 rounded--xl'
                            onClick={(e)=>toggleInput(e)}>
