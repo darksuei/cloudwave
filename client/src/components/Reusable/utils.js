@@ -105,16 +105,62 @@ export function Avatar ({size}){
 }
 
 export function Categories(props) {
-    const categoryData = [
-        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: 427, iconColor: 'text-indigo-500', href: '/files/pictures' },
-        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: 139, iconColor: 'text-emerald-500', href: '/files/documents' },
-        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: 63, iconColor: 'text-red-500', href: '/files/videos' },
-        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: 6, iconColor: 'text-sky-600', href: '/files/audio' },
-        { color: 'bg-gray-100', noIcons : true }
-    ];
+    const [count, setCount] = useState({
+        picture: 0,
+        document: 0,
+        video: 0,
+        audio: 0,
+    });
+    const [authToken, setAuthToken] = useState(null);
+    useEffect(() => {
+        const authToken = Cookies.get('authToken');
+        console.log('Token from cookie:', authToken);
+        setAuthToken(authToken);
+      }, []);
     const [favorites, setFavorites] = useState([]);
     const [showInput, setShowInput] = useState(false);
-    const [categories, setCategories] = useState(categoryData);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const counts = await getCount(authToken);
+                console.log("hi", counts);
+                setCount(counts);
+                console.log('Counts:', count);
+            } catch (error) {
+                console.error('Error fetching counts:', error);
+            }
+        };
+
+        if (authToken) {
+            fetchData();
+        }
+    }, [authToken]);
+
+    const getCount = async (authToken) => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/file/count', {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          console.log('cat:', response.data);
+          return response.data.categories;
+        } catch (error) {
+          console.error('Files error:', error);
+        }
+      };
+      const categoryData = [
+        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.picture, iconColor: 'text-indigo-500', href: '/files/pictures' },
+        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.document, iconColor: 'text-emerald-500', href: '/files/documents' },
+        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.video, iconColor: 'text-red-500', href: '/files/videos' },
+        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio' },
+        { color: 'bg-gray-100', noIcons : true }
+    ];
+    useEffect(() => {
+        setCategories(categoryData);
+    }, [categories]);
 
     useEffect(() => {
         function handleDocumentClick() {

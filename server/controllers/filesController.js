@@ -6,6 +6,35 @@ const { formatDateLabel, getCategoryFromFileName } = require('../utils/utils');
 
 const User = require('../models/userSchema');
 
+const getCategoryCount = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.user.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const categories = {
+            picture: 0,
+            video: 0,
+            audio: 0,
+            document: 0
+        };
+
+        for (const file of user.files) {
+            const category = getCategoryFromFileName(file.name);
+            if (category in categories) {
+                categories[category]++;
+            }
+        }
+        console.log("Hello", categories);
+        return res.status(200).json({ message: 'Categories found', categories });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 const getFilesByCategory = async (req, res) => {
     try{
         await loginToStorage();
@@ -121,4 +150,4 @@ const favorites = (req,res) => {};
 
 const sharedFiles = (req,res) => {};
 
-module.exports = { getAllFiles, getFilesByCategory, searchFiles, uploadFile, favorites, sharedFiles }
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, searchFiles, uploadFile, favorites, sharedFiles }

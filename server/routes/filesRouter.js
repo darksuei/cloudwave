@@ -16,7 +16,7 @@ filesRouter.get('/files',authenticate, getAllFiles);
 
 filesRouter.get('/files/:name', authenticate, getFilesByCategory);
 
-filesRouter.get('/files/count', authenticate, getCategoryCount);
+filesRouter.get('/file/count', authenticate, getCategoryCount);
 
 filesRouter.post('/upload', authenticate, upload.array("files"), uploadFile);
 
