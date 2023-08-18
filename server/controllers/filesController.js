@@ -104,15 +104,19 @@ const getAllFiles = async (req, res) => {
     }
 }
 
-const searchFiles = (req, res) => {
-    const { query } = req.query;
-    console.log(query);
+const searchFiles = async (req, res) => {
     try{
-        const file = Object.values(storage.files).find(file => file.name === 'hello-world.txt')
-        res.status(200).json(file.name);
+        // const file = Object.values(storage.files).find(file => file.name === 'hello-world.txt');
+        const user = await User.findOne({ email: req.user.email });
+        console.log(user);
+        if (!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        const files = user.files.filter(file => file.name.includes(req.query.query));
+        return res.status(200).json({message: 'OK', files: files});
     }catch(err){
         console.error(err);
-        res.status(404).json({message: err.message});
+        return res.status(500).json({message: err.message});
     }
 }
 

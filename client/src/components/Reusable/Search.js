@@ -1,10 +1,39 @@
 import '../../index.css'
+import React, { useState, useEffect } from 'react';
 
-export default function Search(){
-    return(
-        <div className="bg-white w-10/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md" >
-            <i className="fa fas fa-search text-gray-400 text-lg cursor-pointer" aria-hidden="true"></i>
-            <input type="text" className="w-11/12 h-10 px-2 focus:outline-none" placeholder="Search" />
+export default function Search() {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            if (e.key === 'Enter' && searchQuery.trim() !== '') {
+                e.preventDefault(); // Prevent the default behavior of the Enter key
+                window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [searchQuery]);
+
+    return (
+        <div
+            className="bg-white w-10/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md"
+        >
+            <i
+                className="fa fas fa-search text-gray-400 text-lg cursor-pointer"
+                aria-hidden="true"
+            ></i>
+            <input
+                type="text"
+                className="w-11/12 h-10 px-2 focus:outline-none"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+            />
         </div>
-    )
+    );
 }

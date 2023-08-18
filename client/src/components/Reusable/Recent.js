@@ -6,7 +6,7 @@ import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export default function Recent({title, showAll, category}){
+export default function Recent({title, showAll, category, SearchResults}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
@@ -41,8 +41,10 @@ export default function Recent({title, showAll, category}){
             }
         };
 
-        if (authToken) {
+        if (authToken && !SearchResults) {
             fetchData();
+        } else {
+            setData(SearchResults)
         }
     }, [authToken]);
 
