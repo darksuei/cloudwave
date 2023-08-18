@@ -1,15 +1,15 @@
 import LeftSideBar from "./Reusable/LeftSideBar";
-import SharedMain from "./Shared/SharedMain";
+import MyMain from "./Files/MyMain";
 import { useContext } from "react";
 import { LocationContext } from "../Contexts/LocationContext";
 
-export default function Shared (){
+export default function MyFiles (){
     const Location = useContext(LocationContext);
     Location.setLocation('shared');
     return(
         <div className="flex flex-row bg-slate-200 w-full">
             <LeftSideBar/>
-            <SharedMain />
+            <MyMain />
         </div>
     )
 }

@@ -23,4 +23,5 @@ const formatDateLabel = (date) => {
         return providedDate.toDateString();
     }
 }
+
 module.exports = {formatDateLabel};
