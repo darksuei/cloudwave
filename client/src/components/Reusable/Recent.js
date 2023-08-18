@@ -19,9 +19,23 @@ export default function Recent({title}){
       const authToken = Cookies.get('authToken');
       console.log('Token from cookie:', authToken);
       setAuthToken(authToken);
-      const filesData = getFiles(authToken);
-            setData(filesData);
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const filesData = await getFiles(authToken);
+                console.log(filesData);
+                setData(filesData);
+            } catch (error) {
+                console.error('Error fetching files:', error);
+            }
+        };
+
+        if (authToken) {
+            fetchData();
+        }
+    }, [authToken]);
 
     const getFiles = async (authToken) => {
         try {
@@ -30,7 +44,7 @@ export default function Recent({title}){
               Authorization: `Bearer ${authToken}`,
             },
           });
-          console.log('Files:', response.data.files);
+          console.log('x:', response.data.files);
           return response.data.files;
         } catch (error) {
           console.error('Files error:', error);

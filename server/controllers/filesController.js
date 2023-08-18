@@ -2,27 +2,30 @@ const {storage, loginToStorage} = require('../utils/loginToStorage');
 
 const {uploadToStorage, getStorageFiles} = require('../utils/Storage');
 
+const { formatDateLabel } = require('../utils/utils');
+
 const getAllFiles = async (req, res) => {
     try{
         await loginToStorage();
         const userFolder = storage.root.children.find(folder => folder.name === req.user.email);
         const folder = userFolder.children.find(folder => folder.name === 'All Files');
         const filelist = await getStorageFiles(folder);
+        console.log(filelist);
         if (!filelist)
-            res.status(404).json({message: 'No files found'});
+            return res.status(404).json({message: 'No files found'});
         const files = [];
         for(let i=0; i<filelist.length; i++){
             files.push({
                 id: i,
                 name: filelist[i],
-                time: new Date().toLocaleString(),
+                time: formatDateLabel(new Date()),
             });
         };
         console.log(files);
-        res.status(200).json({message: 'Files found', files: files});
+        return res.status(200).json({message: 'Files found', files: files});
     }catch(err){
         console.error(err);
-        res.status(404).json({message: err.message});
+        return res.status(404).json({message: err.message});
     }
 }
 
