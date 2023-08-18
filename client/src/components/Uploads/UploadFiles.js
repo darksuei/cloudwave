@@ -30,7 +30,7 @@ export default function UploadFiles(){
         e.preventDefault();
         setHighlight(false);
         handleFileUpload(e);
-      };      
+      };
 
     const handleFileUpload = async (e) => {
       e.preventDefault();

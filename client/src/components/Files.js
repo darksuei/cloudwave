@@ -14,7 +14,8 @@ export default function Files() {
             <div className="flex flex-col w-10/12 py-8 items-center relative">
                 <Search/>
                 <div className="w-full min-h-full">
-                    <Recent title={'All Files'}/>
+                    <Recent title={'All Files'}
+                    showAll = {true}/>
                 </div>
             </div>
         </div>

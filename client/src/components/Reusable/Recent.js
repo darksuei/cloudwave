@@ -1,4 +1,3 @@
-// import data from '../../data';
 import '../../index.css';
 import { useState, useEffect } from 'react';
 import SharePopUp from './SharePopUp';
@@ -7,7 +6,7 @@ import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export default function Recent({title}){
+export default function Recent({title, showAll}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
@@ -26,7 +25,11 @@ export default function Recent({title}){
             try {
                 const filesData = await getFiles(authToken);
                 console.log(filesData);
-                setData(filesData);
+                if(showAll === true){
+                    setData(filesData);
+                }else{
+                    setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
+                }
             } catch (error) {
                 console.error('Error fetching files:', error);
             }
