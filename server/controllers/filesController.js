@@ -38,8 +38,7 @@ const getCategoryCount = async (req, res) => {
 const getFilesByCategory = async (req, res) => {
     try{
         await loginToStorage();
-        const userFolder = storage.root.children.find(folder => folder.name === req.user.email);
-        const folder = userFolder.children.find(folder => folder.name === 'All Files');
+        const folder = storage.root.children.find(folder => folder.name === req.user.email);
         const filelist = await getStorageFiles(folder);
         console.log(filelist);
         if (!filelist)
@@ -72,8 +71,7 @@ const getFilesByCategory = async (req, res) => {
 const getAllFiles = async (req, res) => {
     try{
         await loginToStorage();
-        const userFolder = storage.root.children.find(folder => folder.name === req.user.email);
-        const folder = userFolder.children.find(folder => folder.name === 'All Files');
+        const folder = storage.root.children.find(folder => folder.name === req.user.email);
         const filelist = await getStorageFiles(folder);
         console.log(filelist);
         if (!filelist)
@@ -121,13 +119,18 @@ const searchFiles = (req, res) => {
 const uploadFile = async (req, res, next) => {
     try {
         await loginToStorage();
-        const userFolder = storage.root.children.find(folder => folder.name === req.user.email);
-        const folder = userFolder.children.find(folder => folder.name === 'All Files');
+        const folder = storage.root.children.find(folder => folder.name === req.user.email);
         for(const file of req.files){
             let status = uploadToStorage(file.originalname, file.path, folder);
             if(status === false)
                 return res.status(400).json({message: 'Error uploading file'});
-            await User.findOneAndUpdate({ email: req.user.email },{ $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname) } } }, { new: true })
+            await User.findOneAndUpdate(
+                { email: req.user.email },
+                {
+                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname) } },
+                    $inc: { spaceUsed: file.size / 1024} 
+                },
+                { new: true })
             .then(updatedUser => {
                 if (updatedUser) {
                     console.log('User updated successfully:', updatedUser);
@@ -146,8 +149,31 @@ const uploadFile = async (req, res, next) => {
     }
 }
 
+const getStorage = async (req, res)=>{
+    const maxStorage = 5;
+    const maxStorageKB = maxStorage * 1024 * 1024;
+    const user = await User.findOne({ email: req.user.email });
+    if(!user){
+        return res.status(404).json({message: 'User not found'});
+    }
+    const storageUsedKB = Math.round(user.spaceUsed);
+    const storageUsedMB = Math.round(storageUsedKB / 1024);
+    const storageUsedGB = Math.round(storageUsedKB / (1024*1024));
+    let percentage = Math.round((storageUsedKB / maxStorageKB) * 100);
+
+    if (storageUsedKB > 0 && storageUsedKB < 52429){
+        percentage = 1;
+    }
+    if (storageUsedKB > 1024 * 1024){
+        return res.status(200).json({message:"Successful", storageUsed: storageUsedGB, unit: "GB", percentage});
+    } else if (storageUsedKB > 1024){
+        return res.status(200).json({message:"Successful", storageUsed: storageUsedMB, unit: "MB", percentage});
+    }
+    return res.status(200).json({message:"Successful", storageUsed: storageUsedKB, unit: "KB", percentage});
+};
+
 const favorites = (req,res) => {};
 
 const sharedFiles = (req,res) => {};
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, searchFiles, uploadFile, favorites, sharedFiles }
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, favorites, sharedFiles }

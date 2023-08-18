@@ -32,6 +32,10 @@ const userSchema = new Schema({
     },
     files: {
         type: Array
+    },
+    spaceUsed: {
+        type: Number,
+        default: 0
     }
 })
 
