@@ -1,6 +1,7 @@
 import LeftSideBar from "./Reusable/LeftSideBar";
 import UserInfo from "./Settings/UserInfo";
 import Theme from "./Settings/Theme";
+import Footer from "./Settings/Footer";
 import { useContext } from "react";
 import { LocationContext } from "../Contexts/LocationContext";
 
@@ -11,9 +12,10 @@ export default function Settings (){
     return(
         <div className="flex flex-row w-full bg-slate-200">
             <LeftSideBar/>
-            <div className="flex flex-col w-10/12">
+            <div className="flex flex-col w-10/12 relative">
                 <UserInfo/>
                 <Theme/>
+                <Footer/>
             </div>
         </div>
     )
