@@ -131,7 +131,7 @@ const uploadFile = async (req, res, next) => {
             await User.findOneAndUpdate(
                 { email: req.user.email },
                 {
-                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname) } },
+                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024) } },
                     $inc: { spaceUsed: file.size / 1024} 
                 },
                 { new: true })
@@ -176,8 +176,29 @@ const getStorage = async (req, res)=>{
     return res.status(200).json({message:"Successful", storageUsed: storageUsedKB, unit: "KB", percentage});
 };
 
+const deleteFile = async (req, res) => {
+    try{
+        const user = await User.findOne({ email: req.user.email });
+        if(!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        const file = user.files.find(file => file.name === req.params.name);
+        if(!file){
+            return res.status(404).json({message: 'File not found'});
+        }
+        await User.findOneAndUpdate({email: req.user.email}, {$inc: {spaceUsed: -(file.size) / 1024} });
+        user.files.pull(file);
+        await user.save();
+        console.log("Successfully deleted!")
+        return res.status(200).json({message: 'File deleted successfully'});
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({message: err.message});
+    }
+};
+
 const favorites = (req,res) => {};
 
 const sharedFiles = (req,res) => {};
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, favorites, sharedFiles }
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, sharedFiles }

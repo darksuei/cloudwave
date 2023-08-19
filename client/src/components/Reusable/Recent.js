@@ -11,7 +11,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
     const [previewItemUrl, setPreviewItemUrl] = useState('');
-    const [authToken, setAuthToken] = useState(null);
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [data, setData] = useState([]);
     let api;
     if(category){
@@ -19,12 +19,6 @@ export default function Recent({title, showAll, category, SearchResults}){
     }else{
         api = 'http://localhost:5000/api/files';
     }
-    console.log('api:', api);
-    useEffect(() => {
-      const authToken = Cookies.get('authToken');
-      console.log('Token from cookie:', authToken);
-      setAuthToken(authToken);
-    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,12 +34,13 @@ export default function Recent({title, showAll, category, SearchResults}){
                 console.error('Error fetching files:', error);
             }
         };
-        console.log("SEARCH", SearchResults)
+
         if (SearchResults){
             setData(SearchResults);
         }else if (authToken && !SearchResults) {
             fetchData();
-        } 
+        }
+        return () => {};
     }, [authToken]);
 
     const getFiles = async (authToken) => {
@@ -99,6 +94,25 @@ export default function Recent({title, showAll, category, SearchResults}){
         setShare(!share);
       }
 
+    async function handleDelete(e,name){
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const response = await axios.delete(`http://localhost:5000/api/delete/${name}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            if(response.status === 200){
+                console.log('File deleted successfully');
+                setData(data.filter((file) => file.name !== name));
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Error deleting file:', error);
+        }
+    }
+
     return(
         <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
             {share && (
@@ -143,7 +157,7 @@ export default function Recent({title, showAll, category, SearchResults}){
                                             <span>Rename</span>
                                             <i class="fas fa-edit text-xs"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem">
+                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e, item.name)}>
                                             <span>Delete</span>
                                             <i class="fas fa-trash text-xs"></i>
                                         </button>

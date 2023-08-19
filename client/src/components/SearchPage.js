@@ -9,7 +9,6 @@ import axios from "axios";
 export default function Files() {
     const [data, setData] = useState([]);
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
-    const [searchQuery, setSearchQuery] = useState('');
     const Location = useContext(LocationContext);
     Location.setLocation('search');
     const href = window.location.href;

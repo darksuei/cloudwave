@@ -4,15 +4,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function DragDrop(){
-    const [uploadedFiles, setUploadedFiles] = useState([]);
     const [highlight, setHighlight] = useState(false);
-    const [authToken, setAuthToken] = useState(null);
-
-    useEffect(() => {
-      const authToken = Cookies.get('authToken');
-      console.log('Token from cookie:', authToken);
-      setAuthToken(authToken);
-    }, []);
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
 
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -54,15 +47,12 @@ export default function DragDrop(){
                 Authorization: `Bearer ${authToken}`, 
             },
             });
-            console.log('Upload success:', response.data);
+            if (response.status === 201)
+                window.location.reload();
         } catch (error) {
             console.error('Upload error:', error);
         }
     };
-
-    useEffect(() => {
-    console.log(uploadedFiles);
-    },[uploadedFiles]);
 
     return(
         <div className={`flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${highlight ? ' border-2 border-blue-500 ' : ''}`}

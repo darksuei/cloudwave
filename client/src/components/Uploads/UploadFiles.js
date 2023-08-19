@@ -5,13 +5,7 @@ import Cookies from 'js-cookie';
 export default function UploadFiles(){
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [highlight, setHighlight] = useState(false);
-    const [authToken, setAuthToken] = useState(null);
-
-    useEffect(() => {
-      const authToken = Cookies.get('authToken');
-      console.log('Token from cookie:', authToken);
-      setAuthToken(authToken);
-    }, []);
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
 
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -57,11 +51,6 @@ export default function UploadFiles(){
         console.error('Upload error:', error);
       }
     };
-    
-      
-      useEffect(() => {
-        console.log(uploadedFiles);
-      },[uploadedFiles]);
 
     return (
         <div className="flex flex-col p-4 items-center bg-white w-7/12 rounded-lg gap-y-5">
