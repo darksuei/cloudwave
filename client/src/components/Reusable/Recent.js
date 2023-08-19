@@ -40,12 +40,12 @@ export default function Recent({title, showAll, category, SearchResults}){
                 console.error('Error fetching files:', error);
             }
         };
-
-        if (authToken && !SearchResults) {
+        console.log("SEARCH", SearchResults)
+        if (SearchResults){
+            setData(SearchResults);
+        }else if (authToken && !SearchResults) {
             fetchData();
-        } else {
-            setData(SearchResults)
-        }
+        } 
     }, [authToken]);
 
     const getFiles = async (authToken) => {
