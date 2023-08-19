@@ -52,6 +52,18 @@ const userRegister = async (req, res)=>{
         return res.status(500).json({ message: "Internal server error" })};
 }
 
+const userUpdate = async (req, res)=>{
+    try{
+        const { firstname, lastname, email } = req.body;
+        const user = await User.findOneAndUpdate({email:req.user.email}, {firstname, lastname, email}, {new:true});
+        if(!user) return res.status(404).json({message: "User not found"});
+        return res.status(200).json({message: "User updated successfully"});
+    }catch(error){
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+}
+}
+
 const hashPassword = async (password, saltRounds) => {
     try {
         const hash = await bcrypt.hash(password, saltRounds);
@@ -67,5 +79,5 @@ const generateToken = (email) => {
     return token;
 };
 
-module.exports = {hashPassword, userLogin, userRegister}
+module.exports = {hashPassword, userLogin, userRegister, userUpdate}
 

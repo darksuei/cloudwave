@@ -14,7 +14,7 @@ export default function SignUp (){
             ...prevData,
             [name]: value,
         }));
-    };
+    }; 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
