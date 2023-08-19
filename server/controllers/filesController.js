@@ -199,6 +199,31 @@ const deleteFile = async (req, res) => {
 
 const favorites = (req,res) => {};
 
-const sharedFiles = (req,res) => {};
+const renameFile = async (req,res) => {
+    try {
+        const filter = {
+            email: req.user.email,
+            "files.name": req.params.name
+        };
+    
+        const update = {
+            $set: {
+                "files.$.name": req.query.newName
+            }
+        };
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, sharedFiles }
+        const user = await User.findOneAndUpdate(filter, update, { new: true });
+    
+        if (!user) {
+            return res.status(404).json({ message: 'User or file not found' });
+        }
+
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+    
+};
+
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, renameFile }

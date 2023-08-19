@@ -1,9 +1,12 @@
 import React, { useState,useEffect } from 'react';
 import SharePopUp from './SharePopUp';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
+  const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
 
   function handleShare(e){
     e.preventDefault();
@@ -23,6 +26,24 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
       document.removeEventListener("click", handleDocumentClick);
     }
   }, []);
+  async function handleDelete(e){
+    e.preventDefault();
+    e.stopPropagation();
+    // try {
+    //     const response = await axios.delete(`http://localhost:5000/api/delete/${name}`, {
+    //         headers: {
+    //             Authorization: `Bearer ${authToken}`,
+    //         },
+    //     });
+    //     if(response.status === 200){
+    //         console.log('File deleted successfully');
+    //         setData(data.filter((file) => file.name !== name));
+    //         window.location.reload();
+    //     }
+    // } catch (error) {
+    //     console.error('Error deleting file:', error);
+    // }
+}
   return (
     <div className=" relative z-50 flex flex-col w-full h-4/5">
       {share && (
@@ -48,7 +69,7 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
                                             <span>Download</span>
                                             <i class="fas fa-download text-xs"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem">
+                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e)}>
                                             <span>Rename</span>
                                             <i class="fas fa-edit text-xs"></i>
                                         </button>

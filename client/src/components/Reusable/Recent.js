@@ -50,7 +50,6 @@ export default function Recent({title, showAll, category, SearchResults}){
               Authorization: `Bearer ${authToken}`,
             },
           });
-          console.log('x:', response.data.files);
           return response.data.files;
         } catch (error) {
           console.error('Files error:', error);
@@ -81,12 +80,12 @@ export default function Recent({title, showAll, category, SearchResults}){
       }, []);
     
     function handleDropdownClick(index,e) {
-    e.stopPropagation();
-    if (dropdownState.includes(index)) {
-        setDropdownState(dropdownState.filter(itemIndex => itemIndex !== index));
-        } else {
-        setDropdownState([...dropdownState, index]);
-        } 
+        e.stopPropagation();
+        if (dropdownState.includes(index)) {
+            setDropdownState(dropdownState.filter(itemIndex => itemIndex !== index));
+            } else {
+            setDropdownState([...dropdownState, index]);
+            } 
     }
     function handleShare(e){
         e.preventDefault();
@@ -112,6 +111,19 @@ export default function Recent({title, showAll, category, SearchResults}){
             console.error('Error deleting file:', error);
         }
     }
+    // TODO RENAME DIALOG
+    // async function handleRename(e,name){
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     try {
+    //         const response = axios.patch(`http://localhost:5000/api/rename/${name}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${authToken}`,
+    //             },});
+    //     }catch(error){
+    //         console.error('Error renaming file:', error);
+    //     }
+    // }
 
     return(
         <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
