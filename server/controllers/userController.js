@@ -6,6 +6,17 @@ const User = require('../models/userSchema');
 const { loginToStorage } = require('../utils/loginToStorage');
 const { createStorage } = require('../utils/Storage');
 
+const getUser = async (req, res)=>{
+    try{
+        const user = await User.findOne({email:req.user.email});
+        if(!user) return res.status(404).json({message: "User not found"});
+        return res.status(200).json({message:"success",user});
+    }catch(error){
+        console.error(error);
+        return res.status(500).json({message: "Internal server error"});
+    }
+};
+
 const userLogin = async (req, res)=>{
     try{
         const { email, password } = req.body;
@@ -52,17 +63,29 @@ const userRegister = async (req, res)=>{
         return res.status(500).json({ message: "Internal server error" })};
 }
 
-const userUpdate = async (req, res)=>{
-    try{
-        const { firstname, lastname, email } = req.body;
-        const user = await User.findOneAndUpdate({email:req.user.email}, {firstname, lastname, email}, {new:true});
-        if(!user) return res.status(404).json({message: "User not found"});
-        return res.status(200).json({message: "User updated successfully"});
-    }catch(error){
+const userUpdate = async (req, res) => {
+    try {
+        const { firstname, lastname, phone } = req.body;
+        const updateFields = {};
+
+        if (firstname) updateFields.firstname = firstname;
+        if (lastname) updateFields.lastname = lastname;
+        if (phone) updateFields.phone = phone;
+
+        if (Object.keys(updateFields).length === 0) {
+            return res.status(400).json({ message: "No valid fields to update" });
+        }
+
+        const user = await User.findOneAndUpdate({ email: req.user.email }, updateFields, { new: true });
+        console.log(user);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        return res.status(200).json({ message: "User updated successfully" });
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
-}
-}
+    }
+};
 
 const hashPassword = async (password, saltRounds) => {
     try {
@@ -79,5 +102,5 @@ const generateToken = (email) => {
     return token;
 };
 
-module.exports = {hashPassword, userLogin, userRegister, userUpdate}
+module.exports = {hashPassword, userLogin, userRegister, userUpdate, getUser}
 

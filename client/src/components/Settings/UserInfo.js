@@ -5,11 +5,22 @@ import Cookies from "js-cookie";
 
 export default function UserInfo() {
     const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+    const [user, setUser] = useState({
+        firstname: "",
+        lastname: "",
+        phone: ""
+    });
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
-        email: "",
+        phone: "",
     });
+    useEffect(() => {
+        if(authToken){
+            getUser();
+        }
+    }, [authToken]);
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -17,12 +28,37 @@ export default function UserInfo() {
             [name]: value,
         }));
     };
+
+    const getUser = async () => {
+        try{
+            const response = await axios.get('http://localhost:5000/api/user', {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            setUser(response.data.user);
+            console.log('User info retrieved:', response.data.user);
+        }catch(error){
+            console.error('Error getting user info:', error);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const updatedFields = {};
+            for (const key in formData) {
+                if (formData[key] !== user[key]) {
+                    updatedFields[key] = formData[key];
+                }
+            }
+            if (Object.keys(updatedFields).length === 0) {
+                return;
+            }
+            console.log('Updated fields:', updatedFields);
             const response = await axios.patch(
                 'http://localhost:5000/api/update',
-                formData,
+                updatedFields,
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
@@ -47,21 +83,26 @@ export default function UserInfo() {
                     <div className="flex flex-col w-full gap-y-2">
                         <label htmlFor="firstname" className="text-sm font-medium text-gray-500">First Name</label>
                         <input name='firstname' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        value={user.firstname?user.firstname:formData.firstname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
+
                     <div className="flex flex-col w-full gap-y-2">
                         <label htmlFor="lastname" className="text-sm font-medium text-gray-500">Last Name</label>
                         <input name='lastname' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        value={user.lastname?user.lastname:formData.lastname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
+                    
                     <div className="flex flex-col w-full gap-y-2">
-                        <label htmlFor="email" className="text-sm font-medium text-gray-500">E-mail</label>
-                        <input name='email' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="email"
+                        <label htmlFor="phone" className="text-sm font-medium text-gray-500">Phone</label>
+                        <input name='phone' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="tel"
+                        value={user.phone?user.phone:formData.phone}
                         onChange={(e)=>handleChange(e)} />
                     </div>
                 </div>
                 <div className="relative w-3/12">
-                    <button className=' absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0' onClick={(e)=>handleSubmit(e)}>Save</button>
+                    <button className=' absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0 hover:bg-blue-600' onClick={(e)=>handleSubmit(e)}>Save</button>
                 </div>
             </div>
         </div>

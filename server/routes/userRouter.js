@@ -2,9 +2,11 @@ const Router = require("express").Router;
 
 const userRouter = Router();
 
-const {userLogin, userRegister, userUpdate} = require('../controllers/userController');
+const {userLogin, userRegister, userUpdate, getUser} = require('../controllers/userController');
 
 const {authenticate} = require('../utils/authenticate');
+
+userRouter.get('/user', authenticate, getUser);
 
 userRouter.post('/login', userLogin);
 
