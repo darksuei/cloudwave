@@ -14,6 +14,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [data, setData] = useState([]);
     const [selectedItemData, setSelectedItemData] = useState(null);
+    const [link, setLink] = useState('');
 
     let api;
     if(category){
@@ -89,7 +90,19 @@ export default function Recent({title, showAll, category, SearchResults}){
             setDropdownState([...dropdownState, index]);
             } 
     }
-    async function getFile(e,name){
+
+    useEffect(() => {
+        async function fetchFile(){
+            if(selectedItemData){
+                const file = await getFile(selectedItemData);
+                setLink(file.link);
+                console.log("FILEEEEE: ", file);
+            }
+        }
+        fetchFile();
+    },[selectedItemData])
+
+    async function getFile(name){
         try {
             const response = await axios.get(`http://localhost:5000/api/getfile/${name}`, {
                 headers: {
@@ -104,13 +117,6 @@ export default function Recent({title, showAll, category, SearchResults}){
             console.error('Error fetching file:', error);
         }
     };
-
-    useEffect(() => {
-        if (share){
-            const response = getFile(e,);
-            console.log(response);
-        }
-    }, [share]);
 
     function handleShare(e,item){
         e.preventDefault();
@@ -154,7 +160,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     return(
         <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
             {share && (
-                <SharePopUp toggle={handleShare} width={'w-4/12'}/>
+                <SharePopUp isOpen={share} link={link} width={'w-4/12'}/>
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className={`flex flex-col gap-y-2.5`}>

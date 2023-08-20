@@ -132,7 +132,7 @@ const uploadFile = async (req, res, next) => {
             await User.findOneAndUpdate(
                 { email: req.user.email },
                 {
-                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024), isFavorite:false,link:status } },
+                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024), isFavorite:false, link:status } },
                     $inc: { spaceUsed: file.size / 1024} 
                 },
                 { new: true })

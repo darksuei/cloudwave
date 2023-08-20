@@ -1,13 +1,14 @@
 import CopyLinkBox from "./CopyLink";
 import { useState, useEffect } from "react";
 
-export default function SharePopUp({toggle, width}){
-    const [close, setClose] = useState(true);
+export default function SharePopUp({link, isOpen, width}){
+    const [close, setClose] = useState(isOpen);
 
     function toggleClose(e){
         e.preventDefault();
         e.stopPropagation();
-        setClose(!close)
+        setClose(false);
+        isOpen = !isOpen;
       };
 
     useEffect(() => {
@@ -29,9 +30,9 @@ export default function SharePopUp({toggle, width}){
                     <h1 className="text-md text-blue-500 font-black">Share</h1>
                 </div>
                 <h3 className="text-xs text-gray-500 ml-2.5">Copy this link to share</h3>
-                <CopyLinkBox/>
+                <CopyLinkBox mylink={link}/>
                 <h3 className="text-xs text-gray-500 ml-2.5 mb-3">Anyone with this link can view this file!</h3>
-                <button className="absolute top-3 right-3" onClick={(e)=>toggle(e)}>
+                <button className="absolute top-3 right-3" onClick={(e)=>toggleClose(e)}>
                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                 </button>
             </div>

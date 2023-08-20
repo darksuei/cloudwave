@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CopyLinkBox = () => {
+const CopyLinkBox = ({mylink}) => {
   const [link, setLink] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -18,10 +18,10 @@ const CopyLinkBox = () => {
     <div className="flex flex-row items-center border justify-between rounded-md">
       <input
         type="text"
-        value="https://www.example.com"
+        value= {mylink}
         onChange={(e) => setLink(e.target.value)}
         placeholder="Enter a link..."
-        className="px-3 py-2 w-60 text-sm font-medium text-slate-500 outline-none"
+        className="px-3 py-2 w-full text-sm font-medium text-slate-500 outline-none"
         readonly
       />
       <button
