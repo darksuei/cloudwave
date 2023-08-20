@@ -125,6 +125,40 @@ export default function Recent({title, showAll, category, SearchResults}){
         setShare(!share);
     }
 
+    function handleDownload(e,item){
+        e.preventDefault();
+        e.stopPropagation();
+        setSelectedItemData(item.name);
+        window.open(link);
+    }
+    // TODO INBUILT DOWNLOAD FILE
+    // const handleDownload = async () => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     setSelectedItemData(item.name);
+
+    //     console.log("LINK: ", link)
+    //     const fileURL = link;
+        
+    //     // Load the file object from the URL
+    //     const file = File.fromURL(fileURL);
+    
+    //     // Download the file's data
+    //     const data = await file.downloadBuffer();
+    
+    //     // Create a Blob from the data
+    //     const blob = new Blob([data]);
+    
+    //     // Create a download link and trigger click
+    //     const link = document.createElement('a');
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.download = 'image.jpg'; // Change the filename as needed
+    //     link.click();
+    
+    //     // Clean up the Blob object
+    //     window.URL.revokeObjectURL(link.href);
+    //   };
+
     async function handleDelete(e,name){
         e.preventDefault();
         e.stopPropagation();
@@ -193,7 +227,7 @@ export default function Recent({title, showAll, category, SearchResults}){
                             {dropdownState.includes(item) && (
                                 <div className="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem">
+                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
                                             <span>Download</span>
                                             <i class="fas fa-download text-xs"></i>
                                         </button>
