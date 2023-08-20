@@ -14,7 +14,7 @@ import Login from './components/Reusable/Login';
 
 function App() {
   const [location, setLocation] = useState('home');
-  
+   
   return (
     <LocationContext.Provider value={{ location, setLocation }}>
     <Router>

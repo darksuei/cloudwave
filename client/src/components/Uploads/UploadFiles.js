@@ -1,11 +1,13 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UploadContext } from '../../Contexts/UploadContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function UploadFiles(){
-    const [uploadedFiles, setUploadedFiles] = useState([]);
+
     const [highlight, setHighlight] = useState(false);
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
+    const Uploads = useContext(UploadContext);
 
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -32,11 +34,13 @@ export default function UploadFiles(){
       let files;
       e.dataTransfer !== undefined ? (files = e.dataTransfer.files) : (files = e.target.files);
       
-      const formData = new FormData(); // Create FormData object
+      const formData = new FormData();
       
       // Append each file to the FormData object
       for (let file of files) {
         formData.append('files', file);
+        console.log(file)
+        Uploads.setUploads([...Uploads.uploads, file]);
       }
     
       try {
@@ -51,6 +55,9 @@ export default function UploadFiles(){
         console.error('Upload error:', error);
       }
     };
+    useEffect(() => {
+      console.log("UPLOADS: ", Uploads.uploads)
+    },[Uploads.uploads])
 
     return (
         <div className="flex flex-col p-4 items-center bg-white w-7/12 rounded-lg gap-y-5">
