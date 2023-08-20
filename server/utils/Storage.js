@@ -30,28 +30,39 @@ const getStorageFiles = async (folder) => {
     return false;}
 }
 
-const uploadToStorage = async (name, filepath, folder) => {
+const uploadToStorage = (name, filepath, folder) => {
   const imagePath = path.join(__dirname, filepath.slice(6));
 
-  if(!folder)
-    return false;
+  if (!folder)
+    return Promise.reject(new Error("Invalid folder"));
 
-  fs.readFile(imagePath, (err, imageContent) => {
-    if (err) {
-      console.error('Error reading file:', err);
-      return false;
-    }
-
-    folder.upload(name, imageContent, (err, file) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(imagePath, async (err, imageContent) => {
       if (err) {
-        console.error('Error uploading file:', err);
-        return false;
+        console.error('Error reading file:', err);
+        return reject(err);
       }
-      return true;
 
+      folder.upload(name, imageContent, (err, file) => {
+        if (err) {
+          console.error('Error uploading file:', err);
+          return reject(err);
+        }
+        
+        file.link()
+          .then((link) => {
+            console.log("LINK: ", link);
+            resolve(link);
+          })
+          .catch((linkError) => {
+            console.error('Error generating link:', linkError);
+            reject(linkError);
+          });
+      });
     });
   });
-}
+};
+
 
 const shareFile = async () => {
     const file = Object.values(storage.files).find(file => file.name === 'image.jpg')

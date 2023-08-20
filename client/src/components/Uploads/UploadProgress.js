@@ -1,8 +1,34 @@
 import '../../index.css';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default function UploadProgress(props){
     const [loaded, setLoaded] = useState(45);
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
+    const [data,setData] = useState(null);
+
+    useEffect(()=> {
+        try{
+            if(authToken){
+                const response = getUploads();
+                console.log(response);
+            }
+        }catch(error){
+            console.error(error);
+        }
+    },[authToken])
+
+    const getUploads = () => {
+        const response = axios.get('http://localhost:3000/api/x',{
+            headers:{
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+        if (response){
+            setData(response)
+        }
+    }
 
     useEffect(() => {
         updateLoadingBar(loaded);

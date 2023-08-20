@@ -125,13 +125,14 @@ const uploadFile = async (req, res, next) => {
         await loginToStorage();
         const folder = storage.root.children.find(folder => folder.name === req.user.email);
         for(const file of req.files){
-            let status = uploadToStorage(file.originalname, file.path, folder);
-            if(status === false)
+            let status = await uploadToStorage(file.originalname, file.path, folder);
+            if(!status){
                 return res.status(400).json({message: 'Error uploading file'});
+            }
             await User.findOneAndUpdate(
                 { email: req.user.email },
                 {
-                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024) } },
+                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024), isFavorite:false,link:status } },
                     $inc: { spaceUsed: file.size / 1024} 
                 },
                 { new: true })
@@ -197,6 +198,23 @@ const deleteFile = async (req, res) => {
     }
 };
 
+const getSingleFile = async (req, res) => {
+    try{
+        const user = await User.findOne({ email: req.user.email });
+        if(!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        const file = user.files.find(file => file.name === req.params.name);
+        if(!file){
+            return res.status(404).json({message: 'File not found'});
+        }
+        return res.status(200).json({message: 'OK', file: file});
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({message: err.message});
+    }
+};
+
 const favorites = (req,res) => {};
 
 const renameFile = async (req,res) => {
@@ -226,4 +244,4 @@ const renameFile = async (req,res) => {
     
 };
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, renameFile }
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, renameFile, getSingleFile }

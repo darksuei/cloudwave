@@ -13,6 +13,8 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [previewItemUrl, setPreviewItemUrl] = useState('');
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [data, setData] = useState([]);
+    const [selectedItemData, setSelectedItemData] = useState(null);
+
     let api;
     if(category){
         api = `http://localhost:5000/api/files/${category}`;
@@ -87,11 +89,35 @@ export default function Recent({title, showAll, category, SearchResults}){
             setDropdownState([...dropdownState, index]);
             } 
     }
-    function handleShare(e){
+    async function getFile(e,name){
+        try {
+            const response = await axios.get(`http://localhost:5000/api/getfile/${name}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            if(response.status === 200){
+                console.log('File fetched successfully');
+                return response.data.file;
+            }
+        }catch(error){
+            console.error('Error fetching file:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (share){
+            const response = getFile(e,);
+            console.log(response);
+        }
+    }, [share]);
+
+    function handleShare(e,item){
         e.preventDefault();
         e.stopPropagation();
+        setSelectedItemData(item.name);
         setShare(!share);
-      }
+    }
 
     async function handleDelete(e,name){
         e.preventDefault();
@@ -148,7 +174,7 @@ export default function Recent({title, showAll, category, SearchResults}){
                         <div className='flex flex-row w-9/12 justify-between items-center'>
                             <h2 className='w-4/12 p-2'>{item.name}</h2>
                             <p className='text-gray-400 text-sm'>{item.time}</p>
-                            <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
+                            <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e,item)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
                         <div className={`${showPreview.includes(item)? ' ': 'relative'} w-2/12 text-right`}>
                             <button
