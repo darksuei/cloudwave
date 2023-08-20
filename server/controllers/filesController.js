@@ -215,7 +215,54 @@ const getSingleFile = async (req, res) => {
     }
 };
 
-const favorites = (req,res) => {};
+const getFavs = async (req,res) => {
+    try{
+        const user = await User.findOne({ email: req.user.email });
+        if(!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        const favs = user.files.filter(file => file.isFavorite === true);
+        if (!favs){
+            return res.status(404).json({message: 'No favorites found'});
+        }
+        return res.status(200).json({message: 'success', favs: favs});
+    }catch(error){
+        console.error(error);
+        return res.status(500).json({message: 'Internal server error'});
+    }
+};
+
+const toggleFav = async (req,res) => {
+    try {
+        const user = await User.findOne({ email: req.user.email });
+    
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        const fileToUpdate = user.files.find(file => file.name === req.params.name);
+    
+        if (!fileToUpdate) {
+            return res.status(404).json({message: 'File not found'});
+        }
+
+        const newIsFavoriteValue = !fileToUpdate.isFavorite;
+
+        const updatedUser = await User.findOneAndUpdate(
+            { email: req.user.email, "files.name": req.params.name },
+            { $set: { "files.$.isFavorite": newIsFavoriteValue } },
+            { new: true }
+        );
+        if (!updatedUser) {
+            return res.status(404).json({message: 'Error updating file'});
+        }
+        return res.status(200).json({message: 'File updated successfully'});
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({message: 'Internal server error'});
+    }
+    
+};
 
 const renameFile = async (req,res) => {
     try {
@@ -244,4 +291,4 @@ const renameFile = async (req,res) => {
     
 };
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, favorites, renameFile, getSingleFile }
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, getFavs, toggleFav, renameFile, getSingleFile }

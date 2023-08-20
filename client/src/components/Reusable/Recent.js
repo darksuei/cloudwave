@@ -15,6 +15,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [data, setData] = useState([]);
     const [selectedItemData, setSelectedItemData] = useState(null);
     const [link, setLink] = useState('');
+    const [fav, setFav] = useState("");
 
     let api;
     if(category){
@@ -190,7 +191,33 @@ export default function Recent({title, showAll, category, SearchResults}){
     //         console.error('Error renaming file:', error);
     //     }
     // }
+    useEffect(() => {
+        const updateFavorites = async () => {
+            try {
+                const response = await axios.patch(
+                    `http://localhost:5000/api/updatefav/${fav}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                console.log("Response: ", response);
+            } catch (error) {
+                console.error("Error updating favorites:", error);
+            }
+        };
+        if(fav){
+            updateFavorites();
+        }
+    }, [fav]);
 
+    function handleFav(e, item) {
+        e.preventDefault();
+        e.stopPropagation();
+        setFav(item.name);
+    }    
+    
     return(
         <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
             {share && (
@@ -225,15 +252,15 @@ export default function Recent({title, showAll, category, SearchResults}){
                                 <i className="fas fa-ellipsis-h text-indigo-500 text-lg"></i>
                             </button>
                             {dropdownState.includes(item) && (
-                                <div className="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
                                             <span>Download</span>
                                             <i class="fas fa-download text-xs"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem">
-                                            <span>Rename</span>
-                                            <i class="fas fa-edit text-xs"></i>
+                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item)}>
+                                            <span>Add to favorites</span>
+                                            <i class="fas fa-star text-xs"></i>
                                         </button>
                                         <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e, item.name)}>
                                             <span>Delete</span>

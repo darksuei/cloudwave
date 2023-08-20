@@ -39,6 +39,9 @@ const userSchema = new Schema({
     spaceUsed: {
         type: Number,
         default: 0
+    },
+    favCategories: {
+        type: Array
     }
 })
 

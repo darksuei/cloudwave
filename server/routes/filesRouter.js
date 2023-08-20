@@ -1,6 +1,6 @@
 const Router = require("express").Router;
 
-const { getCategoryCount, getAllFiles, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, renameFile, getSingleFile, favorites } = require('../controllers/filesController');
+const { getCategoryCount, getAllFiles, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, renameFile, getSingleFile, getFavs, toggleFav } = require('../controllers/filesController');
 
 const filesRouter = Router();
 
@@ -26,7 +26,9 @@ filesRouter.patch('/rename:name', authenticate, renameFile);
 
 filesRouter.get('/getfile/:name', authenticate, getSingleFile);
 
-filesRouter.get('/favorites', favorites);
+filesRouter.get('/favorites', authenticate, getFavs);
+
+filesRouter.patch('/updatefav/:name', authenticate, toggleFav);
 
 filesRouter.get('/storage',authenticate, getStorage)
 
