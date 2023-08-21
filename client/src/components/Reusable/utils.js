@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../../index.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { FavoritesContext } from '../../Contexts/FavoritesContext';
 
 export default function DragDrop(){
     const [highlight, setHighlight] = useState(false);
@@ -101,15 +102,21 @@ export function Categories(props) {
         video: 0,
         audio: 0,
     });
-    const [authToken, setAuthToken] = useState(null);
-    useEffect(() => {
-        const authToken = Cookies.get('authToken');
-        console.log('Token from cookie:', authToken);
-        setAuthToken(authToken);
-      }, []);
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [favorites, setFavorites] = useState([]);
+    const {favoriteCategory, setFavoriteCategory} = useContext(FavoritesContext);
     const [showInput, setShowInput] = useState(false);
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([
+        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.picture, iconColor: 'text-indigo-500', href: '/files/pictures', isFavorite: false },
+        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.document, iconColor: 'text-emerald-500', href: '/files/documents', isFavorite: false },
+        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.video, iconColor: 'text-red-500', href: '/files/videos', isFavorite: false },
+        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio', isFavorite: false },
+        { color: 'bg-gray-100', noIcons : true }
+    ]);
+
+    useEffect(() => {
+        console.log('favoriteCategory:', favoriteCategory);
+    },[favoriteCategory]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -141,16 +148,6 @@ export function Categories(props) {
           console.error('Files error:', error);
         }
       };
-      const categoryData = [
-        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.picture, iconColor: 'text-indigo-500', href: '/files/pictures' },
-        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.document, iconColor: 'text-emerald-500', href: '/files/documents' },
-        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.video, iconColor: 'text-red-500', href: '/files/videos' },
-        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio' },
-        { color: 'bg-gray-100', noIcons : true }
-    ];
-    useEffect(() => {
-        setCategories(categoryData);
-    }, [categories]);
 
     useEffect(() => {
         function handleDocumentClick() {
@@ -165,7 +162,7 @@ export function Categories(props) {
 
     function toggleNewCategory(value){
         let updatedCategories = [...categories];
-        updatedCategories.splice(categories.length - 1, 0, { icon: 'fas fa-folder-open', color: 'bg-emerald-500', title: value, count: 0, iconColor: 'text-emerald-500' });
+        updatedCategories.splice(categories.length - 1, 0, { icon: 'fas fa-folder-open', color: 'bg-emerald-500', title: value, count: 0, iconColor: 'text-emerald-500', isFavorite: false });
         setCategories(updatedCategories);
         setShowInput(false);
     }
@@ -173,12 +170,19 @@ export function Categories(props) {
         e.preventDefault();
         e.stopPropagation();
         setShowInput(!showInput);
-
     }
 
-    const toggleFavorite = (index,e) => {
+    const toggleFavorite = (item,index,e) => {
         e.preventDefault();
         e.stopPropagation();
+        
+        const updatedCategoryData = categories.map(cat =>
+            cat === item ? { ...cat, isFavorite: !cat.isFavorite } : cat
+          );
+
+        setCategories(updatedCategoryData);
+        setFavoriteCategory(updatedCategoryData.filter(cat => cat.isFavorite));
+
         if (favorites.includes(index)) {
             setFavorites(favorites.filter(itemIndex => itemIndex !== index));
         } else {
@@ -190,7 +194,7 @@ export function Categories(props) {
         <div className='flex flex-col p-3 bg-gray-200 rounded-xl w-full gap-y-2.5'>
             {props.title}
             <div className={props.style}>
-                {categories.map((category, index) => (
+                {props.favs ? favoriteCategory.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
                             <a href={category.href || '/files'} key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
                         {category.noIcons ? (
@@ -220,7 +224,43 @@ export function Categories(props) {
                                 </div>
                                 <i
                                     className={`fas fa-star white text-lg ml-4 cursor-pointer ${favorites.includes(index) ? 'favorite' : ''}`}
-                                    onClick={(e) => toggleFavorite(index,e)}
+                                    onClick={(e) => toggleFavorite(category,index,e)}
+                                ></i>
+                            </div>
+                        )}
+                    </a>
+                    )
+                )) : categories.map((category, index) => (
+                    (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
+                            <a href={category.href || '/files'} key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
+                        {category.noIcons ? (
+                           <div className='flex justify-center items-center w-full h-28 rounded--xl'
+                           onClick={(e)=>toggleInput(e)}>
+                            {showInput ? (
+                                <div className='w-full p-3 h-full'>
+                                    <input type='text' className='w-full p-2 text-xs' placeholder='Enter title' onClick={(e)=>{e.stopPropagation(); e.preventDefault()}}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          toggleNewCategory(e.target.value);
+                                        }
+                                      }} />
+                                </div>
+                            ) : (
+                             <i
+                                className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
+                            ></i>)
+                            }
+                           </div>)
+                         : (
+                            <div className='flex flex-row items-center p-3.5'>
+                                <div className='flex gap-y-1.5 flex-col w-8/12 h-20'>
+                                    <i className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}></i>
+                                    <div className='text-white font-bold text-sm'>{category.title}</div>
+                                    <div className='text-xs text-gray-200 w-full'>{category.count} files</div>
+                                </div>
+                                <i
+                                    className={`fas fa-star white text-lg ml-4 cursor-pointer ${favorites.includes(index) ? 'favorite' : ''}`}
+                                    onClick={(e) => toggleFavorite(category,index,e)}
                                 ></i>
                             </div>
                         )}
@@ -230,5 +270,4 @@ export function Categories(props) {
             </div>
         </div>
     );
-    
 };

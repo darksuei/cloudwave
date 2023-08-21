@@ -8,15 +8,18 @@ import Favorites from './components/Favorites';
 import Default from './components/Default';
 import Files from './components/Files';
 import { LocationContext } from './Contexts/LocationContext';
+import { FavoritesContext } from './Contexts/FavoritesContext';
 import SearchPage from './components/SearchPage';
 import SignUp from './components/SignUp';
 import Login from './components/Reusable/Login';
 
 function App() {
   const [location, setLocation] = useState('home');
+  const [favoriteCategory, setFavoriteCategory] = useState([]);
    
   return (
     <LocationContext.Provider value={{ location, setLocation }}>
+    <FavoritesContext.Provider value={{ favoriteCategory, setFavoriteCategory }}>
     <Router>
       <Routes>
         <Route exact path="/" Component={Default}/>
@@ -52,6 +55,7 @@ function App() {
         <Route exact path="/login" Component={Login}/>
       </Routes>
     </Router>
+    </FavoritesContext.Provider>
     </LocationContext.Provider>
   );
 }
