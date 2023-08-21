@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { UploadContext } from '../../Contexts/UploadContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -28,6 +28,25 @@ export default function UploadFiles(){
         handleFileUpload(e);
       };
 
+      const getCategory = (file) => {
+        const filetype = file.type.split('/')[1];
+        
+        const categories = {
+            "image": ['jpg', 'jpeg', 'png', 'gif'],
+            "music": ['mp3', 'wav', 'ogg'],
+            "video": ['mp4', 'avi', 'mov', 'mkv'],
+            "file-alt": ['pdf', 'doc', 'docx', 'txt']
+        };
+    
+        for (const category in categories) {
+            if (categories[category].includes(filetype)) {
+                return category;
+            }
+        }
+    
+        return 'document';
+    }
+
     const handleFileUpload = async (e) => {
       e.preventDefault();
       
@@ -39,7 +58,7 @@ export default function UploadFiles(){
       // Append each file to the FormData object
       for (let file of files) {
         formData.append('files', file);
-        console.log(file)
+        file.category = getCategory(file);
         Uploads.setUploads([...Uploads.uploads, file]);
       }
     
@@ -55,9 +74,6 @@ export default function UploadFiles(){
         console.error('Upload error:', error);
       }
     };
-    useEffect(() => {
-      console.log("UPLOADS: ", Uploads.uploads)
-    },[Uploads.uploads])
 
     return (
         <div className="flex flex-col p-4 items-center bg-white w-7/12 rounded-lg gap-y-5">

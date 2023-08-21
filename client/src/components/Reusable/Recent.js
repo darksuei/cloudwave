@@ -5,6 +5,7 @@ import ImagePreview from './ImagePreview';
 import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Loading from './Loading';
 
 export default function Recent({title, showAll, category, SearchResults}){
     const [dropdownState, setDropdownState] = useState([]);
@@ -16,6 +17,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [selectedItemData, setSelectedItemData] = useState(null);
     const [link, setLink] = useState('');
     const [fav, setFav] = useState("");
+    const [loading, setLoading] = useState(true);
 
     let api;
     if(category){
@@ -29,6 +31,7 @@ export default function Recent({title, showAll, category, SearchResults}){
             try {
                 const filesData = await getFiles(authToken);
                 console.log(filesData);
+                setLoading(false);
                 if(showAll === true){
                     setData(filesData);
                 }else{
@@ -225,6 +228,9 @@ export default function Recent({title, showAll, category, SearchResults}){
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className={`flex flex-col gap-y-2.5`}>
+                {loading && (
+                    <Loading />
+                )}
             {data && data.map((item) => {
                 return(
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
