@@ -20,7 +20,6 @@ export default function SignUp (){
         try {
             const response = await axios.post('http://localhost:5000/api/newuser', formData);
             if(response.status === 201){
-                console.log('Server response:', response.data);
                 const token = response.data.token;
                 Cookies.set('authToken', token, { expires: 1 });
                 window.location.href = '/home'

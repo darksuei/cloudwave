@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Login(){
     const [formData, setFormData] = useState({
@@ -20,7 +21,8 @@ export default function Login(){
             console.log('Form data:', formData);
             const response = await axios.post('http://localhost:5000/api/login', formData);
             if(response.status === 200){
-                console.log('Server response:', response.data);
+                const token = response.data.token;
+                Cookies.set('authToken', token, { expires: 1 });
                 window.location.href = '/home'
             }
         } catch (error) {

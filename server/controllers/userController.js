@@ -17,51 +17,82 @@ const getUser = async (req, res)=>{
     }
 };
 
-const userLogin = async (req, res)=>{
-    try{
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({message: "User not found"});
-        bcrypt.compare(password, user.hash, (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: "Internal server error" });
-            }
-            if (result === true) {
-                console.log('Login successful');
-                loginToStorage();
-                return res.status(200).json({ message: "Login successful" });
-            } else {
-                console.log('Login failed');
-                return res.status(401).json({ message: "Login failed" });
-            }
-        });
-    }catch(err){console.error(err)}
-}
+const userLogin = async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-const userRegister = async (req, res)=>{
-    try{
-        const {email, password, ...rest} = req.body;
-        const hash = await hashPassword(password,10)
-        const jwtToken = generateToken(email);
-        var decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
-        const newUser = new User({
-            email,
-            hash,
-            ...rest,
-            token: jwtToken   
-        })
-        await loginToStorage();
-        if (await createStorage(newUser.email)){
-            newUser.storage = newUser.email;
-            newUser.hasStorage = true;
-        }
-        await newUser.save();
-        return res.status(201).json({ "message" : "User created successfully", "token" : newUser.token })
-    }catch(err){
-        console.error(err)
-        return res.status(500).json({ message: "Internal server error" })};
-}
+      const user = await User.findOne({ email });
+      if (!user) {
+        console.log(email);
+        return res.status(401).json({ message: "Email is not registered!" });
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.hash);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Incorrect Password!" });
+      }
+
+      const newToken = generateToken(user.email);
+
+      user.token = newToken;
+      await user.save();
+  
+      return res.status(200).json({ message: "Login successful!", token: newToken });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Internal server error." });
+    }
+  };
+  
+
+const userRegister = async (req, res) => {
+    try {
+      const { email, password, ...rest } = req.body;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        console.log(email);
+        return res.status(400).json({ message: "Please use a valid email format!" });
+      }
+      const existingUser = User.findOne({ email });
+
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already registered!" });
+      }
+
+      const minPasswordLength = 6;
+      if (password.length < minPasswordLength) {
+        return res.status(400).json({ message: `Password must be at least ${minPasswordLength} characters long!` });
+      }
+  
+      const hash = await hashPassword(password, 10);
+      const verifyJWT = jwt.verify(jwtToken, process.env.JWT_SECRET);
+      if (!verifyJWT) {
+        return res.status(401).json({ message: "Invalid token." });
+      }
+      const jwtToken = generateToken(email);
+      const newUser = new User({
+        email,
+        hash,
+        ...rest,
+        token: jwtToken,
+      });
+  
+      await loginToStorage();
+      if (await createStorage(newUser.email)) {
+        newUser.storage = newUser.email;
+        newUser.hasStorage = true;
+      }
+  
+      await newUser.save();
+      return res.status(201).json({ message: "User created successfully", token: newUser.token });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+};
+  
 
 const userUpdate = async (req, res) => {
     try {
