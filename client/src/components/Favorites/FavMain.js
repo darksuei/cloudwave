@@ -1,11 +1,14 @@
 import Search from "../Reusable/Search"
 import { Categories } from "../Reusable/utils"
 import FavFiles from "./FavFiles"
-import {useContext} from "react"
-import { FavoritesContext } from "../../Contexts/FavoritesContext"
+import {useState, useContext} from "react"
+import Cookies from 'js-cookie';
 
 export default function FavMain(){
-    const {favoriteCategory} = useContext(FavoritesContext)
+    const favoriteCategoryString = Cookies.get('favoriteCategory');
+    const favoriteCategoryArray = JSON.parse(favoriteCategoryString);
+    const [favs, setFavs] = useState(favoriteCategoryArray);
+    console.log("FAVS", favs);
     return(
         <div className="w-10/12 flex flex-col p-8 items-center relative">
             <Search />
@@ -14,7 +17,7 @@ export default function FavMain(){
             elementWidth={'w-36'}
             title={<h2 className='font-extrabold py-4 text-blue-500 text-2xl'>Favorites</h2>}
             checkFav={false}
-            favs={favoriteCategory}  />
+            favs={favs}  />
             <FavFiles />
         </div>
     )

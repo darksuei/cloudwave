@@ -224,7 +224,7 @@ const getFavs = async (req,res) => {
         if(!user){
             return res.status(404).json({message: 'User not found'});
         }
-        const favs = user.files.filter(file => file.isFavorite === true);
+        const favs = user.favCategories;
         if (!favs){
             return res.status(404).json({message: 'No favorites found'});
         }
@@ -232,7 +232,7 @@ const getFavs = async (req,res) => {
     }catch(error){
         console.error(error);
         return res.status(500).json({message: 'Internal server error'});
-    }
+    } 
 };
 
 const toggleFav = async (req,res) => {

@@ -104,19 +104,20 @@ export function Categories(props) {
     });
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [favorites, setFavorites] = useState([]);
-    const {favoriteCategory, setFavoriteCategory} = useContext(FavoritesContext);
+    const FavCategory = useContext(FavoritesContext);
     const [showInput, setShowInput] = useState(false);
+    const [favs, setFavs] = useState(props.favs);
     const [categories, setCategories] = useState([
-        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.pictures, iconColor: 'text-indigo-500', href: '/files/pictures', isFavorite: false },
-        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.videos, iconColor: 'text-red-500', href: '/files/videos', isFavorite: false },
-        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio', isFavorite: false },
-        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.documents, iconColor: 'text-emerald-500', href: '/files/documents', isFavorite: false },
+        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.pictures, iconColor: 'text-indigo-500', href: '/files/pictures' },
+        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.videos, iconColor: 'text-red-500', href: '/files/videos'  },
+        { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio' },
+        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.documents, iconColor: 'text-emerald-500', href: '/files/documents' },
         { color: 'bg-gray-100', noIcons : true }
     ]);
 
     useEffect(() => {
-        console.log('favoriteCategory:', favoriteCategory);
-    },[favoriteCategory]);
+        console.log('favoriteCategory:', FavCategory.favoriteCategory);
+    },[FavCategory.favoriteCategory]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -183,11 +184,15 @@ export function Categories(props) {
         e.stopPropagation();
         
         const updatedCategoryData = categories.map(cat =>
-            cat === item ? { ...cat, isFavorite: !cat.isFavorite } : cat
+            cat === item ? { ...cat, isFavorite: true } : cat
           );
+        console.log("updatedCategoryData:", updatedCategoryData);
 
         setCategories(updatedCategoryData);
-        setFavoriteCategory(updatedCategoryData.filter(cat => cat.isFavorite));
+        const updatedFavs = categories.filter(cat => cat.isFavorite === true)
+        FavCategory.setFavoriteCategory(updatedFavs);
+        Cookies.set('favoriteCategory', JSON.stringify(updatedFavs), { expires: 1 });
+        // console.log("HEEEE:", Cookies.get('favoriteCategory'));
 
         if (favorites.includes(index)) {
             setFavorites(favorites.filter(itemIndex => itemIndex !== index));
@@ -198,9 +203,9 @@ export function Categories(props) {
     
     return (
         <div className='flex flex-col p-3 bg-gray-200 rounded-xl w-full gap-y-2.5'>
-            {props.title}
+            {props.title} {favs}
             <div className={props.style}>
-                {props.favs ? favoriteCategory.map((category, index) => (
+                {props.favs ? favs.map((category, index) => (
                     (!props.checkFav || (props.checkFav && favorites.includes(index))) && (
                             <a href={category.href || '/files'} key={index} className={`rounded-xl ${props.elementWidth? props.elementWidth : 'w-9/12'} cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}>
                         {category.noIcons ? (
