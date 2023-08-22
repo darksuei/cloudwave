@@ -97,20 +97,20 @@ export function Avatar ({size}){
 
 export function Categories(props) {
     const [count, setCount] = useState({
-        picture: 0,
-        document: 0,
-        video: 0,
+        pictures: 0,
+        videos: 0,
         audio: 0,
+        documents: 0
     });
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const [favorites, setFavorites] = useState([]);
     const {favoriteCategory, setFavoriteCategory} = useContext(FavoritesContext);
     const [showInput, setShowInput] = useState(false);
     const [categories, setCategories] = useState([
-        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.picture, iconColor: 'text-indigo-500', href: '/files/pictures', isFavorite: false },
-        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.document, iconColor: 'text-emerald-500', href: '/files/documents', isFavorite: false },
-        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.video, iconColor: 'text-red-500', href: '/files/videos', isFavorite: false },
+        { icon: 'fas fa-image', color: 'bg-indigo-500', title: 'Pictures', count: count.pictures, iconColor: 'text-indigo-500', href: '/files/pictures', isFavorite: false },
+        { icon: 'fas fa-video', color: 'bg-red-500', title: 'Videos', count: count.videos, iconColor: 'text-red-500', href: '/files/videos', isFavorite: false },
         { icon: 'fas fa-headphones', color: 'bg-sky-600', title: 'Audio', count: count.audio, iconColor: 'text-sky-600', href: '/files/audio', isFavorite: false },
+        { icon: 'fas fa-file-alt', color: 'bg-emerald-500', title: 'Documents', count: count.documents, iconColor: 'text-emerald-500', href: '/files/documents', isFavorite: false },
         { color: 'bg-gray-100', noIcons : true }
     ]);
 
@@ -124,7 +124,12 @@ export function Categories(props) {
                 const counts = await getCount(authToken);
                 console.log("hi", counts);
                 setCount(counts);
-                console.log('Counts:', count);
+                setCategories(prev => {prev[0].count = counts.pictures;
+                    prev[1].count = counts.videos; 
+                    prev[2].count = counts.audio; 
+                    prev[3].count = counts.documents; 
+                    return prev;})
+                console.log('counts:', counts);
             } catch (error) {
                 console.error('Error fetching counts:', error);
             }
@@ -133,6 +138,7 @@ export function Categories(props) {
         if (authToken) {
             fetchData();
         }
+        return ()=>{};
     }, [authToken]);
 
     const getCount = async (authToken) => {

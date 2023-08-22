@@ -52,10 +52,9 @@ const userRegister = async (req, res) => {
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        console.log(email);
         return res.status(400).json({ message: "Please use a valid email format!" });
       }
-      const existingUser = User.findOne({ email });
+      const existingUser = await User.findOne({ email });
 
       if (existingUser) {
         return res.status(400).json({ message: "Email already registered!" });
@@ -67,11 +66,11 @@ const userRegister = async (req, res) => {
       }
   
       const hash = await hashPassword(password, 10);
+      const jwtToken = generateToken(email);
       const verifyJWT = jwt.verify(jwtToken, process.env.JWT_SECRET);
       if (!verifyJWT) {
         return res.status(401).json({ message: "Invalid token." });
       }
-      const jwtToken = generateToken(email);
       const newUser = new User({
         email,
         hash,

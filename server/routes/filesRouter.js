@@ -1,6 +1,6 @@
 const Router = require("express").Router;
 
-const { getCategoryCount, getAllFiles, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, renameFile, getSingleFile, getFavs, toggleFav } = require('../controllers/filesController');
+const { getCategoryCount, getAllFiles, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, renameFile, getSingleFile, getFavs, getImage, toggleFav } = require('../controllers/filesController');
 
 const filesRouter = Router();
 
@@ -22,7 +22,7 @@ filesRouter.post('/upload', authenticate, upload.array("files"), uploadFile);
 
 filesRouter.delete('/delete/:name', authenticate, deleteFile);
 
-filesRouter.patch('/rename:name', authenticate, renameFile);
+filesRouter.patch('/rename/:name', authenticate, renameFile);
 
 filesRouter.get('/getfile/:name', authenticate, getSingleFile);
 
@@ -30,7 +30,9 @@ filesRouter.get('/favorites', authenticate, getFavs);
 
 filesRouter.patch('/updatefav/:name', authenticate, toggleFav);
 
-filesRouter.get('/storage',authenticate, getStorage)
+filesRouter.get('/storage',authenticate, getStorage);
+
+filesRouter.get('/image/:name', authenticate, getImage);
 
 module.exports = filesRouter;
 

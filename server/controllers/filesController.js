@@ -6,6 +6,8 @@ const { formatDateLabel, getCategoryFromFileName } = require('../utils/utils');
 
 const User = require('../models/userSchema');
 
+const { File } = require('megajs');
+
 const getCategoryCount = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.user.email });
@@ -15,10 +17,10 @@ const getCategoryCount = async (req, res) => {
         }
 
         const categories = {
-            picture: 0,
-            video: 0,
+            pictures: 0,
+            videos: 0,
             audio: 0,
-            document: 0
+            documents: 0
         };
 
         for (const file of user.files) {
@@ -208,6 +210,7 @@ const getSingleFile = async (req, res) => {
         if(!file){
             return res.status(404).json({message: 'File not found'});
         }
+        console.log(file)
         return res.status(200).json({message: 'OK', file: file});
     }catch(err){
         console.error(err);
@@ -291,4 +294,23 @@ const renameFile = async (req,res) => {
     
 };
 
-module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, getFavs, toggleFav, renameFile, getSingleFile }
+const getImage = async (req, res) => {
+    const user = await User.findOne({email: req.user.email}).select('-__v');
+    if(!user){
+        return res.status(404).json({message: 'User not found'});
+    }
+    const filename = await user.files.find(file => file.name == req.params.name);
+    if(!filename){
+        return res.status(404).json({message: 'File not found.'});
+    };
+    const fileurl = filename.link;
+
+    const file = File.fromURL(fileurl);
+    await file.loadAttributes();
+    const stream = file.download();
+    stream.on('error', error => console.error(error))
+    stream.on('data', data => console.log(data))
+    return res.status(200).json({message: 'OK', data: "stream.name"});
+};
+
+module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, getFavs, toggleFav, renameFile, getImage, getSingleFile }

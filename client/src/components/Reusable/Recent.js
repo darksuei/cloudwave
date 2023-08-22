@@ -63,9 +63,16 @@ export default function Recent({title, showAll, category, SearchResults}){
         }
       };
     
-    const togglePreview = (item,e) => {
+    const togglePreview = async(item,e) => {
         e.preventDefault();
         e.stopPropagation();
+        const response = await axios.get(`http://localhost:5000/api/image/${item.name}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+        console.log("RESPONSE: ", response.data.data);
+
         setPreviewItemUrl(Cloudwavehome);
         if (showPreview.includes(item)) {
             setShowPreview(showPreview.filter(itemIndex => itemIndex !== item));
@@ -100,11 +107,10 @@ export default function Recent({title, showAll, category, SearchResults}){
             if(selectedItemData){
                 const file = await getFile(selectedItemData);
                 setLink(file.link);
-                console.log("FILEEEEE: ", file);
             }
         }
         fetchFile();
-    },[selectedItemData])
+    },[selectedItemData]);
 
     async function getFile(name){
         try {
@@ -114,7 +120,6 @@ export default function Recent({title, showAll, category, SearchResults}){
                 },
             });
             if(response.status === 200){
-                console.log('File fetched successfully');
                 return response.data.file;
             }
         }catch(error){
@@ -240,7 +245,7 @@ export default function Recent({title, showAll, category, SearchResults}){
                                 <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                 </button>
-                                <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
+                                <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
                             </div></div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
@@ -260,17 +265,17 @@ export default function Recent({title, showAll, category, SearchResults}){
                             {dropdownState.includes(item) && (
                                 <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
                                             <span>Download</span>
-                                            <i class="fas fa-download text-xs"></i>
+                                            <i className="fas fa-download text-xs"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item)}>
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item)}>
                                             <span>Add to favorites</span>
-                                            <i class="fas fa-star text-xs"></i>
+                                            <i className="fas fa-star text-xs"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e, item.name)}>
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e, item.name)}>
                                             <span>Delete</span>
-                                            <i class="fas fa-trash text-xs"></i>
+                                            <i className="fas fa-trash text-xs"></i>
                                         </button>
                                     </div>
                                 </div>

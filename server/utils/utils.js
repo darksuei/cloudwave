@@ -28,10 +28,10 @@ const getCategoryFromFileName = (file) => {
     const fileExtension = file.split('.').pop().toLowerCase();
     
     const categories = {
-        "picture": ['jpg', 'jpeg', 'png', 'gif'],
+        "pictures": ['jpg', 'jpeg', 'png', 'gif'],
         "audio": ['mp3', 'wav', 'ogg'],
-        "video": ['mp4', 'avi', 'mov', 'mkv'],
-        "document": ['pdf', 'doc', 'docx', 'txt']
+        "videos": ['mp4', 'avi', 'mov', 'mkv'],
+        "documents": ['pdf', 'doc', 'docx', 'txt']
     };
 
     for (const category in categories) {
