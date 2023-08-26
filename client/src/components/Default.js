@@ -1,10 +1,8 @@
-import Login from "./Reusable/Login"
 import Cloudwavehome from '../assets/Cloudwavehome.jpeg';
-import { useEffect } from 'react';
+import { block } from 'million/react';
 
-export default function Default (){
-    let isAuthenticated = false;
-
+const Default = block(function Default (){
+    console.log(process.env.REACT_APP_SERVER_URL);
     return (
         <div className="bg-slate-200 flex flex-row w-full h-screen">
             <div className="w-6/12 flex flex-col justify-center items-center gap-y-5">
@@ -13,12 +11,14 @@ export default function Default (){
                     <p className="text-sm text-blue-400">Free file storage for everyone. Store your files securely in the cloud and access them from any device.</p>
                 </div>
                 <div className="w-10/12 px-4">
-                    <a href="/login"><button className="bg-blue-500 rounded-lg py-3 px-6 text-white" onClick={() => window.location.href = "/home"} type="button">Start Uploading ✨</button></a>
+                    <a href="/login"><button className="bg-blue-500 rounded-lg py-3 px-6 text-white" onClick={() => window.location.href = "/login"} type="button">Start Uploading ✨</button></a>
                 </div>
             </div>
             <div className="w-6/12 bg-slate-200 flex items-center justify-center">
-                <img src={Cloudwavehome} alt="Cloudwavehome" className="w-full"/>
+                <img src={Cloudwavehome} alt="Home Image" className="w-full"/>
             </div>
         </div>
     )
-}
+});
+
+export default Default;

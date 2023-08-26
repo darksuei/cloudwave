@@ -6,10 +6,11 @@ import { LocationContext } from "../Contexts/LocationContext";
 export default function Favorites (){
     const Location = useContext(LocationContext);
     Location.setLocation('favorites');
+    
     return(
         <div className="flex flex-row bg-slate-200">
             <LeftSideBar
-            activePage={'favorites'}/>
+                activePage={'favorites'}/>
             <FavMain/>
         </div>
     )

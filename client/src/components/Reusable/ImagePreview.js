@@ -30,7 +30,7 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
     e.preventDefault();
     e.stopPropagation();
     // try {
-    //     const response = await axios.delete(`http://localhost:5000/api/delete/${name}`, {
+    //     const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/delete/${name}`, {
     //         headers: {
     //             Authorization: `Bearer ${authToken}`,
     //         },

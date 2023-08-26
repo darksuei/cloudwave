@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function SignUp (){
     const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ export default function SignUp (){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/newuser', formData);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/newuser`, formData);
             if(response.status === 201){
                 const token = response.data.token;
                 Cookies.set('authToken', token, { expires: 1 });

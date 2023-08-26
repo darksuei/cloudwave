@@ -10,8 +10,7 @@ export default function SharedMain(){
             <MyFolders />
             <div className="w-full">
                 <Recent 
-                title={"Files"}
-                />
+                title={"Files"}/>
             </div>
         </div>
     )

@@ -11,9 +11,9 @@ export default function Storage() {
 
     useEffect(() => {
         const authToken = Cookies.get('authToken');
-        console.log('Token from cookie:', authToken);
         setAuthToken(authToken);
         updateLoadingBar(usedSpace);
+        return () => {};
       }, []);
 
     useEffect(() => {
@@ -31,16 +31,16 @@ export default function Storage() {
         if (authToken) {
             fetchData();
         }
+        return () => {};
     }, [authToken]);
 
     const getFiles = async (authToken) => {
         try {
-          const response = await axios.get('http://localhost:5000/api/storage', {
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/storage`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
           });
-          console.log('x:', response.data.storageUsed);
           return [response.data.storageUsed, response.data.unit, response.data.percentage];
         } catch (error) {
           console.error('Files error:', error);

@@ -18,8 +18,7 @@ export default function Login(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log('Form data:', formData);
-            const response = await axios.post('http://localhost:5000/api/login', formData);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/login`, formData);
             if(response.status === 200){
                 const token = response.data.token;
                 Cookies.set('authToken', token, { expires: 1 });

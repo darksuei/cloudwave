@@ -1,10 +1,12 @@
 import { useState } from "react";
+
 export default function Theme() {
   const [selectedTheme, setSelectedTheme] = useState('light');
 
   const handleThemeChange = (theme) => {
     setSelectedTheme(theme);
   };
+  
   return (
     <div className="w-full p-8 flex flex-col gap-y-6">
           <h1 className='text-blue-700 text-xl font-extrabold'>Theme</h1>

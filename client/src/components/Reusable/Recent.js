@@ -18,19 +18,18 @@ export default function Recent({title, showAll, category, SearchResults}){
     const [link, setLink] = useState('');
     const [fav, setFav] = useState("");
     const [loading, setLoading] = useState(true);
-
     let api;
+
     if(category){
-        api = `http://localhost:5000/api/files/${category}`;
+        api = `${process.env.REACT_APP_SERVER_URL}/api/files/${category}`;
     }else{
-        api = 'http://localhost:5000/api/files';
+        api = `${process.env.REACT_APP_SERVER_URL}/api/files`;
     }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const filesData = await getFiles(authToken);
-                console.log(filesData);
                 setLoading(false);
                 if(showAll === true){
                     setData(filesData);
@@ -66,12 +65,11 @@ export default function Recent({title, showAll, category, SearchResults}){
     const togglePreview = async(item,e) => {
         e.preventDefault();
         e.stopPropagation();
-        const response = await axios.get(`http://localhost:5000/api/image/${item.name}`, {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-        console.log("RESPONSE: ", response.data.data);
 
         setPreviewItemUrl(Cloudwavehome);
         if (showPreview.includes(item)) {
@@ -79,7 +77,7 @@ export default function Recent({title, showAll, category, SearchResults}){
         } else {
         setShowPreview([...showPreview, item]);
         }
-};
+    };
 
     useEffect(() => {
         function handleDocumentClick() {
@@ -110,11 +108,12 @@ export default function Recent({title, showAll, category, SearchResults}){
             }
         }
         fetchFile();
+        return () => {};
     },[selectedItemData]);
 
     async function getFile(name){
         try {
-            const response = await axios.get(`http://localhost:5000/api/getfile/${name}`, {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -172,13 +171,12 @@ export default function Recent({title, showAll, category, SearchResults}){
         e.preventDefault();
         e.stopPropagation();
         try {
-            const response = await axios.delete(`http://localhost:5000/api/delete/${name}`, {
+            const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/delete/${name}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
             if(response.status === 200){
-                console.log('File deleted successfully');
                 setData(data.filter((file) => file.name !== name));
                 window.location.reload();
             }
@@ -191,7 +189,7 @@ export default function Recent({title, showAll, category, SearchResults}){
     //     e.preventDefault();
     //     e.stopPropagation();
     //     try {
-    //         const response = axios.patch(`http://localhost:5000/api/rename/${name}`, {
+    //         const response = axios.patch(`${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`, {
     //             headers: {
     //                 Authorization: `Bearer ${authToken}`,
     //             },});
@@ -203,7 +201,7 @@ export default function Recent({title, showAll, category, SearchResults}){
         const updateFavorites = async () => {
             try {
                 const response = await axios.patch(
-                    `http://localhost:5000/api/updatefav/${fav}`,
+                    `${process.env.REACT_APP_SERVER_URL}/api/updatefav/${fav}`,
                     {
                         headers: {
                             Authorization: `Bearer ${authToken}`,
@@ -218,6 +216,7 @@ export default function Recent({title, showAll, category, SearchResults}){
         if(fav){
             updateFavorites();
         }
+        return () => {};
     }, [fav]);
 
     function handleFav(e, item) {
@@ -250,7 +249,7 @@ export default function Recent({title, showAll, category, SearchResults}){
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
-                            <h2 className='w-4/12 p-2'>{item.name}</h2>
+                            <h2 className='w-4/12 p-2'>{item.name.length>23 ? item.name.slice(0,20) +'...' : item.name}</h2>
                             <p className='text-gray-400 text-sm'>{item.time}</p>
                             <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e,item)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>

@@ -18,7 +18,6 @@ export default function Files() {
         const fetchData = async () => {
             try {
                 const response = await getData(authToken);
-                console.log("hi", response);
                 setData(response);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -28,11 +27,12 @@ export default function Files() {
         if (authToken) {
             fetchData();
         }
+        return () => {};
     }, [authToken]);
 
     const getData = async (authToken) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/search?${query}`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/search?${query}`, { headers: { 'Authorization': `Bearer ${authToken}` } });
             return response.data.files;
         } catch (error) {
           console.error('An error occured:', error);

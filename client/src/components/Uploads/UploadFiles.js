@@ -4,7 +4,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function UploadFiles(){
-
     const [highlight, setHighlight] = useState(false);
     const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
     const Uploads = useContext(UploadContext);
@@ -12,44 +11,43 @@ export default function UploadFiles(){
     const handleDragEnter = (e) => {
         e.preventDefault();
         setHighlight(true);
-      };
-      
-      const handleDragLeave = () => {
-        setHighlight(false);
-      };
-      
-      const handleDragOver = (e) => {
-        e.preventDefault();
-      };
-      
-      const handleDrop = (e) => {
-        e.preventDefault();
-        setHighlight(false);
-        handleFileUpload(e);
-      };
+    };
+    
+    const handleDragLeave = () => {
+      setHighlight(false);
+    };
+    
+    const handleDragOver = (e) => {
+      e.preventDefault();
+    };
+    
+    const handleDrop = (e) => {
+      e.preventDefault();
+      setHighlight(false);
+      handleFileUpload(e);
+    };
 
-      const getCategory = (file) => {
-        const filetype = file.type.split('/')[1];
-        
-        const categories = {
-            "image": ['jpg', 'jpeg', 'png', 'gif'],
-            "music": ['mp3', 'wav', 'ogg'],
-            "video": ['mp4', 'avi', 'mov', 'mkv'],
-            "file-alt": ['pdf', 'doc', 'docx', 'txt']
-        };
-    
-        for (const category in categories) {
-            if (categories[category].includes(filetype)) {
-                return category;
-            }
-        }
-    
-        return 'document';
+    const getCategory = (file) => {
+      const filetype = file.type.split('/')[1];
+      
+      const categories = {
+          "image": ['jpg', 'jpeg', 'png', 'gif'],
+          "music": ['mp3', 'wav', 'ogg'],
+          "video": ['mp4', 'avi', 'mov', 'mkv'],
+          "file-alt": ['pdf', 'doc', 'docx', 'txt']
+      };
+  
+      for (const category in categories) {
+          if (categories[category].includes(filetype)) {
+              return category;
+          }
+      }
+  
+      return 'document';
     }
 
     const handleFileUpload = async (e) => {
       e.preventDefault();
-      
       let files;
       e.dataTransfer !== undefined ? (files = e.dataTransfer.files) : (files = e.target.files);
       
@@ -63,13 +61,12 @@ export default function UploadFiles(){
       }
     
       try {
-        const response = await axios.post('http://localhost:5000/api/upload', formData, {
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${authToken}`, 
           },
         });
-        console.log('Upload success:', response.data);
       } catch (error) {
         console.error('Upload error:', error);
       }

@@ -19,6 +19,7 @@ export default function UserInfo() {
         if(authToken){
             getUser();
         }
+        return () => {};
     }, [authToken]);
     
     const handleChange = (e) => {
@@ -31,7 +32,7 @@ export default function UserInfo() {
 
     const getUser = async () => {
         try{
-            const response = await axios.get('http://localhost:5000/api/user', {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -55,9 +56,8 @@ export default function UserInfo() {
             if (Object.keys(updatedFields).length === 0) {
                 return;
             }
-            console.log('Updated fields:', updatedFields);
             const response = await axios.patch(
-                'http://localhost:5000/api/update',
+                `${process.env.REACT_APP_SERVER_URL}/api/update`,
                 updatedFields,
                 {
                     headers: {
@@ -65,7 +65,6 @@ export default function UserInfo() {
                     },
                 }
             );
-            console.log('User info updated:', response.data);
         } catch (error) {
             console.error('Error updating user info:', error);
         }

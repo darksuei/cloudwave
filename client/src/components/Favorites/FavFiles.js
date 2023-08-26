@@ -11,6 +11,7 @@ export default function FavFiles(){
         setPreviewItemUrl(itemurl);
         setShowPreview(!showPreview);
     };
+    
     useEffect(() => {
         let imgUrls = [];
         const fetchImgUrls = async () => {
@@ -25,8 +26,10 @@ export default function FavFiles(){
             setFileUrl(imgUrls);
         }
         fetchImgUrls();
+        return () => {};
         }
     , []);
+    
     return (
         <div className={`w-full p-2.5`}>
             {showPreview && (

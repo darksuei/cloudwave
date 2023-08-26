@@ -30,7 +30,6 @@ export default function DragDrop(){
 
     const handleFileUpload = async (e) => {
         e.preventDefault();
-        
         let files;
         e.dataTransfer !== undefined ? (files = e.dataTransfer.files) : (files = e.target.files);
         
@@ -42,14 +41,17 @@ export default function DragDrop(){
         }
         
         try {
-            const response = await axios.post('http://localhost:5000/api/upload', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${authToken}`, 
             },
             });
-            if (response.status === 201)
-                window.location.reload();
+            if (response.status === 201){
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500)
+            }
         } catch (error) {
             console.error('Upload error:', error);
         }
@@ -116,21 +118,15 @@ export function Categories(props) {
     ]);
 
     useEffect(() => {
-        console.log('favoriteCategory:', FavCategory.favoriteCategory);
-    },[FavCategory.favoriteCategory]);
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const counts = await getCount(authToken);
-                console.log("hi", counts);
                 setCount(counts);
                 setCategories(prev => {prev[0].count = counts.pictures;
                     prev[1].count = counts.videos; 
                     prev[2].count = counts.audio; 
                     prev[3].count = counts.documents; 
-                    return prev;})
-                console.log('counts:', counts);
+                    return prev;});
             } catch (error) {
                 console.error('Error fetching counts:', error);
             }
@@ -144,12 +140,11 @@ export function Categories(props) {
 
     const getCount = async (authToken) => {
         try {
-          const response = await axios.get('http://localhost:5000/api/file/count', {
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/file/count`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
           });
-          console.log('cat:', response.data);
           return response.data.categories;
         } catch (error) {
           console.error('Files error:', error);
@@ -186,13 +181,11 @@ export function Categories(props) {
         const updatedCategoryData = categories.map(cat =>
             cat === item ? { ...cat, isFavorite: true } : cat
           );
-        console.log("updatedCategoryData:", updatedCategoryData);
 
         setCategories(updatedCategoryData);
         const updatedFavs = categories.filter(cat => cat.isFavorite === true)
         FavCategory.setFavoriteCategory(updatedFavs);
         Cookies.set('favoriteCategory', JSON.stringify(updatedFavs), { expires: 1 });
-        // console.log("HEEEE:", Cookies.get('favoriteCategory'));
 
         if (favorites.includes(index)) {
             setFavorites(favorites.filter(itemIndex => itemIndex !== index));

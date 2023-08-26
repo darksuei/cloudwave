@@ -12,7 +12,6 @@ import { FavoritesContext } from './Contexts/FavoritesContext';
 import SearchPage from './components/SearchPage';
 import SignUp from './components/SignUp';
 import Login from './components/Reusable/Login';
-import Cookies from 'js-cookie';
 
 function App() {
   const [location, setLocation] = useState('home');

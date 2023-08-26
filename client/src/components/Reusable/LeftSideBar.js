@@ -7,6 +7,7 @@ import { LocationContext } from '../../Contexts/LocationContext';
 
 export default function LeftSideBar() {
     const Location = useContext(LocationContext);
+    
     return (
       <nav className="flex w-2/12 bg-blue-700 text-white text-sm font-semibold relative h-screen">
         <ul className="flex flex-col w-full relative">

@@ -6,10 +6,9 @@ import { LocationContext } from "../Contexts/LocationContext"
 
 export default function Files(props) {
     const { category } = props;
-    console.log("Hi",category);
     const Location = useContext(LocationContext);
     Location.setLocation('files');
-    console.log(Location.location);
+
     return (
         <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen" >
             <LeftSideBar/>
@@ -17,8 +16,8 @@ export default function Files(props) {
                 <Search/>
                 <div className="w-full min-h-full">
                     <Recent title={'All Files'}
-                    showAll = {true}
-                    category = {category}/>
+                        showAll = {true}
+                        category = {category}/>
                 </div>
             </div>
         </div>
