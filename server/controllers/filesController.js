@@ -23,13 +23,23 @@ const getCategoryCount = async (req, res) => {
             documents: 0
         };
 
-        for (const file of user.files) {
-            const category = getCategoryFromFileName(file.name);
-            if (category in categories) {
-                categories[category]++;
+        if(req.query.favorites==='true'){
+            for (const file of user.files) {
+                if(file.isFavorite){
+                    const category = getCategoryFromFileName(file.name);
+                    if (category in categories) {
+                        categories[category]++;
+                    }
+                }
+            }
+        }else{
+            for (const file of user.files) {
+                const category = getCategoryFromFileName(file.name);
+                if (category in categories) {
+                    categories[category]++;
+                }
             }
         }
-        console.log("Hello", categories);
         return res.status(200).json({ message: 'Categories found', categories });
     } catch (error) {
         console.error('Error:', error);
@@ -85,7 +95,6 @@ const getAllFiles = async (req, res) => {
                 const fileItem = user.files.find(file => file.name === filelist[i]);
                 if (fileItem) {
                     const time = fileItem.date;
-                    console.log("Time:", time);
                     files.push({
                         id: i,
                         name: filelist[i],
@@ -134,7 +143,15 @@ const uploadFile = async (req, res, next) => {
             await User.findOneAndUpdate(
                 { email: req.user.email },
                 {
-                    $push: { files: {name:file.originalname, date:new Date(), category:getCategoryFromFileName(file.originalname), size:(file.size/1024), isFavorite:false, link:status } },
+                    $push: { files: {
+                                name:file.originalname, 
+                                date:new Date(), 
+                                category:getCategoryFromFileName(file.originalname), 
+                                size:(file.size/1024), 
+                                isFavorite:true, 
+                                link:status 
+                            } },
+
                     $inc: { spaceUsed: file.size / 1024} 
                 },
                 { new: true })
@@ -224,10 +241,15 @@ const getFavs = async (req,res) => {
         if(!user){
             return res.status(404).json({message: 'User not found'});
         }
-        const favs = user.favCategories;
+        const favs = user.files.filter(file => file.isFavorite);
+
         if (!favs){
             return res.status(404).json({message: 'No favorites found'});
         }
+        favs.map(item => {
+            item.time = formatDateLabel(item.date);
+            return item;
+        })
         return res.status(200).json({message: 'success', favs: favs});
     }catch(error){
         console.error(error);

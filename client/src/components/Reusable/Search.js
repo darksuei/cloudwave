@@ -1,11 +1,15 @@
 import '../../index.css'
 import React, { useState, useEffect } from 'react';
 
-export default function Search({defaultVal}) {
+export default function Search(props) {
+    let defaultVal = '';
+    if (props.defaultVal)
+        defaultVal = props.defaultVal;
     const [searchQuery, setSearchQuery] = useState(defaultVal);
 
     useEffect(() => {
         const handleKeyPress = (e) => {
+            console.log(typeof searchQuery)
             if (e.key === 'Enter' && searchQuery.trim() !== '') {
                 e.preventDefault();
                 window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;

@@ -45,7 +45,7 @@ export default function Files() {
             <div className="flex flex-col w-10/12 py-8 items-center relative">
                 <Search defaultVal={query.split('=')[1]}/>
                 <div className="w-full min-h-full">
-                    { data.length > 0 ? <Recent title="Search Results" showAll={true} SearchResults={data}/> : <div className="text-2xl pt-6 text-center text-slate-400">No results found</div> }
+                    { data.length > 0 ? <Recent title="Search Results" showAll={true} SearchResults={data} notLoading={true}/> : <div className="text-2xl pt-6 text-center text-slate-400">No results found</div> }
                 </div>
             </div>
         </div>

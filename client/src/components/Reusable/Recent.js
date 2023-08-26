@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from './Loading';
 
-export default function Recent({title, showAll, category, SearchResults}){
+export default function Recent({title, showAll, category, SearchResults, notLoading}){
     const [dropdownState, setDropdownState] = useState([]);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
@@ -43,6 +43,7 @@ export default function Recent({title, showAll, category, SearchResults}){
 
         if (SearchResults){
             setData(SearchResults);
+            setLoading(false);
         }else if (authToken && !SearchResults) {
             fetchData();
         }

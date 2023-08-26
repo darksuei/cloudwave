@@ -6,8 +6,8 @@ import Cookies from 'js-cookie';
 
 export default function FavMain(){
     const favoriteCategoryString = Cookies.get('favoriteCategory');
-    const favoriteCategoryArray = JSON.parse(favoriteCategoryString);
-    const [favs, setFavs] = useState(favoriteCategoryArray);
+    // const favoriteCategoryArray = JSON.parse(favoriteCategoryString);
+    // const [favs, setFavs] = useState(favoriteCategoryArray);
     
     return(
         <div className="w-10/12 flex flex-col p-8 items-center relative">
@@ -17,7 +17,7 @@ export default function FavMain(){
             elementWidth={'w-36'}
             title={<h2 className='font-extrabold py-4 text-blue-500 text-2xl'>Favorites</h2>}
             checkFav={false}
-            favs={favs}  />
+            favs={true}/>
             <FavFiles />
         </div>
     )

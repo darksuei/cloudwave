@@ -1,34 +1,49 @@
 import { useState,useEffect } from "react"
 import ImagePreview from "../Reusable/ImagePreview";
 import Loading from "../Reusable/Loading";
+import Cloudwavehome from '../../assets/Cloudwavehome.jpeg';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function FavFiles(){
-    const [fileUrl,setFileUrl] = useState([]);
+    const [data,setData] = useState([]);
     const [showPreview, setShowPreview] = useState(false);
-    const [previewItemUrl, setPreviewItemUrl] = useState('');
+    const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
 
-    const togglePreview = (itemurl) => {
-        setPreviewItemUrl(itemurl);
+    const togglePreview = () => {
         setShowPreview(!showPreview);
     };
-    
+
+    const getData = async (authToken) => {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/favorites`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          return response.data.favs;
+        } catch (error) {
+          console.error('Files error:', error);
+        }
+    };
+
     useEffect(() => {
-        let imgUrls = [];
-        const fetchImgUrls = async () => {
-            try{
-                for(let i=0;i<8;i++){
-                    let response = await fetch("https://picsum.photos/200/300");
-                    imgUrls.push(response.url);
+        const fetchData = async () => {
+            try {
+                const favsData = await getData(authToken);
+                if (favsData) {
+                    setData(favsData);
+                    console.log(data);
                 }
-            }catch(err){
-                console.error(err);
+            } catch (error) {
+                console.error('Error fetching files:', error);
             }
-            setFileUrl(imgUrls);
+        };
+        if (authToken) {
+            fetchData();
         }
-        fetchImgUrls();
         return () => {};
-        }
-    , []);
+    }, [authToken]);
     
     return (
         <div className={`w-full p-2.5`}>
@@ -37,28 +52,23 @@ export default function FavFiles(){
                     <button className="absolute top-2 right-2 text-white" onClick={togglePreview}>
                         <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                     </button>
-                    <ImagePreview imageUrl={previewItemUrl} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
+                    <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
                 </div>
             )}
             <h1 className="text-blue-500 font-black text-lg py-3">Files</h1>
             <div className="flex flex-row w-full gap-x-3 flex-wrap gap-y-7 justify-between">
-                {fileUrl.length === 0 ? <div className="w-full flex items-center justify-center h-60">
+                {data.length === 0 ? <div className="w-full flex items-center justify-center h-60">
                     <Loading />
-                </div> :fileUrl.map((url,idx)=>{
+                </div> : data.map((item,idx)=>{
                     return (
-                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview(url)}>
-                            <div className="h-24">
-                                <img
-                                    src={url}
-                                    alt={`Image ${idx}`}
-                                    className="rounded-lg"
-                                    style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}
-                                />
+                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview()}>
+                            <div className="h-24 w-full flex items-center justify-center bg-slate-200">
+                                <i className="fas fa-image text-gray-500 text-3xl"></i>
                             </div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-col gap-y-1.5">
-                                    <h3 className="text-indigo-500 text-sm">IMG_{idx+1}</h3>
-                                    <p className="text-xs text-gray-400">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date())}</p>
+                                    <h3 className="text-indigo-500 text-sm">{item.name}</h3>
+                                    <p className="text-xs text-gray-400">{item.time}</p>
                                 </div>
                                 <i className="fas fa-star text-amber-500 mr-3"></i>
                             </div>
