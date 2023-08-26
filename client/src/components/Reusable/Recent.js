@@ -204,6 +204,9 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                 const response = await axios.patch(
                     `${process.env.REACT_APP_SERVER_URL}/api/updatefav/${fav}`,
                     {
+                        isFavorite: true
+                    },
+                    {
                         headers: {
                             Authorization: `Bearer ${authToken}`,
                         },
@@ -220,10 +223,12 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
         return () => {};
     }, [fav]);
 
-    function handleFav(e, item) {
+    async function handleFav(e, item) {
         e.preventDefault();
         e.stopPropagation();
-        setFav(item.name);
+        setFav(item);
+        setDropdownState([]);
+        window.location.reload();
     }    
     
     return(
@@ -269,13 +274,13 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                             <span>Download</span>
                                             <i className="fas fa-download text-xs"></i>
                                         </button>
-                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item)}>
-                                            <span>Add to favorites</span>
-                                            <i className="fas fa-star text-xs"></i>
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item.name)}>
+                                            <span>{item.isFavorite === false | undefined ? 'Add to favorites' : 'Remove'}</span>
+                                            <i className={`fas fa-star text-xs ${item.isFavorite === true ? 'favorite' : ''}`}></i>
                                         </button>
                                         <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e, item.name)}>
                                             <span>Delete</span>
-                                            <i className="fas fa-trash text-xs"></i>
+                                            <i className={`fas fa-trash text-xs text-red-700`}></i>
                                         </button>
                                     </div>
                                 </div>

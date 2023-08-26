@@ -23,13 +23,11 @@ export default function Login(){
             if(response.status === 200){
                 const token = response.data.token;
                 Cookies.set('authToken', token, { expires: 1 });
-                window.location.href = '/home'
+                window.location.href = '/home';
             }
         } catch (error) {
             console.error('Error sending form data:', error);
             setError(error.response.data.message);
-        }finally{
-            console.log(error)
         }
     };
     useEffect(() => {

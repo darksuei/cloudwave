@@ -98,7 +98,8 @@ const getAllFiles = async (req, res) => {
                     files.push({
                         id: i,
                         name: filelist[i],
-                        time: formatDateLabel(time)
+                        time: formatDateLabel(time),
+                        isFavorite: fileItem.isFavorite
                     });
                 } else {
                     console.log("File not found in user's files array.");
