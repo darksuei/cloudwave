@@ -23,7 +23,6 @@ const userLogin = async (req, res) => {
 
       const user = await User.findOne({ email });
       if (!user) {
-        console.log(email);
         return res.status(401).json({ message: "Email is not registered!" });
       }
 

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import Settings from './components/Settings';
 import MyFiles from './components/MyFiles';
@@ -12,10 +13,12 @@ import { FavoritesContext } from './Contexts/FavoritesContext';
 import SearchPage from './components/SearchPage';
 import SignUp from './components/SignUp';
 import Login from './components/Reusable/Login';
+import Cookies from 'js-cookie';
 
 function App() {
   const [location, setLocation] = useState('home');
   const [favoriteCategory, setFavoriteCategory] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(Cookies.get('authToken') ? true : false);
    
   return (
     <LocationContext.Provider value={{ location, setLocation }}>
