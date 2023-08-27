@@ -10,7 +10,7 @@ const storage = new Storage({
 const loginToStorage = async () => {
   try {
     await storage.ready;
-    console.log('Succesfully logged in to storage');
+    console.log('Succesfully connected to storage!');
   } catch (error) {
     console.error(error);
   }

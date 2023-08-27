@@ -9,7 +9,7 @@ let upload = multer({ dest: 'public' })
 router.post('/image-recognition', upload.single('image'), imageController);
 
 router.get('/image-recognition', (req, res) => {
-    res.send('index');
+    return res.status(405).json({ message: 'Method not allowed' });
 })
 
 module.exports = router;

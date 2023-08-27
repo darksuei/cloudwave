@@ -1,6 +1,17 @@
 const Router = require("express").Router;
 
-const { getCategoryCount, getAllFiles, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, renameFile, getSingleFile, getFavs, getImage, toggleFav } = require('../controllers/filesController');
+const { getCategoryCount, 
+        getAllFiles, 
+        getFilesByCategory, 
+        getStorage, 
+        searchFiles, 
+        uploadFile, 
+        deleteFile, 
+        renameFile, 
+        getSingleFile, 
+        getFavs, 
+        getImage, 
+        toggleFav } = require('../controllers/filesController');
 
 const filesRouter = Router();
 

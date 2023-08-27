@@ -40,7 +40,7 @@ const getCategoryFromFileName = (file) => {
         }
     }
 
-    return 'document';
+    return 'documents';
 }
 
 module.exports = {formatDateLabel, getCategoryFromFileName};

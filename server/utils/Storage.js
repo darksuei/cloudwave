@@ -6,7 +6,6 @@ const User = require('../models/userSchema');
 const createStorage = async (id) => {
   try{
     const folder = await storage.mkdir(id);
-    console.log(`Created folder: ${folder.name}`);
     return true;
   }catch(err){
     console.error(err)
@@ -27,7 +26,8 @@ const getStorageFiles = async (folder) => {
     return list;
   }catch(err){
     console.error(err)
-    return false;}
+    return false;
+  }
 }
 
 const uploadToStorage = (name, filepath, folder) => {
@@ -50,8 +50,7 @@ const uploadToStorage = (name, filepath, folder) => {
         }
         
         file.link()
-          .then((link) => {
-            console.log("LINK: ", link);
+          .then((link) => {;
             resolve(link);
           })
           .catch((linkError) => {

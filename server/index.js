@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const Config = require('./config');
 const cors = require('cors');
-const path = require('path');
 const bodyParser = require('body-parser');
 const db = require('./utils/database');
 
@@ -13,7 +12,7 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 app.use(
     cors({
-        origin: ['http://localhost:3000']
+        origin: [Config.client, 'http://localhost:3000']
     })
 );
 
@@ -28,15 +27,15 @@ app.use('/api',fileRouter)
 app.get('/', async (req, res)=>{
     await loginToStorage();
     await uploadToStorage();
-    res.send("Hello World");
+    res.status(200).json({ message : "Success" });
 })
 
 app.post('/api',(req, res)=>{
-    res.status(200).json({ "message" : "Welcome" })
+    res.status(200).json({ message : "Success" })
 })
 
 app.get('*',(req, res)=>{
-    res.sendFile(path.join(__dirname, '../client/public/index.html'));
+    res.status(404).json({ message : "Page not found" })
 })
 
 app.listen(Config.PORT, ()=>{

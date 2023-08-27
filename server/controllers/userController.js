@@ -10,7 +10,7 @@ const getUser = async (req, res)=>{
     try{
         const user = await User.findOne({email:req.user.email});
         if(!user) return res.status(404).json({message: "User not found"});
-        return res.status(200).json({message:"success",user});
+        return res.status(200).json({message:"success", user});
     }catch(error){
         console.error(error);
         return res.status(500).json({message: "Internal server error"});
@@ -22,21 +22,15 @@ const userLogin = async (req, res) => {
       const { email, password } = req.body;
 
       const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(401).json({ message: "Email is not registered!" });
-      }
+      if (!user) return res.status(401).json({ message: "Email not registered!" });
 
       const isPasswordValid = await bcrypt.compare(password, user.hash);
-
-      if (!isPasswordValid) {
-        return res.status(401).json({ message: "Incorrect Password!" });
-      }
+      if (!isPasswordValid) return res.status(401).json({ message: "Incorrect Password!" });
 
       const newToken = generateToken(user.email);
 
       user.token = newToken;
       await user.save();
-  
       return res.status(200).json({ message: "Login successful!", token: newToken });
     } catch (err) {
       console.error(err);
@@ -56,7 +50,7 @@ const userRegister = async (req, res) => {
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
-        return res.status(400).json({ message: "Email already registered!" });
+        return res.status(400).json({ message: "Email already registered, login to continue!" });
       }
 
       const minPasswordLength = 6;
@@ -68,7 +62,7 @@ const userRegister = async (req, res) => {
       const jwtToken = generateToken(email);
       const verifyJWT = jwt.verify(jwtToken, process.env.JWT_SECRET);
       if (!verifyJWT) {
-        return res.status(401).json({ message: "Invalid token." });
+        return res.status(401).json({ message: "Invalid authorization token." });
       }
       const newUser = new User({
         email,
@@ -101,12 +95,9 @@ const userUpdate = async (req, res) => {
         if (lastname) updateFields.lastname = lastname;
         if (phone) updateFields.phone = phone;
 
-        if (Object.keys(updateFields).length === 0) {
-            return res.status(400).json({ message: "No valid fields to update" });
-        }
+        if (Object.keys(updateFields).length === 0) return res.status(400).json({ message: "No fields to update" });
 
         const user = await User.findOneAndUpdate({ email: req.user.email }, updateFields, { new: true });
-        console.log(user);
         if (!user) return res.status(404).json({ message: "User not found" });
 
         return res.status(200).json({ message: "User updated successfully" });
