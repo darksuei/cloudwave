@@ -5,10 +5,17 @@ import Cookies from 'js-cookie';
 
 export default function Login(){
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email:'',
         password:''
     });
+    const handleButton = () => {
+        setLoading(!loading)
+        setTimeout(() => {
+            setLoading(false)
+        },1000)
+    }
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -68,7 +75,11 @@ export default function Login(){
                   <input type='password' name='password' className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm" placeholder='********' value={formData.password} onChange={(e)=>handleChange(e)} required/>
               </div>
               <div className="flex flex-col items-center gap-y-3 mt-3">
-                  <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm">Log In ✨</button>
+                  <button 
+                  type="submit" 
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                  disabled={loading} 
+                  onClick={handleButton}>Log In ✨</button>
                   <p className="text-xs text-gray-600">Don't have an account? <a href="/signup" className="text-indigo-500 hover:underline transition">Sign Up</a></p>
               </div>
           </div>

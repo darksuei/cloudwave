@@ -84,10 +84,11 @@ const getAllFiles = async (req, res) => {
         const filelist = await getStorageFiles(folder);
         if (!filelist) return res.status(404).json({message: 'No files found'});
 
-        const files = [];
-        for(let i=0; i<filelist.length; i++){
-            const user = await User.findOne({ email: req.user.email });
-            if (user) {
+        let files = [];
+
+        const user = await User.findOne({ email: req.user.email });
+        if (user) {
+            for(let i=0; i<filelist.length; i++){
                 const fileItem = user.files.find(file => file.name === filelist[i]);
                 if (fileItem) {
                     const time = fileItem.date;
@@ -97,13 +98,11 @@ const getAllFiles = async (req, res) => {
                         time: formatDateLabel(time),
                         isFavorite: fileItem.isFavorite
                     });
-                } else {
-                    return res.status(404).json({message: 'File not found'});
                 }
-            } else {
-                return res.status(404).json({message: 'User not found'});
             }
-        };
+        }else {
+            return res.status(404).json({message: 'User not found'});
+            }
         return res.status(200).json({message: 'Success', files: files});
     }catch(err){
         console.error(err);

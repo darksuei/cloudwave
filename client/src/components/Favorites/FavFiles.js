@@ -57,7 +57,7 @@ export default function FavFiles(){
             )}
             <h1 className="text-blue-500 font-black text-lg py-3">Files</h1>
             <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 ">
-                {data.length === 0 ? <div className="w-full flex items-center justify-center h-60">
+                {data.length === 0 ? <div className="w-full flex items-center justify-center h-12">
                     <Loading />
                 </div> : data.map((item,idx)=>{
                     return (
