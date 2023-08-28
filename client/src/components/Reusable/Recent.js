@@ -71,8 +71,17 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                     Authorization: `Bearer ${authToken}`,
                 },
             });
+            const arrayBuffer = response.data;
+            const uint8Array = new Uint8Array(arrayBuffer);
+            let binary = '';
+            uint8Array.forEach(byte => {
+                binary += String.fromCharCode(byte);
+            });
+            const base64String = btoa(binary);
+            const dataUrl = `data:image/jpeg;base64,${base64String}`;
+        setPreviewItemUrl(dataUrl);
 
-        setPreviewItemUrl(Cloudwavehome);
+        // setPreviewItemUrl(Cloudwavehome);
         if (showPreview.includes(item)) {
             setShowPreview(showPreview.filter(itemIndex => itemIndex !== item));
         } else {
@@ -250,6 +259,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                 <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                 </button>
+                                {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />}
                                 <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
                             </div></div>
                         )}

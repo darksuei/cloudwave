@@ -1,9 +1,12 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { AuthContext } from '../../Contexts/AuthContext';
 
 export default function Login(){
+    const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
+    console.log(Cookies.get('authToken'))
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -29,7 +32,8 @@ export default function Login(){
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/login`, formData);
             if(response.status === 200){
                 const token = response.data.token;
-                Cookies.set('authToken', token, { expires: 1 });
+                Cookies.set('authToken', token, { expires: 1/24 });
+                setIsAuthenticated(true);
                 window.location.href = '/home';
             }
         } catch (error) {
@@ -78,8 +82,8 @@ export default function Login(){
                   <button 
                   type="submit" 
                   className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
-                  disabled={loading} 
-                  onClick={handleButton}>Log In ✨</button>
+                  onClick={handleButton}
+                  >Log In ✨</button>
                   <p className="text-xs text-gray-600">Don't have an account? <a href="/signup" className="text-indigo-500 hover:underline transition">Sign Up</a></p>
               </div>
           </div>

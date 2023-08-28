@@ -1,14 +1,24 @@
+import React from 'react';
 import axios from 'axios';
+import { AuthContext } from '../Contexts/AuthContext';
 import Cookies from 'js-cookie';
 import { useState, useEffect } from 'react';
 
 export default function SignUp (){
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
     const [formData, setFormData] = useState({
         firstname:'',
         email:'',
         password:''
     });
+    const handleButton = () => {
+        setLoading(!loading)
+        setTimeout(() => {
+            setLoading(false)
+        },1000)
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -22,7 +32,8 @@ export default function SignUp (){
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/newuser`, formData);
             if(response.status === 201){
                 const token = response.data.token;
-                Cookies.set('authToken', token, { expires: 1 });
+                Cookies.set('authToken', token, { expires: 1/24 });
+                setIsAuthenticated(true);
                 window.location.href = '/home'
             }
         } catch (error) {
@@ -71,7 +82,8 @@ export default function SignUp (){
                         <input type='password' name='password' className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm" placeholder='********' value={formData.password} onChange={(e)=>handleChange(e)} required/>
                     </div>
                     <div className="flex flex-col items-center gap-y-3 mt-3">
-                        <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm">Create Account ✨</button>
+                        <button type="submit" className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={handleButton}>Create Account ✨</button>
                         <p className="text-xs text-gray-600">Already have an account? <a href="/login" className="text-indigo-500 hover:underline transition">Log in</a></p>
                     </div>
                 </div>

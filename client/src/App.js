@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {useState, useEffect} from 'react';
-import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import Settings from './components/Settings';
 import MyFiles from './components/MyFiles';
@@ -10,6 +9,7 @@ import Default from './components/Default';
 import Files from './components/Files';
 import { LocationContext } from './Contexts/LocationContext';
 import { FavoritesContext } from './Contexts/FavoritesContext';
+import { AuthContext } from './Contexts/AuthContext';
 import SearchPage from './components/SearchPage';
 import SignUp from './components/SignUp';
 import Login from './components/Reusable/Login';
@@ -21,45 +21,79 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(Cookies.get('authToken') ? true : false);
    
   return (
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
     <LocationContext.Provider value={{ location, setLocation }}>
     <FavoritesContext.Provider value={{ favoriteCategory, setFavoriteCategory }}>
     <Router>
       <Routes>
         <Route exact path="/" Component={Default}/>
-        <Route exact path="/home" Component={Home}/>
-        <Route exact path="/upload" Component={Uploads}/>
-        <Route exact path="/myfiles" Component={MyFiles}/>
-        <Route exact path="/favorites" Component={Favorites}/>
-        <Route exact path="/settings" Component={Settings}/>
-        <Route exact path="/files" Component={Files}/>
-        <Route exact path="/files/picture" Component={Files}/>
+        <Route exact path="/home" Component = {() => 
+        isAuthenticated ?
+        <Home/> :
+        <Login/> }/>
+        <Route exact path="/upload" Component = {() => 
+        isAuthenticated ?
+        <Uploads/> :
+        <Login/> }/>
+        <Route exact path="/myfiles" Component = {() => 
+        isAuthenticated ?
+        <MyFiles/> :
+        <Login/> }/>
+        <Route exact path="/favorites" Component = {() => 
+        isAuthenticated ?
+        <Favorites/> :
+        <Login/> }/>
+        <Route exact path="/settingx" Component = {() => 
+        isAuthenticated ?
+        <Settings/> :
+        <Login/> }/>
+        <Route exact path="/files" Component = {() => 
+        isAuthenticated ?
+        <Files/> :
+        <Login/> }/>
         <Route
             exact
             path="/files/pictures"
-            Component={(props) => <Files {...props} category="picture" />}
+            Component={(props) => 
+            isAuthenticated ?
+            <Files {...props} category="picture" /> : 
+            <Login/> }
         />
         <Route
             exact
             path="/files/videos"
-            Component={(props) => <Files {...props} category="video" />}
+            Component={(props) => 
+            isAuthenticated ?
+            <Files {...props} category="video"/> :
+            <Login/> }
         />
         <Route
             exact
             path="/files/audio"
-            Component={(props) => <Files {...props} category="audio" />}
+            Component={(props) => 
+            isAuthenticated ?
+            <Files {...props} category="audio" /> :
+            <Login/> }
         />
         <Route
             exact
             path="/files/documents"
-            Component={(props) => <Files {...props} category="document" />}
+            Component={(props) => 
+              isAuthenticated ?
+            <Files {...props} category="document" /> :
+            <Login/> }
         />
-        <Route exact path="/search" Component={SearchPage}/>
+        <Route exact path="/search" Component= {() => 
+        isAuthenticated ?
+        <SearchPage/> : 
+        <Login/> }/>
         <Route exact path="/signup" Component={SignUp}/>
         <Route exact path="/login" Component={Login}/>
       </Routes>
     </Router>
     </FavoritesContext.Provider>
     </LocationContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

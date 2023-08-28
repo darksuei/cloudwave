@@ -293,18 +293,28 @@ const renameFile = async (req,res) => {
 };
 
 const getImage = async (req, res) => {
-    const user = await User.findOne({email: req.user.email}).select('-__v');
-    if(!user) return res.status(404).json({message: 'User not found'});
-    const filename = await user.files.find(file => file.name == req.params.name);
-    if(!filename) return res.status(404).json({message: 'File not found.'});
-    const fileurl = filename.link;
+    try{
+        const user = await User.findOne({email: req.user.email}).select('-__v');
+        if(!user) return res.status(404).json({message: 'User not found'});
+        const filename = await user.files.find(file => file.name == req.params.name);
+        if(!filename) return res.status(404).json({message: 'File not found.'});
+        const fileurl = filename.link;
 
-    const file = File.fromURL(fileurl);
-    await file.loadAttributes();
-    const stream = file.download();
-    stream.on('error', error => console.error(error))
-    stream.on('data', data => console.log(data))
-    return res.status(200).json({message: 'Success', data: "stream.name"});
+        const file = File.fromURL(fileurl);
+        await file.loadAttributes();
+        const stream = file.download();
+        res.setHeader('Content-Type', 'image/jpeg');
+
+        stream.on('error', error => {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred' });
+        });
+
+        stream.pipe(res);
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({ message: "Internal Server error" });
+    }
 };
 
 module.exports = { getAllFiles, getCategoryCount, getFilesByCategory, getStorage, searchFiles, uploadFile, deleteFile, getFavs, toggleFav, renameFile, getImage, getSingleFile }

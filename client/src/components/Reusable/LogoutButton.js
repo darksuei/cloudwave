@@ -1,13 +1,16 @@
 import React from "react";
 import Cookies from 'js-cookie';
+import { AuthContext } from '../../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
 
   const logout = (e) => {
     e.preventDefault();
     Cookies.remove('authToken');
+    setIsAuthenticated(false);
     navigate('/');
   };
 
