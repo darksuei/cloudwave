@@ -69,8 +69,8 @@ export default function DragDrop(){
                 </div>
             </div>
                 <div className='flex flex-col justify-center items-center gap-y-4'>
-                    <i className="fas fa-upload text-gray-500 text-3xl"></i>
-                    <p className='text-gray-400 text-sm font-semibold'>Drag and drop files here</p>
+                    <i className="fas fa-upload text-indigo-500 text-3xl"></i>
+                    <p className='text-gray-400 text-sm font-semibold'>Drag and drop files here or <a href='/upload' className='underline font-black text-md'>Upload</a></p>
             </div>
         </div>
     )

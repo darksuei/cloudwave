@@ -96,7 +96,8 @@ const getAllFiles = async (req, res, next) => {
                         id: i,
                         name: filelist[i],
                         time: formatDateLabel(time),
-                        isFavorite: fileItem.isFavorite
+                        isFavorite: fileItem.isFavorite,
+                        category: fileItem.category
                     });
                 }
             }
@@ -266,7 +267,6 @@ const renameFile = async (req, res, next) => {
             email: req.user.email,
             "files.name": req.params.name
         };
-    
         const update = {
             $set: {
                 "files.$.name": req.query.newName
@@ -274,7 +274,6 @@ const renameFile = async (req, res, next) => {
         };
 
         const user = await User.findOneAndUpdate(filter, update, { new: true });
-    
         if (!user) return res.status(404).json({ message: 'User or file not found' });
 
         return res.status(200).json({ message: "Success", updatedUser });

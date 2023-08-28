@@ -3,16 +3,57 @@ import SharePopUp from './SharePopUp';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
+export default function ImagePreview({ showImg, imageUrl, item }){
+  const [fav, setFav] = useState('');
+  const [allowDownload, setAllowDownload] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get('authToken'));
+  const [selectedItemData, setSelectedItemData] = useState(null);
+  const [link, setLink] = useState('');
 
-  function handleShare(e){
+  let isfav = item.isFavorite
+
+  useEffect(()=>{
+    setTimeout(()=>{
+    setAllowDownload(false)
+    },2000)
+  },[allowDownload]);
+
+  useEffect(() => {
+    async function fetchFile(){
+        if(selectedItemData){
+            const file = await getFile(selectedItemData);
+            setLink(file.link);
+            if(allowDownload) window.open(file.link);
+        }
+    }
+    fetchFile();
+    return () => {};
+  },[selectedItemData]);
+
+  async function getFile(name){
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
+        });
+        if(response.status === 200){
+            return response.data.file;
+        }
+    }catch(error){
+        console.error('Error fetching file:', error);
+    }
+  };
+
+  function handleShare(e,item){
     e.preventDefault();
     e.stopPropagation();
+    setSelectedItemData(item.name);
     setShare(!share);
   }
+
   function toggleDropDown(e){
     e.stopPropagation();
     setDropDown(!dropDown);
@@ -26,52 +67,91 @@ export default function ImagePreview({ imageUrl,fileCategory, uploadDate }){
       document.removeEventListener("click", handleDocumentClick);
     }
   }, []);
+
+  useEffect(() => {
+    const updateFavorites = async () => {
+        try {
+            const response = await axios.patch(
+                `${process.env.REACT_APP_SERVER_URL}/api/updatefav/${fav}`,
+                {
+                    isFavorite: !isfav
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            window.location.reload();
+        } catch (error) {
+            console.error("Error updating favorites:", error);
+        }
+    };
+    if(fav){
+        updateFavorites();
+    }
+    return () => {};
+  }, [fav]);
+
+  function handleDownload(e,item){
+    e.preventDefault();
+    e.stopPropagation();
+    setAllowDownload(true);
+    setSelectedItemData(item.name);
+  }
+
+  async function handleFav(e, itemname) {
+    e.preventDefault();
+    e.stopPropagation();
+    setFav(itemname);
+  }    
+
   async function handleDelete(e){
     e.preventDefault();
     e.stopPropagation();
-    // try {
-    //     const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/delete/${name}`, {
-    //         headers: {
-    //             Authorization: `Bearer ${authToken}`,
-    //         },
-    //     });
-    //     if(response.status === 200){
-    //         console.log('File deleted successfully');
-    //         setData(data.filter((file) => file.name !== name));
-    //         window.location.reload();
-    //     }
-    // } catch (error) {
-    //     console.error('Error deleting file:', error);
-    // }
+    try {
+      const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/delete/${item.name}`, {
+          headers: {
+              Authorization: `Bearer ${authToken}`,
+          },
+      });
+      if(response.status === 200){
+          window.location.reload();
+      }
+  } catch (error) {
+      console.error('Error deleting file:', error);
+      window.location.reload();
+  }
 }
   return (
-    <div className=" relative z-50 flex flex-col w-full h-4/5">
+    <div className={`relative z-50 flex flex-col w-full ${showImg ? 'h-4/5' : 'h-full'}`}>
       {share && (
-                <SharePopUp toggle={handleShare} width={'w-6/12'}/>
+                 <SharePopUp isOpen={share} link={link} width={'w-4/12'}/>
             )}
-        <div className="relative h-full flex items-center justify-center">
-          <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/>
+        <div className="relative h-full flex items-center justify-center w-full bg-gray-200 rounded-lg">
+          <i className='fas fa-image text-gray-400 text-6xl'></i>
+          {/* <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> */}
         </div>
         <div className='flex flex-row justify-between'>
           <div className='flex flex-col gap-y-3 py-3'>
-            <h1 className="text-blue-500 font-black text-lg">IMG_1</h1>
-            <p className="text-xs text-gray-400">{uploadDate}</p>
-            <div className='text-sm bg-emerald-100 text-emerald-500 flex items-center rounded-xl px-4'>{fileCategory}</div>
+            <h1 className="text-blue-500 font-black text-lg">{item.name}</h1>
+            <p className="text-xs text-gray-400">{item.time.toUpperCase()}</p>
+            <span className='text-sm bg-emerald-100 text-emerald-500 flex items-center rounded-xl px-4 w-fit'>Personal</span>
           </div>
           <div className='relative flex flex-row gap-x-3 py-3'>
-            <i className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200" onClick={(e)=>handleShare(e)}></i>
-            <i className="fas fa-trash text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200"></i>
+            <i className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200" onClick={(e)=>handleShare(e,item)}></i>
+            <i className="fas fa-trash text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200 text-red-700" onClick={(e)=>handleDelete(e)}></i>
             <i className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200" onClick={(e)=>toggleDropDown(e)}></i>
             {dropDown && (
                                 <div className="origin-top-right absolute bottom-0 right-6 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem">
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
                                             <span>Download</span>
-                                            <i class="fas fa-download text-xs"></i>
+                                            <i className="fas fa-download text-xs text-blue-500"></i>
                                         </button>
-                                        <button class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleDelete(e)}>
-                                            <span>Rename</span>
-                                            <i class="fas fa-edit text-xs"></i>
+                                        <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center" role="menuitem" onClick={(e)=>handleFav(e,item.name)}>
+                                            <span>{item.isFavorite === false | undefined ? 'Add to favorites' : 'Remove'}</span>
+                                            <i className={`fas fa-star text-xs ${item.isFavorite === true ? 'favorite' : ''}`}></i>
                                         </button>
                                     </div>
                                 </div>

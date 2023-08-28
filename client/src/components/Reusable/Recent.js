@@ -9,6 +9,7 @@ import Loading from './Loading';
 
 export default function Recent({title, showAll, category, SearchResults, notLoading}){
     const [dropdownState, setDropdownState] = useState([]);
+    const [allowDownload, setAllowDownload] = useState(false);
     const [share,setShare] = useState(false);
     const [showPreview, setShowPreview] = useState([]);
     const [previewItemUrl, setPreviewItemUrl] = useState('');
@@ -25,6 +26,12 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     }else{
         api = `${process.env.REACT_APP_SERVER_URL}/api/files`;
     }
+
+    useEffect(()=>{
+        setTimeout(()=>{
+        setAllowDownload(false)
+        },2000)
+      },[allowDownload]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -66,6 +73,12 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     const togglePreview = async(item,e) => {
         e.preventDefault();
         e.stopPropagation();
+        setDropdownState(dropdownState.filter(itemIndex => itemIndex !== item));
+        if (showPreview.includes(item)) {
+            setShowPreview(showPreview.filter(itemIndex => itemIndex !== item));
+        } else {
+        setShowPreview([...showPreview, item]);
+        }
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
@@ -82,11 +95,6 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
         setPreviewItemUrl(dataUrl);
 
         // setPreviewItemUrl(Cloudwavehome);
-        if (showPreview.includes(item)) {
-            setShowPreview(showPreview.filter(itemIndex => itemIndex !== item));
-        } else {
-        setShowPreview([...showPreview, item]);
-        }
     };
 
     useEffect(() => {
@@ -115,6 +123,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
             if(selectedItemData){
                 const file = await getFile(selectedItemData);
                 setLink(file.link);
+                if(allowDownload) window.open(file.link);
             }
         }
         fetchFile();
@@ -146,8 +155,8 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     function handleDownload(e,item){
         e.preventDefault();
         e.stopPropagation();
+        setAllowDownload(true);
         setSelectedItemData(item.name);
-        window.open(link);
     }
     // TODO INBUILT DOWNLOAD FILE
     // const handleDownload = async () => {
@@ -194,19 +203,6 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
             console.error('Error deleting file:', error);
         }
     }
-    // TODO RENAME DIALOG
-    // async function handleRename(e,name){
-    //     e.preventDefault();
-    //     e.stopPropagation();
-    //     try {
-    //         const response = axios.patch(`${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${authToken}`,
-    //             },});
-    //     }catch(error){
-    //         console.error('Error renaming file:', error);
-    //     }
-    // }
     useEffect(() => {
         const updateFavorites = async () => {
             try {
@@ -259,8 +255,8 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                 <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                     <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                 </button>
-                                {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />}
-                                <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'}/>
+                                {/* {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />} */}
+                                <ImagePreview showImg={false} imageUrl={Cloudwavehome} item={item}/>
                             </div></div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>

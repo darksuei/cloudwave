@@ -1,6 +1,7 @@
 const errorHandler = require('../utils/errorHandler');
 
 const errorMiddleware = (err, req, res, next) => {
+    console.error(err);
     err.message = err.message || 'Something went wrong';
     err.statusCode = err.statusCode || 500;
 
