@@ -56,7 +56,7 @@ function App() {
             path="/files/pictures"
             Component={(props) => 
             isAuthenticated ?
-            <Files {...props} category="picture" /> : 
+            <Files {...props} category="pictures" /> : 
             <Login/> }
         />
         <Route
@@ -64,7 +64,7 @@ function App() {
             path="/files/videos"
             Component={(props) => 
             isAuthenticated ?
-            <Files {...props} category="video"/> :
+            <Files {...props} category="videos"/> :
             <Login/> }
         />
         <Route
@@ -80,7 +80,7 @@ function App() {
             path="/files/documents"
             Component={(props) => 
               isAuthenticated ?
-            <Files {...props} category="document" /> :
+            <Files {...props} category="documents" /> :
             <Login/> }
         />
         <Route exact path="/search" Component= {() => 

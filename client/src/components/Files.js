@@ -15,7 +15,7 @@ export default function Files(props) {
             <div className="flex flex-col w-10/12 py-8 items-center relative">
                 <Search/>
                 <div className="w-full min-h-full">
-                    <Recent title={'All Files'}
+                    <Recent title={category? category[0].toUpperCase() + category.slice(1) : 'All Files'}
                         showAll = {true}
                         category = {category}/>
                 </div>

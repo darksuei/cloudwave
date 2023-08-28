@@ -17,7 +17,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     const [selectedItemData, setSelectedItemData] = useState(null);
     const [link, setLink] = useState('');
     const [fav, setFav] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); 
     let api;
 
     if(category){
@@ -250,7 +250,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                 {loading && (
                     <Loading />
                 )}
-            {data && data.map((item) => {
+            {data.length > 0 ? data.map((item) => {
                 return(
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 
@@ -282,7 +282,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleDownload(e,item)}>
                                             <span>Download</span>
-                                            <i className="fas fa-download text-xs"></i>
+                                            <i className="fas fa-download text-xs text-blue-500"></i>
                                         </button>
                                         <button className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b" role="menuitem" onClick={(e)=>handleFav(e,item.name)}>
                                             <span>{item.isFavorite === false | undefined ? 'Add to favorites' : 'Remove'}</span>
@@ -298,7 +298,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                         </div>
                     </div>
                 )
-            })}
+            }) : (!loading && <div className="text-2xl pt-6 text-center text-slate-400">No {category} {category ==='audio' && 'files'} found</div>) }
             </div>
         </div>
     )
