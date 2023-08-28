@@ -12,7 +12,7 @@ const errorMiddleware = (err, req, res, next) => {
     }
 
     //For unhandled errors
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
         success: false,
         message: err.message
     });

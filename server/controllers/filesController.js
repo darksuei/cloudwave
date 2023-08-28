@@ -4,11 +4,13 @@ const {uploadToStorage, getStorageFiles} = require('../utils/Storage');
 
 const { formatDateLabel, getCategoryFromFileName } = require('../utils/utils');
 
+const errorMiddleware = require('../middleware/errorMiddleware');
+
 const User = require('../models/userSchema');
 
 const { File } = require('megajs');
 
-const getCategoryCount = async (req, res) => {
+const getCategoryCount = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.user.email });
         if (!user) return res.status(404).json({ message: 'User not found' });
@@ -39,12 +41,11 @@ const getCategoryCount = async (req, res) => {
         }
         return res.status(200).json({ message: 'Success', categories });
     } catch (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        next(error);
     }
 };
 
-const getFilesByCategory = async (req, res) => {
+const getFilesByCategory = async (req, res, next) => {
     try{
         await loginToStorage();
         const folder = storage.root.children.find(folder => folder.name === req.user.email);
@@ -71,12 +72,11 @@ const getFilesByCategory = async (req, res) => {
         };
         return res.status(200).json({message: 'Success', files: files});
     }catch(err){
-        console.error(err);
-        return res.status(404).json({message: err.message});
+        next(err);
 };
 }
 
-const getAllFiles = async (req, res) => {
+const getAllFiles = async (req, res, next) => {
     try{
         await loginToStorage();
         const folder = storage.root.children.find(folder => folder.name === req.user.email);
@@ -105,12 +105,11 @@ const getAllFiles = async (req, res) => {
             }
         return res.status(200).json({message: 'Success', files: files});
     }catch(err){
-        console.error(err);
-        return res.status(404).json({message: err.message});
+        next(err);
     }
 }
 
-const searchFiles = async (req, res) => {
+const searchFiles = async (req, res, next) => {
     try{
         const user = await User.findOne({ email: req.user.email });
         if (!user) return res.status(404).json({message: 'User not found'});
@@ -118,8 +117,7 @@ const searchFiles = async (req, res) => {
         const files = user.files.filter(file => file.name.includes(req.query.query));
         return res.status(200).json({message: 'Success', files: files});
     }catch(err){
-        console.error(err);
-        return res.status(500).json({message: err.message});
+        next(err);
     }
 }
 
@@ -159,8 +157,7 @@ const uploadFile = async (req, res, next) => {
     }
         return res.status(201).json({message:'Files uploaded successfully'});
     }catch(err){
-        console.error(err);
-        res.status(404).json({message: err.message});
+        next(err);
     }
 }
 
@@ -187,7 +184,7 @@ const getStorage = async (req, res)=>{
     return res.status(200).json({message:"Success", storageUsed: storageUsedKB, unit: "KB", percentage});
 };
 
-const deleteFile = async (req, res) => {
+const deleteFile = async (req, res, next) => {
     try{
         const user = await User.findOne({ email: req.user.email });
         if(!user)return res.status(404).json({message: 'User not found'});
@@ -200,12 +197,11 @@ const deleteFile = async (req, res) => {
         await user.save();
         return res.status(200).json({message: 'File deleted successfully'});
     }catch(err){
-        console.error(err);
-        return res.status(500).json({message: err.message});
+        next(err);
     }
 };
 
-const getSingleFile = async (req, res) => {
+const getSingleFile = async (req, res, next) => {
     try{
         const user = await User.findOne({ email: req.user.email });
         if(!user) return res.status(404).json({message: 'User not found'});
@@ -215,12 +211,11 @@ const getSingleFile = async (req, res) => {
 
         return res.status(200).json({message: 'Success', file: file});
     }catch(err){
-        console.error(err);
-        return res.status(500).json({message: err.message});
+        next(err);
     }
 };
 
-const getFavs = async (req,res) => {
+const getFavs = async (req,res, next) => {
     try{
         const user = await User.findOne({ email: req.user.email });
         if(!user) return res.status(404).json({message: 'User not found'});
@@ -234,12 +229,11 @@ const getFavs = async (req,res) => {
         })
         return res.status(200).json({message: 'Success', favs: favs});
     }catch(error){
-        console.error(error);
-        return res.status(500).json({message: 'Internal server error'});
+        next(error);
     } 
 };
 
-const toggleFav = async (req,res) => {
+const toggleFav = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.user.email });
     
@@ -261,13 +255,12 @@ const toggleFav = async (req,res) => {
         }
         return res.status(200).json({message: 'File updated successfully'});
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({message: 'Internal server error'});
+        next(error);
     }
     
 };
 
-const renameFile = async (req,res) => {
+const renameFile = async (req, res, next) => {
     try {
         const filter = {
             email: req.user.email,
@@ -286,13 +279,12 @@ const renameFile = async (req,res) => {
 
         return res.status(200).json({ message: "Success", updatedUser });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Internal server error' });
+        next(error);
     }
     
 };
 
-const getImage = async (req, res) => {
+const getImage = async (req, res, next) => {
     try{
         const user = await User.findOne({email: req.user.email}).select('-__v');
         if(!user) return res.status(404).json({message: 'User not found'});
@@ -312,8 +304,7 @@ const getImage = async (req, res) => {
 
         stream.pipe(res);
     }catch(err){
-        console.error(err);
-        return res.status(500).json({ message: "Internal Server error" });
+        next(err);
     }
 };
 

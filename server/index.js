@@ -35,7 +35,7 @@ app.post('/api',(req, res)=>{
 })
 
 app.get('*',(req, res)=>{
-    res.status(404).json({ message : "Page not found" })
+    res.status(404).json({ message : "Not found" })
 })
 
 app.listen(Config.PORT, ()=>{

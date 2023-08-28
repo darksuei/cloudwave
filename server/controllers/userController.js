@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const User = require('../models/userSchema');
+const errorMiddleware = require('../middleware/errorMiddleware');
 const { loginToStorage } = require('../utils/loginToStorage');
 const { createStorage } = require('../utils/Storage');
 
@@ -12,12 +13,11 @@ const getUser = async (req, res)=>{
         if(!user) return res.status(404).json({message: "User not found"});
         return res.status(200).json({message:"success", user});
     }catch(error){
-        console.error(error);
-        return res.status(500).json({message: "Internal server error"});
+        next(error);
     }
 };
 
-const userLogin = async (req, res) => {
+const userLogin = async (req, res, next) => {
     try {
       const { email, password } = req.body;
 
@@ -33,13 +33,12 @@ const userLogin = async (req, res) => {
       await user.save();
       return res.status(200).json({ message: "Login successful!", token: newToken });
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Internal server error." });
+        next(err);
     }
   };
   
 
-const userRegister = async (req, res) => {
+const userRegister = async (req, res, next) => {
     try {
       const { email, password, ...rest } = req.body;
 
@@ -80,8 +79,7 @@ const userRegister = async (req, res) => {
       await newUser.save();
       return res.status(201).json({ message: "User created successfully", token: newUser.token });
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Internal server error" });
+        next(err);
     }
 };
   
@@ -102,8 +100,7 @@ const userUpdate = async (req, res) => {
 
         return res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        next(error);
     }
 };
 
