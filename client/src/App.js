@@ -19,6 +19,11 @@ function App() {
   const [location, setLocation] = useState('home');
   const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(Cookies.get('authToken') ? true : false);
+
+  useEffect(() => {
+    if(Cookies.get('authToken') === undefined){
+      window.location.href = '/';
+    }},[isAuthenticated]);
    
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>

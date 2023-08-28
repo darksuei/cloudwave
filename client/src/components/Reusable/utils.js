@@ -91,7 +91,7 @@ export function Avatar ({size}){
         <div className='flex justify-center items-center py-5 relative'>
             <div className='relative rounded-full' onClick={(e)=>handleImageChange(e)}>
                 <i className={`fas fa-user-circle ${size} text-white rounded-full bg-slate-400 cursor-pointer`}></i>
-                <div className='rounded-full bg-blue-500 p-1 absolute right-0 bottom-1 flex items-center justify-center'><i className='fas fa-pen text-gray-200 text-xs cursor-pointer'></i></div>
+                <div className='rounded-full bg-black p-1 absolute right-0 bottom-1 flex items-center justify-center opacity-70'><i className='fas fa-pen text-gray-100 text-xs cursor-pointer opoacity-100'></i></div>
             </div>
         </div>    
     )
