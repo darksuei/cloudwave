@@ -10,9 +10,9 @@ export default function Settings (){
     Location.setLocation('settings');
 
     return(
-        <div className="flex flex-row w-full bg-slate-200">
+        <div className="flex flex-row w-full bg-slate-200 min-h-screen">
             <LeftSideBar/>
-            <div className="flex flex-col w-10/12 relative">
+            <div className="flex flex-col w-full md:w-10/12 relative">
                 <UserInfo/>
                 <Theme/>
                 <Footer/>

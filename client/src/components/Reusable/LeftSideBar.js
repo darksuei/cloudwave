@@ -1,15 +1,25 @@
 import '../../index.css';
+import Close from '../../assets/close.png'
+import Hamburger from '../../assets/hamburger.png'
 import '@fortawesome/fontawesome-free/css/all.css';
 import { Avatar } from './utils';
 import LogoutButton from './LogoutButton';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { LocationContext } from '../../Contexts/LocationContext';
 
 export default function LeftSideBar() {
+    const [showMenu, setShowMenu] = useState(false);
     const Location = useContext(LocationContext);
+    function toggleMenu(){
+      setShowMenu(!showMenu);
+    }
     
     return (
-      <nav className="flex w-2/12 bg-blue-700 text-white text-sm font-semibold relative h-screen">
+      <>
+      { showMenu ? <img src={Close} alt='Close' width={30} className='block absolute top-9 left-6 md:hidden z-50' onClick={toggleMenu}/> :
+      <img src={Hamburger} alt='Menu' width={25} className='block absolute top-10 left-6 md:hidden z-50' onClick={toggleMenu}/> }
+
+      <nav className={`${showMenu ? 'flex w-6/12 left-0 top-0' : 'hidden'} md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-sm font-semibold absolute md:relative h-screen z-40`}>
         <ul className="flex flex-col w-full relative">
           <Avatar 
           size={'text-6xl'}/>
@@ -25,5 +35,6 @@ export default function LeftSideBar() {
           </div>
         </ul>
       </nav>
+      </>
     );
   }

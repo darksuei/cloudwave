@@ -38,7 +38,6 @@ export default function UserInfo() {
                 },
             });
             setUser(response.data.user);
-            console.log('User info retrieved:', response.data.user);
         }catch(error){
             console.error('Error getting user info:', error);
         }
@@ -69,38 +68,37 @@ export default function UserInfo() {
             console.error('Error updating user info:', error);
         }
     };
-    
     return (
         <div className='w-full p-8 pb-4 flex flex-col gap-y-6'>
-            <h1 className='text-blue-700 text-xl font-extrabold'>Personal Information</h1>
+            <h1 className='text-blue-700 text-xl font-extrabold ml-4 md:ml-0'>Personal Information</h1>
             <div className="flex flex-row w-full justify-between">
                 <div className="w-3/12 h-full flex items-center justify-center">
                 <Avatar
-                size={'text-9xl'}/>
+                size={'text-8xl md:text-9xl'}/>
                 </div>
-                <div className="flex flex-col p-3 flex-wrap gap-y-4 w-6/12">
-                    <div className="flex flex-col w-full gap-y-2">
+                <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
+                    <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="firstname" className="text-sm font-medium text-gray-500">First Name</label>
-                        <input name='firstname' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        <input name='firstname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
                         value={user.firstname?user.firstname:formData.firstname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
 
-                    <div className="flex flex-col w-full gap-y-2">
+                    <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="lastname" className="text-sm font-medium text-gray-500">Last Name</label>
-                        <input name='lastname' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        <input name='lastname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
                         value={user.lastname?user.lastname:formData.lastname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
                     
-                    <div className="flex flex-col w-full gap-y-2">
+                    <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="phone" className="text-sm font-medium text-gray-500">Phone</label>
-                        <input name='phone' className='w-8/12 p-2 border border-gray-300 rounded-lg' type="tel"
+                        <input name='phone' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="tel"
                         value={user.phone?user.phone:formData.phone}
                         onChange={(e)=>handleChange(e)} />
                     </div>
                 </div>
-                <div className="relative w-3/12">
+                <div className="relative w-2/12 md:w-3/12">
                     <button className=' absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0 hover:bg-blue-600' onClick={(e)=>handleSubmit(e)}>Save</button>
                 </div>
             </div>

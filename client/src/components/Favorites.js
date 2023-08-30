@@ -8,7 +8,7 @@ export default function Favorites (){
     Location.setLocation('favorites');
     
     return(
-        <div className="flex flex-row bg-slate-200">
+        <div className="flex flex-row bg-slate-200 min-h-screen">
             <LeftSideBar
                 activePage={'favorites'}/>
             <FavMain/>

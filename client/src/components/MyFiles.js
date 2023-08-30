@@ -8,7 +8,7 @@ export default function MyFiles (){
     Location.setLocation('shared');
     
     return(
-        <div className="flex flex-row bg-slate-200 w-full">
+        <div className="flex flex-row bg-slate-200 w-full min-h-screen">
             <LeftSideBar/>
             <MyMain />
         </div>

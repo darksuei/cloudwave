@@ -33,7 +33,6 @@ export default function FavFiles(){
                 const favsData = await getData(authToken);
                 if (favsData) {
                     setData(favsData);
-                    console.log(data);
                 }
             } catch (error) {
                 console.error('Error fetching files:', error);
@@ -48,7 +47,7 @@ export default function FavFiles(){
     return (
         <div className={`w-full p-2.5`}>
             {showPreview && (
-                <div className="flex p-8 bg-white absolute w-9/12 h-4/6 rounded-xl top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
+                <div className="flex p-8 bg-white absolute w-11/12 md:w-9/12 h-4/6 rounded-xl top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
                     <button className="absolute top-2 right-2 text-white" onClick={togglePreview}>
                         <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                     </button>
@@ -61,7 +60,7 @@ export default function FavFiles(){
                     <Loading />
                 </div> : data.map((item,idx)=>{
                     return (
-                        <div className="flex flex-col bg-white p-3 rounded-lg w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview()}>
+                        <div className="flex flex-col bg-white p-3 rounded-lg w-5/12 md:w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview()}>
                             <div className="h-24 w-full flex items-center justify-center bg-slate-200">
                                 <i className="fas fa-image text-gray-500 text-3xl"></i>
                             </div>

@@ -9,8 +9,8 @@ export default function Theme() {
   
   return (
     <div className="w-full p-8 flex flex-col gap-y-6">
-          <h1 className='text-blue-700 text-xl font-extrabold'>Theme</h1>
-          <div className="flex items-center flex-row w-6/12 justify-between text-md">
+          <h1 className='text-blue-700 text-xl font-extrabold ml-4 md:ml-0'>Theme</h1>
+          <div className="flex items-center flex-row w-11/12 md:w-6/12 justify-between text-md">
             <label className="mr-4">
               <input
                 type="radio"

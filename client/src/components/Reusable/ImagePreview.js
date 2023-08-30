@@ -126,7 +126,7 @@ export default function ImagePreview({ showImg, imageUrl, item }){
   return (
     <div className={`relative z-50 flex flex-col w-full ${showImg ? 'h-4/5' : 'h-full'}`}>
       {share && (
-                 <SharePopUp isOpen={share} link={link} width={'w-4/12'}/>
+                 <SharePopUp isOpen={share} link={link} width={'w-11/12 md:w-4/12'}/>
             )}
         <div className="relative h-full flex items-center justify-center w-full bg-gray-200 rounded-lg">
           <i className='fas fa-image text-gray-400 text-6xl'></i>

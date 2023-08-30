@@ -58,7 +58,7 @@ export default function DragDrop(){
     };
 
     return(
-        <div className={`flex flex-col w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${highlight ? ' border-2 border-blue-500 ' : ''}`}
+        <div className={`flex flex-col w-10/12 md:w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${highlight ? ' border-2 border-blue-500 ' : ''}`}
             onDragEnter={handleDragEnter}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -80,12 +80,13 @@ export function Avatar ({size}){
     const [userImage, setUserImage] = useState('');
     function handleImageChange(e) {
         e.preventDefault();
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        reader.onloadend = () => {
-          setUserImage(reader.result);
-        };
-        reader.readAsDataURL(file);
+        alert('Image upload feature coming soon!')
+        // let reader = new FileReader();
+        // let file = e.target.files[0];
+        // reader.onloadend = () => {
+        //   setUserImage(reader.result);
+        // };
+        // reader.readAsDataURL(file);
       }
     return(
         <div className='flex justify-center items-center py-5 relative'>

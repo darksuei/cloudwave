@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import Loading from './Loading';
 
-export default function Recent({title, showAll, category, SearchResults, notLoading}){
+export default function Recent({title, showAll, category, SearchResults, notLoading, padding}){
     const [dropdownState, setDropdownState] = useState([]);
     const [allowDownload, setAllowDownload] = useState(false);
     const [share,setShare] = useState(false);
@@ -237,9 +237,9 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     }    
     
     return(
-        <div className={`h-full flex gap-y-4 flex-col p-12 py-4 w-full`}>
+        <div className={`h-full flex gap-y-4 flex-col p-12 ${padding ? padding : 'px-4'} md:px-12 py-4 w-full`}>
             {share && (
-                <SharePopUp isOpen={share} link={link} width={'w-4/12'}/>
+                <SharePopUp isOpen={share} link={link} width={'w-11/12 md:w-4/12'}/>
             )}
             <h1 className='text-blue-700 text-xl font-extrabold'>{title}</h1> 
             <div className={`flex flex-col gap-y-2.5`}>
@@ -251,18 +251,19 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                     <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 
                             <div className='absolute top-0 left-0 flex justify-center items-center w-full h-screen'>
-                                <div className={`flex p-8 bg-slate-100 w-9/12 relative h-5/6 rounded-xl border`} onClick={(e)=>{e.stopPropagation()}}>
-                                <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
-                                    <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
-                                </button>
-                                {/* {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />} */}
-                                <ImagePreview showImg={false} imageUrl={Cloudwavehome} item={item}/>
-                            </div></div>
+                                <div className={`flex p-8 bg-slate-100 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`} onClick={(e)=>{e.stopPropagation()}}>
+                                    <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
+                                        <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
+                                    </button>
+                                    {/* {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />} */}
+                                    <ImagePreview showImg={false} imageUrl={Cloudwavehome} item={item}/>
+                                </div>
+                            </div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
-                            <h2 className='w-4/12 p-2'>{item.name.length>23 ? item.name.slice(0,20) +'...' : item.name}</h2>
-                            <p className='text-gray-400 text-sm'>{item.time}</p>
+                            <h2 className='break-all md:break-normal w-4/12 p-2'>{item.name.length>23 ? item.name.slice(0,20) +'...' : item.name}</h2>
+                            <p className='text-gray-400 text-sm w-2/12'>{item.time}</p>
                             <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e,item)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
                         <div className={`${showPreview.includes(item)? ' ': 'relative'} w-2/12 text-right`}>
