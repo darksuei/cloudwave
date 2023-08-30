@@ -12,7 +12,7 @@ export default function Files(props) {
     return (
         <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen" >
             <LeftSideBar/>
-            <div className="flex flex-col w-10/12 py-8 items-center relative">
+            <div className="flex flex-col w-full md:w-10/12 py-8 items-center relative px-1 md:px-0">
                 <Search/>
                 <div className="w-full min-h-full">
                     <Recent title={category? category[0].toUpperCase() + category.slice(1) : 'All Files'}

@@ -54,13 +54,13 @@ export default function FavFiles(){
                     <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
                 </div>
             )}
-            <h1 className="text-blue-500 font-black text-lg py-3">Files</h1>
-            <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 ">
+            <h1 className="text-blue-500 font-black text-2xl py-3">Files</h1>
+            <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 justify-center md:justify-start">
                 {data.length === 0 ? <div className="w-full flex items-center justify-center h-12">
                     <Loading />
                 </div> : data.map((item,idx)=>{
                     return (
-                        <div className="flex flex-col bg-white p-3 rounded-lg w-5/12 md:w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview()}>
+                        <div className="flex flex-col bg-white p-3 rounded-lg w-10/12 md:w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer" key={idx} onClick={()=>togglePreview()}>
                             <div className="h-24 w-full flex items-center justify-center bg-slate-200">
                                 <i className="fas fa-image text-gray-500 text-3xl"></i>
                             </div>

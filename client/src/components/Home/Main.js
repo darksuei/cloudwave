@@ -9,7 +9,7 @@ export default function Main() {
             <DragDrop />
             <Recent 
             title={"Recently Uploaded"}
-            padding={'px-6'}/>
+            padding={'px-9'}/>
         </div>
     )
 }

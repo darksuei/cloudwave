@@ -19,12 +19,33 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
     const [link, setLink] = useState('');
     const [fav, setFav] = useState("");
     const [loading, setLoading] = useState(true); 
+    const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
     let api;
 
     if(category){
         api = `${process.env.REACT_APP_SERVER_URL}/api/files/${category}`;
     }else{
         api = `${process.env.REACT_APP_SERVER_URL}/api/files`;
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+          setViewportWidth(window.innerWidth);
+        };
+      
+        window.addEventListener('resize', handleResize);
+      
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+
+    function itemName(item){
+        if (viewportWidth < 500) {
+            return item.name.slice(0, 8) + '...';
+        } else {
+        return item.name.length > 23 ? item.name.slice(0, 20) + '...' : item.name;
+        }
     }
 
     useEffect(()=>{
@@ -41,7 +62,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                 if(showAll === true){
                     setData(filesData);
                 }else{
-                    setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
+                    setData(filesData.slice(-Math.min(6, filesData.length)).reverse());
                 }
             } catch (error) {
                 console.error('Error fetching files:', error);
@@ -255,15 +276,14 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                     <button className="absolute top-2 right-2 text-white" onClick={(e)=>{togglePreview(item,e)}}>
                                         <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
                                     </button>
-                                    {/* {previewItemUrl && <img src={previewItemUrl} alt="Fetched Image" />} */}
                                     <ImagePreview showImg={false} imageUrl={Cloudwavehome} item={item}/>
                                 </div>
                             </div>
                         )}
                         <div className='bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center'><i className="fas fa-image text-white text-sm"></i></div>
                         <div className='flex flex-row w-9/12 justify-between items-center'>
-                            <h2 className='break-all md:break-normal w-4/12 p-2'>{item.name.length>23 ? item.name.slice(0,20) +'...' : item.name}</h2>
-                            <p className='text-gray-400 text-sm w-2/12'>{item.time}</p>
+                            <h2 className='break-all md:break-normal w-4/12 p-2 text-sm md:text-md'>{itemName(item)}</h2>
+                            <p className='text-gray-400 text-xs md:text-sm w-2/12'>{item.time}</p>
                             <div className='px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100' onClick={(e)=>handleShare(e,item)}><i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i></div>
                         </div>
                         <div className={`${showPreview.includes(item)? ' ': 'relative'} w-2/12 text-right`}>
@@ -272,7 +292,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                                 className="inline-flex items-center p-1 focus:outline-none hover:bg-gray-100 hover:bg-slate-100"
                                 onClick={(e) => handleDropdownClick(item,e)}
                             >
-                                <i className="fas fa-ellipsis-h text-indigo-500 text-lg"></i>
+                                <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                             </button>
                             {dropdownState.includes(item) && (
                                 <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">

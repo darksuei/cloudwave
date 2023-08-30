@@ -20,10 +20,12 @@ function App() {
   const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(Cookies.get('authToken') ? true : false);
 
-  // useEffect(() => {
-  //   if(Cookies.get('authToken') === undefined){
-  //     window.location.href = '/';
-  //   }},[isAuthenticated]);
+  useEffect(() => {
+    if(Cookies.get('authToken') === undefined && location !== 'login' && location !== 'signup' && location !== 'home'){
+      window.location.href = '/';
+    }
+    return () => {}
+  },[isAuthenticated, location]);
    
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
@@ -32,11 +34,10 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" Component={Default}/>
-        <Route exact path='/home' Component={Home}/>
-        {/* <Route exact path="/home" Component = {() => 
+        <Route exact path="/home" Component = {() => 
         isAuthenticated ?
         <Home/> :
-        <Login/> }/> */}
+        <Login/> }/>
         <Route exact path="/upload" Component = {() => 
         isAuthenticated ?
         <Uploads/> :

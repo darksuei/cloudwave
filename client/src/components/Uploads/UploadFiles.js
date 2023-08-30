@@ -73,7 +73,7 @@ export default function UploadFiles(){
     };
 
     return (
-        <div className="flex flex-col p-4 items-center bg-white w-full md:8/12 lg:w-7/12 rounded-lg gap-y-5">
+        <div className="flex flex-col p-4 items-center bg-white w-full md:w-8/12 lg:w-7/12 rounded-lg gap-y-5">
             <h1 className="text-2xl text-blue-500 font-black py-2">Upload Files</h1>
             <div className={`flex flex-col w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300
             ${highlight ? ' border-2 border-blue-500 ' : ''}`}

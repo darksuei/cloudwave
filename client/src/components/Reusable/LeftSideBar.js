@@ -16,10 +16,10 @@ export default function LeftSideBar() {
     
     return (
       <>
-      { showMenu ? <img src={Close} alt='Close' width={30} className='block absolute top-9 left-6 md:hidden z-50' onClick={toggleMenu}/> :
-      <img src={Hamburger} alt='Menu' width={25} className='block absolute top-10 left-6 md:hidden z-50' onClick={toggleMenu}/> }
+      { showMenu ? <img src={Close} alt='Close' width={30} className='block absolute top-8 left-6 md:hidden z-50' onClick={toggleMenu}/> :
+      <img src={Hamburger} alt='Menu' width={25} className='block absolute top-7 left-6 md:hidden z-50' onClick={toggleMenu}/> }
 
-      <nav className={`${showMenu ? 'flex w-6/12 left-0 top-0' : 'hidden'} md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-sm font-semibold absolute md:relative h-screen z-40`}>
+      <nav className={`${showMenu ? 'flex w-6/12 left-0 top-0' : 'hidden'} md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-xs md:text-sm font-semibold absolute md:relative h-screen z-40`}>
         <ul className="flex flex-col w-full relative">
           <Avatar 
           size={'text-6xl'}/>
