@@ -60,7 +60,20 @@ export default function Recent({
       setAllowDownload(false);
     }, 2000);
   }, [allowDownload]);
-
+  
+  const getFiles = async (authToken) => {
+    try {
+      const response = await axios.get(api, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      return response.data.files;
+    } catch (error) {
+      console.error("Files error:", error);
+    }
+  };
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,18 +98,6 @@ export default function Recent({
     return () => {};
   }, [authToken]);
 
-  const getFiles = async (authToken) => {
-    try {
-      const response = await axios.get(api, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      return response.data.files;
-    } catch (error) {
-      console.error("Files error:", error);
-    }
-  };
 
   const togglePreview = async (item, e) => {
     e.preventDefault();
