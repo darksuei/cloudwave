@@ -69,8 +69,9 @@ export default function UserInfo() {
         }
     };
     return (
-        <div className='w-full p-8 pb-4 flex flex-col gap-y-6'>
+        <div className='w-full p-8 pb-4 flex flex-col'>
             <h1 className='text-blue-700 text-xl font-extrabold ml-4 md:ml-0'>Personal Information</h1>
+            <h3 className="text-sm text-gray-500 my-3">Edit your information: </h3>
             <div className="flex flex-row w-full justify-between">
                 <div className="w-3/12 h-full flex items-center justify-center">
                 <Avatar
@@ -79,21 +80,21 @@ export default function UserInfo() {
                 <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
                     <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="firstname" className="text-sm font-medium text-gray-500">First Name</label>
-                        <input name='firstname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        <input name='firstname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent' type="text"
                         value={user.firstname?user.firstname:formData.firstname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
 
                     <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="lastname" className="text-sm font-medium text-gray-500">Last Name</label>
-                        <input name='lastname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="text"
+                        <input name='lastname' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent' type="text"
                         value={user.lastname?user.lastname:formData.lastname}
                         onChange={(e)=>handleChange(e)} />
                     </div>
                     
                     <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
                         <label htmlFor="phone" className="text-sm font-medium text-gray-500">Phone</label>
-                        <input name='phone' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg' type="tel"
+                        <input name='phone' className='w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent' type="tel"
                         value={user.phone?user.phone:formData.phone}
                         onChange={(e)=>handleChange(e)} />
                     </div>

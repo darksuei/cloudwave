@@ -62,7 +62,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                 if(showAll === true){
                     setData(filesData);
                 }else{
-                    setData(filesData.slice(-Math.min(6, filesData.length)).reverse());
+                    setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
                 }
             } catch (error) {
                 console.error('Error fetching files:', error);
@@ -269,7 +269,7 @@ export default function Recent({title, showAll, category, SearchResults, notLoad
                 )}
             {data.length > 0 ? data.map((item) => {
                 return(
-                    <div className='flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md' onClick={(e)=>togglePreview(item,e)} key={item.id}>
+                    <div className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md`} onClick={(e)=>togglePreview(item,e)} key={item.id}>
                         {showPreview.includes(item) && ( 
                             <div className='absolute top-0 left-0 flex justify-center items-center w-full h-screen'>
                                 <div className={`flex p-8 bg-slate-100 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`} onClick={(e)=>{e.stopPropagation()}}>
