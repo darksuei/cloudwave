@@ -9,7 +9,6 @@ export default function Search(props) {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
-            console.log(typeof searchQuery)
             if (e.key === 'Enter' && searchQuery.trim() !== '') {
                 e.preventDefault();
                 window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;

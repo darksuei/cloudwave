@@ -87,7 +87,8 @@ export default function UploadFiles(){
                         <p className='text-sm font-extrabold'>Drag and drop your files here</p>
                         <p className="text-xs text-gray-500">or</p>
                         <button className="w-10/12 md:w-fit text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white relative overflow-hidden">
-                        <span className="relative z-10">Choose a file from your computer</span>
+                        <span className="relative z-10 hidden md:block">Choose a file from your computer</span>
+                        <span className="relative z-10 block md:hidden">Choose a file</span>
                         <input
                             type="file"
                             className="bg-black absolute top-0 left-0 w-full h-full z-20 opacity-0 cursor-pointer"

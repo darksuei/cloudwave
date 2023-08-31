@@ -3,7 +3,7 @@ import '../../index.css';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export default function Storage() {
+export default function Storage({width}) {
     const [usedSpace, setUsedSpace] = useState(0);
     const [unit, setUnit] = useState('MB');
     const [authToken, setAuthToken] = useState(null);
@@ -57,7 +57,7 @@ export default function Storage() {
     }; 
 
     return (
-        <div className="flex flex-col bg-gray-200 rounded-xl w-full p-3 gap-y-3">
+        <div className={`flex flex-col bg-gray-200 rounded-xl ${width ? width : 'w-full'} p-3 gap-y-3`}>
             <div className='text-sm flex flex-row justify-between'>
                 <h1 className='text-blue-500 font-semibold'>Your Storage</h1>
                 <p className='text-emerald-500'>{spaceLeft}% left</p>
