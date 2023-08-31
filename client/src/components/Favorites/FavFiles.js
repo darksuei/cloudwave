@@ -54,7 +54,7 @@ export default function FavFiles(){
                     <ImagePreview imageUrl={Cloudwavehome} fileCategory={'Personal'} uploadDate={'JUNE 1, 2022'} togglePreview={togglePreview} />
                 </div>
             )}
-            <h1 className="text-blue-500 font-black text-xl md:text-2xl py-3">Files</h1>
+            <h1 className="text-blue-500 font-black text-xl md:text-2xl py-3">Favorite Files</h1>
             <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 justify-center md:justify-start">
                 {data.length === 0 ? <div className="w-full flex items-center justify-center h-12">
                     <Loading />

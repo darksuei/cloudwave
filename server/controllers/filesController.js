@@ -129,6 +129,11 @@ const uploadFile = async (req, res, next) => {
         for(const file of req.files){
             let status = await uploadToStorage(file.originalname, file.path, folder);
             if(!status) return res.status(400).json({message: 'Error uploading file'});
+            const user = await User.findOne({ email: req.user.email })
+            const userFile = await user.files.filter(existingFile =>  existingFile.name == file.originalname)
+            if( userFile.length > 0 ) {
+                return res.status(409).json({message:"File already exists"})
+            }
 
             await User.findOneAndUpdate(
                 { email: req.user.email },
