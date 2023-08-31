@@ -1,7 +1,8 @@
 {
-  "name": "image-vision",
+  "name": "cloud-wave",
   "version": "1.0.0",
-  "description": "Classifying images and uploading them to dropbox/Google drive",
+  "private": true,
+  "description": "Upload, share and save your files and media for future use.",
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
@@ -12,9 +13,6 @@
   "author": "Suei[Folarin Raphael]",
   "license": "MIT",
   "dependencies": {
-    "@tensorflow-models/mobilenet": "^2.1.0",
-    "@tensorflow/tfjs": "^4.9.0",
-    "@tensorflow/tfjs-node": "^4.9.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -22,7 +20,7 @@
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "get-image-data": "^5.0.0",
-    "jimp": "^0.22.10",
+    "jimp": "^0.14.0",
     "jsonwebtoken": "^9.0.1",
     "megajs": "1",
     "mongoose": "^7.4.3",
@@ -34,5 +32,5 @@
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3"
   },
-  "repository": "git@github.com:Suei43/imagevisionAPI.git"
+  "repository": "https://github.com/Suei43/CloudWave"
 }

@@ -29,7 +29,9 @@ function detectObject(buffer, confidenceThreshold) {
         let temp = await model.classify(input);
 
         // Filter results based on the confidence threshold
-        const filteredResults = temp.filter((result) => result.probability >= confidenceThreshold);
+        const filteredResults = temp.filter(
+          (result) => result.probability >= confidenceThreshold,
+        );
 
         resolve(filteredResults);
       }

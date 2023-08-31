@@ -1,22 +1,22 @@
-const errorHandler = require('../utils/errorHandler');
+const errorHandler = require("../utils/errorHandler");
 
 const errorMiddleware = (err, req, res, next) => {
-    console.error(err);
-    err.message = err.message || 'Something went wrong';
-    err.statusCode = err.statusCode || 500;
+  console.error(err);
+  err.message = err.message || "Something went wrong";
+  err.statusCode = err.statusCode || 500;
 
-    if (err instanceof errorHandler) {
-        return res.status(err.statusCode).json({
-            success: false,
-            message: err.message
-        })
-    }
-
-    //For unhandled errors
+  if (err instanceof errorHandler) {
     return res.status(err.statusCode).json({
-        success: false,
-        message: err.message
+      success: false,
+      message: err.message,
     });
+  }
+
+  //For unhandled errors
+  return res.status(err.statusCode).json({
+    success: false,
+    message: err.message,
+  });
 };
 
 module.exports = errorMiddleware;

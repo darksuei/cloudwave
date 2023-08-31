@@ -1,11 +1,9 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "cloud-wave",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@auth0/auth0-react": "^2.2.0",
     "@fortawesome/fontawesome-free": "^6.4.2",
-    "@kinde-oss/kinde-auth-react": "^3.0.19",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

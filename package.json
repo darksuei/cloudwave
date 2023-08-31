@@ -1,16 +1,23 @@
 {
-  "name": "image-vision",
+  "name": "cloud-wave",
   "version": "1.0.0",
-  "description": "Classifying images and uploading them to dropbox/Google drive",
+  "private": true,
+  "description": "Upload, share and save your files and media for future use.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
+    "dev": "concurrently \"cd client && npm start\" \"cd server && npm run dev\"",
+    "format": "prettier --write \"**/*.js\""
   },
   "keywords": [],
   "author": "Suei[Folarin Raphael]",
   "license": "MIT",
-  "repository": "https://github.com/Suei43/image-file-classification",
+  "repository": "https://github.com/Suei43/CloudWave",
   "dependencies": {
-    "@kinde-oss/kinde-auth-react": "^3.0.19"
+    "concurrently": "^8.2.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
   }
 }

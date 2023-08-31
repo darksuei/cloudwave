@@ -1,19 +1,19 @@
-const { Storage } = require('megajs');
-require('dotenv').config();
+const { Storage } = require("megajs");
+require("dotenv").config();
 
 const storage = new Storage({
   email: process.env.MEGA_USER,
   password: process.env.MEGA_PASS,
-  userAgent: 'null',
+  userAgent: "null",
 });
 
 const loginToStorage = async () => {
   try {
     await storage.ready;
-    console.log('Succesfully connected to storage!');
+    console.log("Succesfully connected to storage!");
   } catch (error) {
     console.error(error);
   }
 };
 
-module.exports = {storage, loginToStorage};
+module.exports = { storage, loginToStorage };

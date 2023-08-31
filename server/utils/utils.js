@@ -1,46 +1,46 @@
 const formatDateLabel = (date) => {
-    const currentDate = new Date();
-    const providedDate = new Date(date);
+  const currentDate = new Date();
+  const providedDate = new Date(date);
 
-    const timeDifference = currentDate - providedDate;
-    const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+  const timeDifference = currentDate - providedDate;
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 
-    if (timeDifference < oneDayInMilliseconds) {
-        if (timeDifference < 60 * 1000) {
-            return 'Just now';
-        } else if (timeDifference < 2 * 60 * 1000) {
-            return 'A minute ago';
-        } else if (timeDifference < 60 * 60 * 1000) {
-            return Math.floor(timeDifference / (60 * 1000)) + ' minutes ago';
-        } else if (timeDifference < 2 * 60 * 60 * 1000) {
-            return 'An hour ago';
-        } else {
-            return Math.floor(timeDifference / (60 * 60 * 1000)) + ' hours ago';
-        }
-    } else if (timeDifference < 2 * oneDayInMilliseconds) {
-        return 'yesterday';
+  if (timeDifference < oneDayInMilliseconds) {
+    if (timeDifference < 60 * 1000) {
+      return "Just now";
+    } else if (timeDifference < 2 * 60 * 1000) {
+      return "A minute ago";
+    } else if (timeDifference < 60 * 60 * 1000) {
+      return Math.floor(timeDifference / (60 * 1000)) + " minutes ago";
+    } else if (timeDifference < 2 * 60 * 60 * 1000) {
+      return "An hour ago";
     } else {
-        return providedDate.toDateString();
+      return Math.floor(timeDifference / (60 * 60 * 1000)) + " hours ago";
     }
-}
+  } else if (timeDifference < 2 * oneDayInMilliseconds) {
+    return "yesterday";
+  } else {
+    return providedDate.toDateString();
+  }
+};
 
 const getCategoryFromFileName = (file) => {
-    const fileExtension = file.split('.').pop().toLowerCase();
-    
-    const categories = {
-        "pictures": ['jpg', 'jpeg', 'png', 'gif'],
-        "audio": ['mp3', 'wav', 'ogg'],
-        "videos": ['mp4', 'avi', 'mov', 'mkv'],
-        "documents": ['pdf', 'doc', 'docx', 'txt']
-    };
+  const fileExtension = file.split(".").pop().toLowerCase();
 
-    for (const category in categories) {
-        if (categories[category].includes(fileExtension)) {
-            return category;
-        }
+  const categories = {
+    pictures: ["jpg", "jpeg", "png", "gif"],
+    audio: ["mp3", "wav", "ogg"],
+    videos: ["mp4", "avi", "mov", "mkv"],
+    documents: ["pdf", "doc", "docx", "txt"],
+  };
+
+  for (const category in categories) {
+    if (categories[category].includes(fileExtension)) {
+      return category;
     }
+  }
 
-    return 'documents';
-}
+  return "documents";
+};
 
-module.exports = {formatDateLabel, getCategoryFromFileName};
+module.exports = { formatDateLabel, getCategoryFromFileName };
