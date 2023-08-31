@@ -25,8 +25,8 @@ app.use("/api", userRouter);
 app.use("/api", fileRouter);
 
 app.get("/", async (req, res) => {
-  await loginToStorage();
-  await uploadToStorage();
+  // await loginToStorage();
+  // await uploadToStorage();
   res.status(200).json({ message: "Success" });
 });
 
