@@ -1,15 +1,17 @@
-# Cloud wave - A cloud storage Web App
+![Project Demo](https://github.com/Suei43/CloudWave/blob/main/readme%20assets/readme-demo.png)
 
-Welcome to the Cloud wave! This application allows users to securely store, manage, and share their files in the cloud. You can access the live version of the project [here](https://cloud-wave-x9iy.onrender.com).
+# Cloud wave - A cloud storage web app
+
+Welcome to the Cloud wave repo! This web application allows users to securely store, manage, and share their files on the cloud. You can access the live version of the project [here](https://cloud-wave-x9iy.onrender.com).
 
 ## Features
 
-- **User Authentication:** Users can sign up and log in to their accounts securely.
-- **File Upload:** Users can upload their files to the cloud storage.
-- **File Download:** Users can download their uploaded files at any time.
-- **File Sharing:** Share files with others by generating unique links.
+- **User Authentication:** Sign up and Log in to your accounts securely.
+- **File Upload:** Upload and save your files to the cloud.
+- **File Download:** Download your uploaded files at any time.
+- **File Sharing:** Share your files with others by generating unique links.
 - **File Management:** View, organize, and delete files from your storage.
-- **Dockerized:** The project is Dockerized for easy deployment.
+- **Containerized:** The project is Dockerized for easy deployment.
 
 ## Getting Started
 
