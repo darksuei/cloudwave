@@ -1,6 +1,6 @@
 # Cloud wave - 自由的 cloud storage web app
 
-Welcome to the Cloud wave repo! Users can freely and securely store, manage, and share their files on the cloud. You can access the live version of the project [here](https://cloud-wave-x9iy.onrender.com).
+Welcome to the Cloud wave repo! Users can freely and securely store, manage, and share their files on the cloud. You can access the live version of the project >> [here](https://cloud-wave-x9iy.onrender.com) <<.
 
 ![Project Demo](https://github.com/Suei43/CloudWave/blob/main/readme-assets/readme-demo.png)
 
@@ -54,4 +54,4 @@ If you encounter any issues, have suggestions, or need help, please feel free to
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under [MIT](https://opensource.org/license/mit/).
