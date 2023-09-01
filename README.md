@@ -1,4 +1,4 @@
-![Project Demo](https://github.com/Suei43/CloudWave/blob/main/readme%20assets/readme-demo.png)
+![Project Demo](https://github.com/Suei43/CloudWave/blob/main/readme-assets/readme-demo.png)
 
 # Cloud wave - A cloud storage web app
 
