@@ -6,6 +6,7 @@ import Cloudwavehome from "../../assets/Cloudwavehome.jpeg";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Loading from "./Loading";
+import LoadingScreen from "./LoadingScreen";
 
 export default function Recent({
   title,
@@ -16,6 +17,7 @@ export default function Recent({
   padding,
 }) {
   const [dropdownState, setDropdownState] = useState([]);
+  const [loadingScreen, setLoadingScreen] = useState(false);
   const [allowDownload, setAllowDownload] = useState(false);
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
@@ -224,6 +226,8 @@ export default function Recent({
   //   };
 
   async function handleDelete(e, name) {
+    setDropdownState([]);
+    setLoadingScreen(true);
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -237,6 +241,7 @@ export default function Recent({
       );
       if (response.status === 200) {
         setData(data.filter((file) => file.name !== name));
+        setLoadingScreen(false)
         window.location.reload();
       }
     } catch (error) {
@@ -271,8 +276,10 @@ export default function Recent({
   async function handleFav(e, item) {
     e.preventDefault();
     e.stopPropagation();
+    setLoadingScreen(true)
     setFav(item);
     setDropdownState([]);
+    setLoadingScreen(false);
     window.location.reload();
   }
 
@@ -282,6 +289,7 @@ export default function Recent({
         padding ? padding : "px-4"
       } md:px-12 py-4 w-full`}
     >
+      {loadingScreen && <LoadingScreen />}
       {share && (
         <SharePopUp isOpen={share} link={link} width={"w-11/12 md:w-4/12"} />
       )}

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
@@ -124,6 +124,7 @@ function App() {
               />
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
+              <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </Router>
         </FavoritesContext.Provider>

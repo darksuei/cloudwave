@@ -3,10 +3,12 @@ import "../../index.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { FavoritesContext } from "../../Contexts/FavoritesContext";
+import LoadingScreen from "./LoadingScreen";
 
 export default function DragDrop() {
   const [highlight, setHighlight] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const [loadingScreen, setLoadingScreen] = useState(false);
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -24,12 +26,12 @@ export default function DragDrop() {
   const handleDrop = (e) => {
     e.preventDefault();
     setHighlight(false);
-
     handleFileUpload(e);
   };
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
+    setLoadingScreen(true);
     let files;
     e.dataTransfer !== undefined
       ? (files = e.dataTransfer.files)
@@ -53,6 +55,7 @@ export default function DragDrop() {
           },
         },
       );
+      setLoadingScreen(false);
       if(response.status === 400) {
         alert("Upload failed. Storage limit exceeded!");
       }
@@ -67,6 +70,8 @@ export default function DragDrop() {
   };
 
   return (
+    <>
+    {loadingScreen && <LoadingScreen />}
     <div
       className={`flex flex-col w-10/12 md:w-9/12 py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${
         highlight ? " border-2 border-blue-500 " : ""
@@ -91,6 +96,7 @@ export default function DragDrop() {
         </p>
       </div>
     </div>
+    </>
   );
 }
 

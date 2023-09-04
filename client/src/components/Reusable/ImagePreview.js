@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import SharePopUp from "./SharePopUp";
 import Cookies from "js-cookie";
 import axios from "axios";
+import LoadingScreen from "./LoadingScreen";
 
 export default function ImagePreview({ showImg, imageUrl, item }) {
   const [fav, setFav] = useState("");
   const [allowDownload, setAllowDownload] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(false); 
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -110,6 +112,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
   }
 
   async function handleDelete(e) {
+    setLoadingScreen(true)
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -121,6 +124,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
           },
         },
       );
+      setLoadingScreen(false);
       if (response.status === 200) {
         window.location.reload();
       }
@@ -135,6 +139,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
         showImg ? "h-4/5" : "h-full"
       }`}
     >
+      {loadingScreen && <LoadingScreen />}
       {share && (
         <SharePopUp
           isOpen={share}

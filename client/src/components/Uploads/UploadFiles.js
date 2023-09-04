@@ -2,10 +2,12 @@ import { useState, useContext } from "react";
 import { UploadContext } from "../../Contexts/UploadContext";
 import axios from "axios";
 import Cookies from "js-cookie";
+import LoadingScreen from "../Reusable/LoadingScreen";
 
 export default function UploadFiles() {
   const [highlight, setHighlight] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const [loadingScreen, setLoadingScreen] = useState(false); 
   const Uploads = useContext(UploadContext);
 
   const handleDragEnter = (e) => {
@@ -47,6 +49,7 @@ export default function UploadFiles() {
   };
 
   const handleFileUpload = async (e) => {
+    setLoadingScreen(true)
     e.preventDefault();
     let files;
     e.dataTransfer !== undefined
@@ -76,10 +79,12 @@ export default function UploadFiles() {
     } catch (error) {
       console.error("Upload error:", error);
     }
+    setLoadingScreen(false)
   };
 
   return (
     <div className="flex flex-col p-4 items-center bg-white w-full md:w-8/12 lg:w-7/12 rounded-lg gap-y-5">
+      {loadingScreen && <LoadingScreen />}
       <h1 className="text-2xl text-blue-500 font-black py-2">Upload Files</h1>
       <div
         className={`flex flex-col w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300
