@@ -53,6 +53,9 @@ export default function DragDrop() {
           },
         },
       );
+      if(response.status === 400) {
+        alert("Upload failed. Storage limit exceeded!");
+      }
       if (response.status === 201) {
         setTimeout(() => {
           window.location.reload();
@@ -261,69 +264,69 @@ export function Categories(props) {
   return (
     <div className="flex flex-col p-3 bg-gray-200 rounded-xl w-full md:w-full gap-y-2.5">
       {props.title}
-      <div className={props.style} id="snap-x-mandatory">
-        {categories.map(
-          (category, index) =>
-            (!props.checkFav ||
-              (props.checkFav && favorites.includes(index))) && (
-              <a
-                href={category.href || "/files"}
-                key={index}
-                className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}
-              >
-                {category.noIcons ? (
-                  <div
-                    className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
-                    onClick={(e) => toggleInput(e)}
-                  >
-                    {showInput ? (
-                      <div className="w-full p-3 h-full">
-                        <input
-                          type="text"
-                          className="w-full p-2 text-xs"
-                          placeholder="Enter title"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              toggleNewCategory(e.target.value);
-                            }
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <i
-                        className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
-                      ></i>
-                    )}
-                  </div>
-                ) : (
-                  <div className="w-40 md:w-full flex flex-row items-center p-3.5">
-                    <div className="flex gap-y-1.5 flex-col w-8/12 h-20">
-                      <i
-                        className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
-                      ></i>
-                      <div className="text-white font-bold text-sm">
-                        {category.title}
-                      </div>
-                      <div className="text-xs text-gray-200 w-full">
-                        {category.count} files
-                      </div>
+      <div className={`${props.style}`} id="snap-x-mandatory">
+          {categories.map(
+            (category, index) =>
+              (!props.checkFav ||
+                (props.checkFav && favorites.includes(index))) && (
+                <a
+                  href={category.href || "/files"}
+                  key={index}
+                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}
+                >
+                  {category.noIcons ? (
+                    <div
+                      className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
+                      onClick={(e) => toggleInput(e)}
+                    >
+                      {showInput ? (
+                        <div className="w-full p-3 h-full">
+                          <input
+                            type="text"
+                            className="w-full p-2 text-xs"
+                            placeholder="Enter title"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                toggleNewCategory(e.target.value);
+                              }
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <i
+                          className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
+                        ></i>
+                      )}
                     </div>
-                    <i
-                      className={`fas fa-star white text-lg ml-4 cursor-pointer ${
-                        favorites.includes(index) ? "favorite" : ""
-                      } ${props.favs ? "favorite" : ""}`}
-                      onClick={(e) => toggleFavorite(category, index, e)}
-                    ></i>
-                  </div>
-                )}
-              </a>
-            ),
-        )}
-      </div>
+                  ) : (
+                    <div className="w-40 md:w-full flex flex-row items-center p-3.5">
+                      <div className="flex gap-y-1.5 flex-col w-8/12 h-20">
+                        <i
+                          className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
+                        ></i>
+                        <div className="text-white font-bold text-sm">
+                          {category.title}
+                        </div>
+                        <div className="text-xs text-gray-200 w-full">
+                          {category.count} files
+                        </div>
+                      </div>
+                      <i
+                        className={`fas fa-star white text-lg ml-4 cursor-pointer ${
+                          favorites.includes(index) ? "favorite" : ""
+                        } ${props.favs ? "favorite" : ""}`}
+                        onClick={(e) => toggleFavorite(category, index, e)}
+                      ></i>
+                    </div>
+                  )}
+                </a>
+              ),
+          )}
+        </div>
     </div>
   );
 }

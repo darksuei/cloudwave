@@ -29,6 +29,23 @@ const getStorageFiles = async (folder) => {
   }
 };
 
+const getStorageFilesinDetail = async (folder) => {
+  try {
+    const list = [];
+    const files = await folder.children;
+    if (!files) return false;
+    for (let i = 0; i < files.length; i++) {
+      if (!files[i]) break;
+      list.push(files[i]);
+    }
+    return list;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+
 const uploadToStorage = (name, filepath, folder) => {
   
   let imagePath;
@@ -85,6 +102,7 @@ const handleStorage = async () => {};
 module.exports = {
   createStorage,
   getStorageFiles,
+  getStorageFilesinDetail,
   uploadToStorage,
   shareFile,
   deleteFile,

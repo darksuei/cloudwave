@@ -1,6 +1,6 @@
 const { storage, loginToStorage } = require("../utils/loginToStorage");
 
-const { uploadToStorage, getStorageFiles } = require("../utils/Storage");
+const { uploadToStorage, getStorageFiles, getStorageFilesinDetail } = require("../utils/Storage");
 
 const { formatDateLabel, getCategoryFromFileName } = require("../utils/utils");
 
@@ -134,21 +134,31 @@ const searchFiles = async (req, res, next) => {
 
 const uploadFile = async (req, res, next) => {
   try {
+    const user = await User.findOne({ email: req.user.email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    
     await loginToStorage();
     const folder = storage.root.children.find(
       (folder) => folder.name === req.user.email,
     );
     for (const file of req.files) {
-      let status = await uploadToStorage(file.originalname, file.path, folder);
-      if (!status)
-        return res.status(400).json({ message: "Error uploading file" });
-      const user = await User.findOne({ email: req.user.email });
+      if (user.spaceUsed + file.size / 1024 > 5 * 1024 * 1024) {
+        return res.status(400).json({ 
+          message: "Failed",
+          error: "Storage limit Exceeded"
+        });
+      }
       const userFile = await user.files.filter(
         (existingFile) => existingFile.name == file.originalname,
       );
       if (userFile.length > 0) {
         return res.status(409).json({ message: "File already exists" });
       }
+
+      let status = await uploadToStorage(file.originalname, file.path, folder);
+      if (!status)
+        return res.status(400).json({ message: "Error uploading file" });
 
       await User.findOneAndUpdate(
         { email: req.user.email },
@@ -159,7 +169,7 @@ const uploadFile = async (req, res, next) => {
               date: new Date(),
               category: getCategoryFromFileName(file.originalname),
               size: file.size / 1024,
-              isFavorite: true,
+              isFavorite: false,
               link: status,
             },
           },
@@ -170,7 +180,7 @@ const uploadFile = async (req, res, next) => {
       )
         .then((updatedUser) => {
           if (updatedUser) {
-            console.log("User updated successfully:", updatedUser);
+            console.log("User updated successfully");
           } else {
             console.log("User not found or not updated.");
           }
@@ -231,6 +241,15 @@ const getStorage = async (req, res) => {
 
 const deleteFile = async (req, res, next) => {
   try {
+    await loginToStorage();
+    const folder = storage.root.children.find(
+      (folder) => folder.name === req.user.email,
+    );
+    const filelist = await getStorageFilesinDetail(folder);
+
+    const fileToDelete = filelist.find((file) => file.name === req.params.name);
+    fileToDelete.delete();
+
     const user = await User.findOne({ email: req.user.email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -239,7 +258,7 @@ const deleteFile = async (req, res, next) => {
 
     await User.findOneAndUpdate(
       { email: req.user.email },
-      { $inc: { spaceUsed: -file.size / 1024 } },
+      { $inc: { spaceUsed: -file.size } },
     );
     user.files.pull(file);
     await user.save();

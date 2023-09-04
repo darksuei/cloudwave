@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 
 export default function UserInfo() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -48,6 +49,10 @@ export default function UserInfo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000)
     try {
       const updatedFields = {};
       for (const key in formData) {
@@ -58,7 +63,7 @@ export default function UserInfo() {
       if (Object.keys(updatedFields).length === 0) {
         return;
       }
-      await axios.patch(
+      const resonse = await axios.patch(
         `${process.env.REACT_APP_SERVER_URL}/api/update`,
         updatedFields,
         {
@@ -67,6 +72,12 @@ export default function UserInfo() {
           },
         },
       );
+      setLoading(false);
+      if (resonse.status === 200) {
+        alert("Personal information updated successfully.")
+      }else{
+        alert("Error updating personal information.");
+      }
     } catch (error) {
       console.error("Error updating user info:", error);
     }
@@ -93,7 +104,7 @@ export default function UserInfo() {
               name="firstname"
               className="w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               type="text"
-              value={user.firstname ? user.firstname : formData.firstname}
+              placeholder={user.firstname ? user.firstname : formData.firstname}
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -109,7 +120,7 @@ export default function UserInfo() {
               name="lastname"
               className="w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               type="text"
-              value={user.lastname ? user.lastname : formData.lastname}
+              placeholder={user.lastname ? user.lastname : formData.lastname}
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -132,7 +143,9 @@ export default function UserInfo() {
         </div>
         <div className="relative w-2/12 md:w-3/12">
           <button
-            className=" absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0 hover:bg-blue-600"
+            className= {`absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0 hover:bg-blue-600 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={(e) => handleSubmit(e)}
           >
             Save

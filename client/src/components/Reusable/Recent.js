@@ -327,7 +327,7 @@ export default function Recent({
                     <h2 className="break-all md:break-normal w-4/12 p-2 text-sm md:text-md">
                       {itemName(item)}
                     </h2>
-                    <p className="text-gray-400 text-xs md:text-sm w-2/12">
+                    <p className="text-gray-400 text-xs md:text-sm w-2/12 md:w-3/12">
                       {item.time}
                     </p>
                     <div
@@ -344,7 +344,7 @@ export default function Recent({
                   >
                     <button
                       type="button"
-                      className="inline-flex items-center p-1 focus:outline-none hover:bg-gray-100 hover:bg-slate-100"
+                      className="inline-flex items-center p-1 focus:outline-none hover:bg-gray-100 hover:bg-slate-100 rounded-2xl"
                       onClick={(e) => handleDropdownClick(item, e)}
                     >
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
@@ -400,7 +400,7 @@ export default function Recent({
             })
           : !loading && (
               <div className="text-2xl pt-6 text-center text-slate-400">
-                No {category} {category === "audio" && "files"} found
+                No {category ? category : 'files'} {category === "audio" && "files"} found
               </div>
             )}
       </div>

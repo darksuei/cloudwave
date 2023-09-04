@@ -39,12 +39,16 @@ transition: width 0.3s ease;
     min-height: 100vh;
 }
 
-#snap-x-mandatory {
-  scroll-snap-type: x mandatory;
-}
 
-#snap-x-mandatory > * {
-scroll-snap-align: start;
+
+@media (max-width: 900px) {
+  #snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  
+  #snap-x-mandatory > * {
+  scroll-snap-align: start;
+  }
 }
 
 @keyframes spin {
