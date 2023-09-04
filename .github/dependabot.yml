@@ -18,4 +18,4 @@ updates:
     labels:
       - 'dependencies'
       - 'dependabot'
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 6
