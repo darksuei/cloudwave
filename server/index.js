@@ -3,19 +3,15 @@ const app = express();
 const Config = require("./config");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const loginToStorage = require("./utils/loginToStorage")
-const {uploadToStorage} = require("./utils/Storage")
+const { loginToStorage } = require("./utils/loginToStorage")
+const { uploadToStorage } = require("./utils/Storage")
 const db = require("./utils/database");
 
 const userRouter = require("./routes/userRouter");
 const fileRouter = require("./routes/filesRouter");
 const errorMiddleware = require("./middleware/errorMiddleware");
 
-app.use(
-  cors({
-    origin: [Config.client, "http://localhost:3000"],
-  }),
-);
+app.use(cors());
 
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));
@@ -39,8 +35,8 @@ app.get("*", (req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.listen(Config.PORT, () => {
-  console.log(`Server is running on port ${Config.PORT}.`);
+app.listen(5000, () => {
+  console.log(`Server is running on port 5000.`);
 });
 
 module.exports = app;
