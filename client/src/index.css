@@ -5,9 +5,16 @@
 
 /* Your custom CSS styles go here */
 
+html{
+    scroll-behavior: smooth;
+}
+
 body{
     font-family: 'Ubuntu', sans-serif;
     position: relative;
+    scroll-behavior: smooth;
+    width: 100vw;
+    overflow-x: hidden;
 }
 .loading-bar-container {
     width: 100%;

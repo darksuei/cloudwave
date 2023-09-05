@@ -36,7 +36,7 @@ export default function UploadProgress() {
               <div className="flex flex-col w-10/12 justify-center gap-y-3 h-full">
                 <div className="flex flew-row items-center justify-between">
                   <div className="flex flex-row gap-x-2 items-center">
-                    <h3 className="text-blue-700 text-sm">{file.name.slice(0,18)+'..'}</h3>
+                    <h3 className="text-blue-700 text-sm">{file.name.slice(0,12)+'..'}</h3>
                   </div>
                   <p className="text-xs text-slate-400">
                     {Math.round(file.size / 1024) < 1024 * 1024

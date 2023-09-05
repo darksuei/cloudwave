@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 export default function FavFiles() {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
 
   const togglePreview = () => {
@@ -36,6 +37,7 @@ export default function FavFiles() {
         const favsData = await getData(authToken);
         if (favsData) {
           setData(favsData);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching files:", error);
@@ -70,9 +72,15 @@ export default function FavFiles() {
       </h1>
       <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 justify-center md:justify-start">
         {data.length === 0 ? (
-          <div className="w-full flex items-center justify-center h-12">
-            <Loading />
-          </div>
+            loading ? (
+              <div className="w-full flex items-center justify-center h-12">
+                <Loading />
+              </div>
+            ) : (
+              <div className="text-xl md:text-2xl pt-6 text-center text-slate-400">
+                No favorite files..
+              </div>
+            )
         ) : (
           data.map((item, idx) => {
             return (

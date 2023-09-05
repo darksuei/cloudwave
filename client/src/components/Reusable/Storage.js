@@ -68,8 +68,8 @@ export default function Storage({ width }) {
       } p-3 gap-y-3`}
     >
       <div className="text-sm flex flex-row justify-between">
-        <h1 className="text-blue-500 font-semibold">Your Storage</h1>
-        <p className="text-emerald-500">{spaceLeft}% left</p>
+        <h1 className="text-blue-500 font-extrabold text-xs">Your Storage</h1>
+        <p className="text-emerald-500 text-xs">{spaceLeft}% left</p>
       </div>
       <div className="text-xs text-blue-500">
         {usedSpace} {unit} OF 5 GB USED

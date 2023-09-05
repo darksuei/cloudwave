@@ -48,7 +48,7 @@ export default function LeftSideBar() {
 
       <nav
         className={`${
-          showMenu ? "flex w-6/12 left-0 top-0" : "hidden"
+          showMenu ? "flex w-7/12 left-0 top-0" : "hidden"
         } md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-xs md:text-sm font-semibold fixed md:relative z-40`} style={{height: height}}
       >
         <ul className="flex flex-col w-full relative">

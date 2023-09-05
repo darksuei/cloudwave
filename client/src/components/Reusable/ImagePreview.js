@@ -159,7 +159,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
             Personal
           </span>
         </div>
-        <div className="relative flex flex-row gap-x-1 md:gap-x-3 py-3">
+        <div className="relative flex flex-row gap-x-2 md:gap-x-3 py-3">
           <i
             className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300"
             onClick={(e) => handleShare(e, item)}
@@ -173,7 +173,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
             onClick={(e) => toggleDropDown(e)}
           ></i>
           {dropDown && (
-            <div className="origin-top-right absolute bottom-0 right-6 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+            <div className="origin-top-right absolute bottom-0 right-6 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
               <div
                 class="py-1 flex flex-col"
                 role="menu"
@@ -189,14 +189,14 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
                   <i className="fas fa-download text-xs text-blue-500"></i>
                 </button>
                 <button
-                  className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center"
+                  className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center text-left"
                   role="menuitem"
                   onClick={(e) => handleFav(e, item.name)}
                 >
                   <span>
                     {(item.isFavorite === false) | undefined
                       ? "Add to favorites"
-                      : "Remove"}
+                      : "Remove from favorites"}
                   </span>
                   <i
                     className={`fas fa-star text-xs ${

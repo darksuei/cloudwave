@@ -255,10 +255,10 @@ export function Categories(props) {
 
     setCategories(updatedCategoryData);
     const updatedFavs = categories.filter((cat) => cat.isFavorite === true);
-    FavCategory.setFavoriteCategory(updatedFavs);
-    Cookies.set("favoriteCategory", JSON.stringify(updatedFavs), {
-      expires: 1,
-    });
+    // FavCategory.setFavoriteCategory(updatedFavs);
+    // Cookies.set("favoriteCategory", JSON.stringify(updatedFavs), {
+    //   expires: 1,
+    // });
 
     if (favorites.includes(index)) {
       setFavorites(favorites.filter((itemIndex) => itemIndex !== index));

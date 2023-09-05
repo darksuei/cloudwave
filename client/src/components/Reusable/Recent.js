@@ -51,7 +51,7 @@ export default function Recent({
 
   function itemName(item) {
     if (viewportWidth < 500) {
-      return item.name.slice(0, 12) + "...";
+      return item.name.slice(0, 14) + "...";
     } else {
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
     }
@@ -274,13 +274,15 @@ export default function Recent({
   }, [fav]);
 
   async function handleFav(e, item) {
+    setLoadingScreen(true);
     e.preventDefault();
     e.stopPropagation();
-    setLoadingScreen(true)
     setFav(item);
     setDropdownState([]);
     setLoadingScreen(false);
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   }
 
   return (
@@ -374,18 +376,18 @@ export default function Recent({
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b text-left"
                             role="menuitem"
                             onClick={(e) => handleFav(e, item.name)}
                           >
                             <span>
                               {(item.isFavorite === false) | undefined
                                 ? "Add to favorites"
-                                : "Remove"}
+                                : "Remove from favorites"}
                             </span>
                             <i
-                              className={`fas fa-star text-sm text-white absolute right-2.5 ${
-                                item.isFavorite === true ? "favorite" : ""
+                              className={`fas fa-star text-sm  absolute right-2.5 ${
+                                item.isFavorite === true ? "text-amber-500" : "text-white"
                               }`}
                             ></i>
                           </button>
@@ -407,8 +409,8 @@ export default function Recent({
               );
             })
           : !loading && (
-              <div className="text-2xl pt-6 text-center text-slate-400">
-                No {category ? category : 'files'} {category === "audio" && "files"} found
+              <div className="text-xl md:text-2xl pt-6 text-center text-slate-400">
+                No {category ? category : 'files'} {category === "audio" && "files"} found..
               </div>
             )}
       </div>

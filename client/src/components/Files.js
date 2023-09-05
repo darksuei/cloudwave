@@ -12,7 +12,7 @@ export default function Files(props) {
   return (
     <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen">
       <LeftSideBar />
-      <div className="flex flex-col w-full md:w-10/12 py-8 items-center relative px-1 md:px-0">
+      <div className="flex flex-col w-full md:w-10/12 py-4 items-center relative px-1 md:px-0">
         <Search />
         <div className="w-full min-h-full">
           <Recent
