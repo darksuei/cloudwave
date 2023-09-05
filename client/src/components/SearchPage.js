@@ -3,12 +3,14 @@ import Recent from "./Reusable/Recent";
 import Search from "./Reusable/Search";
 import { useContext, useState, useEffect } from "react";
 import { LocationContext } from "../Contexts/LocationContext";
+import Loading from "./Reusable/Loading";
 import Cookies from "js-cookie";
 import axios from "axios";
 
 export default function Files() {
   const [data, setData] = useState([]);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const [loading, setLoading] = useState(true);
   const Location = useContext(LocationContext);
   Location.setLocation("search");
   const href = window.location.href;
@@ -19,6 +21,7 @@ export default function Files() {
       try {
         const response = await getData(authToken);
         setData(response);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -53,11 +56,10 @@ export default function Files() {
               title="Search Results"
               showAll={true}
               SearchResults={data}
-              notLoading={true}
             />
           ) : (
             <div className="text-2xl pt-6 text-center text-slate-400">
-              No results found
+              {loading ? <Loading /> : 'No results found'}
             </div>
           )}
         </div>

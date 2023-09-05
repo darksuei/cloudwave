@@ -69,7 +69,7 @@ export default function Login() {
         />
       </head>
       <form
-        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-11/12 md:w-7/12 shadow-md"
+        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-7/12 shadow-md"
         method="POST"
         onSubmit={(e) => handleSubmit(e)}
       >
@@ -103,7 +103,7 @@ export default function Login() {
             <input
               type="email"
               name="email"
-              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              className=" p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
               placeholder="Johndoe@email"
               value={formData.email}
               onChange={(e) => handleChange(e)}
@@ -120,7 +120,7 @@ export default function Login() {
             <input
               type="password"
               name="password"
-              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              className="p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
               placeholder="********"
               value={formData.password}
               onChange={(e) => handleChange(e)}
@@ -130,7 +130,7 @@ export default function Login() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm ${
+              className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-7 rounded-md focus:ring focus:ring-indigo-300 transition text-sm ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}

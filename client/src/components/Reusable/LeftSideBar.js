@@ -10,6 +10,8 @@ export default function LeftSideBar() {
   const [showMenu, setShowMenu] = useState(false);
   const Location = useContext(LocationContext);
 
+  const height = window.innerHeight;
+
   function toggleMenu(e) {
     e.stopPropagation();
     setShowMenu(!showMenu);
@@ -47,7 +49,7 @@ export default function LeftSideBar() {
       <nav
         className={`${
           showMenu ? "flex w-6/12 left-0 top-0" : "hidden"
-        } md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-xs md:text-sm font-semibold fixed md:relative h-screen z-40`}
+        } md:flex md:w-3/12 lg:w-2/12 bg-blue-700 text-white text-xs md:text-sm font-semibold fixed md:relative z-40`} style={{height: height}}
       >
         <ul className="flex flex-col w-full relative">
           <Avatar size={"text-6xl"} />
@@ -59,7 +61,7 @@ export default function LeftSideBar() {
                   Location.location === "settings"
                     ? "bg-blue-900"
                     : ""
-                } px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-home"></i>
@@ -71,19 +73,20 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "shared" ? "bg-blue-900" : ""
-                } px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-share-alt"></i>
                 </div>
-                My Files
+                <span className="md:hidden inline">Files</span>
+                <span className="md:inline hidden">My Files</span>
               </li>
             </a>
             <a href="/favorites">
               <li
                 className={`${
                   Location.location === "favorites" ? "bg-blue-900" : ""
-                } px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-star"></i>
@@ -91,34 +94,23 @@ export default function LeftSideBar() {
                 Favorites
               </li>
             </a>
-            <a href="/upload" className="md:hidden block">
+            <a href="/upload">
               <li
                 className={`${
                   Location.location === "upload" ? "bg-blue-900" : ""
-                } px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-upload"></i>
                 </div>
-                Upload
-              </li>
-            </a>
-            <a href="/upload" className="hidden md:block">
-              <li
-                className={`${
-                  Location.location === "upload" ? "bg-blue-900" : ""
-                } px-12 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800`}
-              >
-                <div className="p-1 w-5">
-                  <i className="fas fa-upload"></i>
-                </div>
-                Upload Files
+                <span className="md:hidden inline">Upload</span>
+                <span className="hidden md:inline">Upload Files</span>
               </li>
             </a>
           </div>
           <div className="absolute bottom-3.5 w-full">
             <a href="/settings">
-              <li className="px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800">
+              <li className="px-10 md:px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800">
                 <div className="p-1 w-5">
                   <i className="fas fa-cog"></i>
                 </div>

@@ -13,8 +13,8 @@ export default function Recent({
   showAll,
   category,
   SearchResults,
-  notLoading,
   padding,
+  headerPadding
 }) {
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
@@ -51,7 +51,7 @@ export default function Recent({
 
   function itemName(item) {
     if (viewportWidth < 500) {
-      return item.name.slice(0, 8) + "...";
+      return item.name.slice(0, 12) + "...";
     } else {
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
     }
@@ -286,14 +286,14 @@ export default function Recent({
   return (
     <div
       className={`h-full flex gap-y-4 flex-col p-12 ${
-        padding ? padding : "px-4"
+        padding ? padding : "px-0 md:px-4"
       } md:px-12 py-4 w-full`}
     >
       {loadingScreen && <LoadingScreen />}
       {share && (
         <SharePopUp isOpen={share} link={link} width={"w-11/12 md:w-4/12"} />
       )}
-      <h1 className="text-blue-700 text-xl font-extrabold">{title}</h1>
+      <h1 className={`text-blue-700 text-xl font-extrabold ${headerPadding && headerPadding}`}>{title}</h1>
       <div className={`flex flex-col gap-y-2.5`}>
         {loading && <Loading />}
         {data.length > 0
@@ -307,18 +307,18 @@ export default function Recent({
                   {showPreview.includes(item) && (
                     <div className="absolute top-0 left-0 flex justify-center items-center w-full h-screen z-50">
                       <div
-                        className={`flex p-8 bg-slate-100 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
+                        className={`flex p-5 md:p-8 bg-slate-400 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
                       >
                         <button
-                          className="absolute top-2 right-2 text-white"
+                          className="absolute top-1 right-1 text-white"
                           onClick={(e) => {
                             togglePreview(item, e);
                           }}
                         >
-                          <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
+                          <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
                         </button>
                         <ImagePreview
                           showImg={false}
@@ -332,12 +332,12 @@ export default function Recent({
                     <i className="fas fa-image text-white text-sm"></i>
                   </div>
                   <div className="flex flex-row w-9/12 justify-between items-center">
-                    <h2 className="break-all md:break-normal w-4/12 p-2 text-sm md:text-md">
+                    <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
                       {itemName(item)}
                     </h2>
-                    <p className="text-gray-400 text-xs md:text-sm w-2/12 md:w-3/12">
-                      {item.time}
-                    </p>
+                    {/* <p className={`text-gray-400 text-xs md:text-sm ${SearchResults ? 'w-0/12' : 'w-2/12'} md:w-3/12`}>
+                      {!SearchResults && item.time}
+                    </p> */}
                     <div
                       className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
                       onClick={(e) => handleShare(e, item)}
@@ -358,7 +358,7 @@ export default function Recent({
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                     </button>
                     {dropdownState.includes(item) && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
                           class="py-1 flex flex-col"
                           role="menu"
@@ -366,15 +366,15 @@ export default function Recent({
                           aria-labelledby="options-menu"
                         >
                           <button
-                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 py-2 relative text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleDownload(e, item)}
                           >
                             <span>Download</span>
-                            <i className="fas fa-download text-xs text-blue-500"></i>
+                            <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                           <button
-                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleFav(e, item.name)}
                           >
@@ -384,19 +384,19 @@ export default function Recent({
                                 : "Remove"}
                             </span>
                             <i
-                              className={`fas fa-star text-xs ${
+                              className={`fas fa-star text-sm text-white absolute right-2.5 ${
                                 item.isFavorite === true ? "favorite" : ""
                               }`}
                             ></i>
                           </button>
                           <button
-                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center"
                             role="menuitem"
                             onClick={(e) => handleDelete(e, item.name)}
                           >
                             <span>Delete</span>
                             <i
-                              className={`fas fa-trash text-xs text-red-700`}
+                              className={`fas fa-trash text-xs text-red-700 absolute right-3`}
                             ></i>
                           </button>
                         </div>

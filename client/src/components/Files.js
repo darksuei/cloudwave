@@ -23,6 +23,7 @@ export default function Files(props) {
             }
             showAll={true}
             category={category}
+            padding={'px-4'}
           />
         </div>
       </div>

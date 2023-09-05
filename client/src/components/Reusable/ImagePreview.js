@@ -135,7 +135,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
   }
   return (
     <div
-      className={`relative z-50 flex flex-col w-full ${
+      className={`relative z-50 flex flex-col w-full bg-slate-400 ${
         showImg ? "h-4/5" : "h-full"
       }`}
     >
@@ -144,32 +144,32 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
         <SharePopUp
           isOpen={share}
           link={link}
-          width={"w-full md:4/12 lg:w-6/12"}
+          width={"w-full md:w-4/12 lg:w-6/12"}
         />
       )}
-      <div className="relative h-full flex items-center justify-center w-full bg-gray-200 rounded-lg">
+      <div className="relative h-full flex items-center justify-center w-full bg-gray-300 rounded-lg">
         <i className="fas fa-image text-gray-400 text-6xl"></i>
         {/* <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> */}
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
-          <h1 className="text-blue-500 font-black text-lg">{item.name}</h1>
+          <h1 className="text-blue-600 font-black text-lg">{item.name.slice(0,13)+'..'}</h1>
           <p className="text-xs text-gray-400">{item.time.toUpperCase()}</p>
-          <span className="text-sm bg-emerald-100 text-emerald-500 flex items-center rounded-xl px-4 w-fit">
+          <span className="text-sm bg-emerald-200 text-emerald-600 flex items-center rounded-xl px-4 w-fit">
             Personal
           </span>
         </div>
-        <div className="relative flex flex-row gap-x-3 py-3">
+        <div className="relative flex flex-row gap-x-1 md:gap-x-3 py-3">
           <i
-            className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200"
+            className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300"
             onClick={(e) => handleShare(e, item)}
           ></i>
           <i
-            className="fas fa-trash text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200 text-red-700"
+            className="fas fa-trash text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300 text-red-700"
             onClick={(e) => handleDelete(e)}
           ></i>
           <i
-            className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-200"
+            className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300"
             onClick={(e) => toggleDropDown(e)}
           ></i>
           {dropDown && (
