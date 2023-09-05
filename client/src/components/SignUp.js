@@ -17,7 +17,7 @@ export default function SignUp() {
     setLoading(!loading);
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 9000);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;

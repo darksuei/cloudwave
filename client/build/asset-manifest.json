@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.870d5bea.css",
-    "main.js": "/static/js/main.ee3c5dfe.js",
+    "main.js": "/static/js/main.b57581d5.js",
     "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.d75e3fd1eb12e9bd6655.ttf",
     "static/media/Cloudwavehome.jpeg": "/static/media/Cloudwavehome.ebf934a0e4780ae91eb6.jpeg",
     "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.016b4a6cdced82ab3aa1.ttf",
@@ -13,10 +13,10 @@
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.1bac2991f3dbfa237aec.woff2",
     "index.html": "/index.html",
     "main.870d5bea.css.map": "/static/css/main.870d5bea.css.map",
-    "main.ee3c5dfe.js.map": "/static/js/main.ee3c5dfe.js.map"
+    "main.b57581d5.js.map": "/static/js/main.b57581d5.js.map"
   },
   "entrypoints": [
     "static/css/main.870d5bea.css",
-    "static/js/main.ee3c5dfe.js"
+    "static/js/main.b57581d5.js"
   ]
 }

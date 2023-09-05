@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const Config = require("./config");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { loginToStorage } = require("./utils/loginToStorage")
