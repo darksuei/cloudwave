@@ -35,9 +35,9 @@ export default function UploadProgress() {
 
   return (
     data.length >= 1 && (
-      <div className="bg-white w-full md:8/12 lg:w-7/12 flex items-center flex-col rounded-xl p-7 gap-y-5">
-        <div className="text-blue-700 flex flex-row items-center gap-x-3">
-          <h1 className="font-black text-md">Uploaded</h1>
+      <div className="bg-white w-full md:8/12 lg:w-7/12 flex items-center flex-col rounded-xl p-4 md:p-7 gap-y-5">
+        <div className="text-blue-600 flex flex-row items-center gap-x-3">
+          <h1 className="font-black text-lg">Uploaded</h1>
         </div>
         {data.map((file, index) => {
           return (

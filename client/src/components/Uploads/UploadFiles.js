@@ -3,6 +3,7 @@ import { UploadContext } from "../../Contexts/UploadContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import LoadingScreen from "../Reusable/LoadingScreen";
+import '../../index.css'
 
 export default function UploadFiles() {
   const [highlight, setHighlight] = useState(false);
@@ -85,9 +86,9 @@ export default function UploadFiles() {
   return (
     <div className="flex flex-col p-4 items-center bg-white w-full md:w-8/12 lg:w-7/12 rounded-lg gap-y-5">
       {loadingScreen && <LoadingScreen />}
-      <h1 className="text-2xl text-blue-500 font-black py-2">Upload Files</h1>
+      <h1 className="text-xl md:text-2xl text-blue-600 font-black py-1 md:py-2">Upload Files</h1>
       <div
-        className={`flex flex-col w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300
+        className={`flex flex-col w-full md:w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer md:hover:transform md:hover:scale-105 transition-transform duration-300 noSelect
             ${highlight ? " border-2 border-blue-500 " : ""}`}
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
@@ -101,7 +102,7 @@ export default function UploadFiles() {
               Drag and drop your files here
             </p>
             <p className="text-xs text-gray-500">or</p>
-            <button className="w-10/12 md:w-fit text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white relative overflow-hidden">
+            <button className="w-10/12 md:w-fit text-xs md:text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white hover:w-11/12 relative overflow-hidden">
               <span className="relative z-10 hidden md:block">
                 Choose a file from your computer
               </span>

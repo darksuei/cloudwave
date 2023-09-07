@@ -24,7 +24,7 @@ export default function Search(props) {
   }, [searchQuery]);
 
   return (
-    <div className="bg-white w-9/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md noSelect">
+    <div className="bg-white w-9/12 md:w-10/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md noSelect">
       <i
         className="fa fas fa-search text-gray-400 text-lg cursor-pointer"
         aria-hidden="true"

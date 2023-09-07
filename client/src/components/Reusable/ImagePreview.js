@@ -5,10 +5,12 @@ import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
 import '../../index.css'
 
-export default function ImagePreview({ showImg, imageUrl, item }) {
+export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
   const [fav, setFav] = useState("");
   const [allowDownload, setAllowDownload] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(false); 
+  const [renameFile, setRenameFile] = useState(false);
+  const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -128,6 +130,30 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
     setSelectedItemData(item.name);
   }
 
+  const handleRename = async (e, name) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`,
+        {
+          newName: newName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setRenameFile(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error renaming file:', error);
+    }
+  };
+
   async function handleFav(e, itemname) {
     e.preventDefault();
     e.stopPropagation();
@@ -171,12 +197,32 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
         />
       )}
       <div className="relative h-full flex items-center justify-center w-full bg-gray-300 rounded-lg">
-        <i className="fas fa-image text-gray-400 text-6xl"></i>
+        <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i>
         {/* <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> */}
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
-          <h1 className="text-blue-600 font-black text-lg">{itemName(item)}</h1>
+          <span className="flex flex-row gap-x-2 items-center">
+            <i className="fas fa-star text-amber-500 text-lg"></i>
+            { renameFile === true ? (
+                    <input
+                      type="text"
+                      className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                      autoFocus
+                      onBlur={() => setRenameFile(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleRename(e, item.name);
+                        }
+                      }}
+                    />
+                  ) : (
+            <h1 className="text-blue-600 font-black text-lg">{itemName(item)}</h1>
+                  )}
+          </span>
           <p className="text-xs text-gray-400">{item.time.toUpperCase()}</p>
           <span className="text-sm bg-emerald-200 text-emerald-600 flex items-center rounded-xl px-4 w-fit">
             Personal
@@ -203,6 +249,21 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"
               >
+                <button
+                  className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                  role="menuitem"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDropDown(false);
+                    setRenameFile(true)
+                  }}
+                >
+                  <span>Rename</span>
+                  <i
+                    className={`fas fa-pen text-xs text-slate-700 absolute right-3`}
+                  ></i>
+                </button>
                 <button
                   className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
                   role="menuitem"

@@ -7,7 +7,7 @@ import { Categories } from "../Reusable/utils";
 export default function Main() {
   return (
     <div className="flex flex-col w-full md:w-7/12 py-4 items-center gap-y-5">
-      <span className="flex justify-end w-full pr-3">
+      <span className="flex justify-end md:justify-center w-full pr-3">
         <Search />
       </span>
       <DragDrop />
