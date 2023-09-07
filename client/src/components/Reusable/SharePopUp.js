@@ -25,9 +25,9 @@ export default function SharePopUp({ link, isOpen, width }) {
 
   return (
     close && (
-      <div className="h-screen w-full absolute top-0 left-0 z-50">
+      <div className="h-screen w-full fixed flex items-center justify-center top-0 left-0 z-50">
         <div
-          className={`${width} bg-white rounded-2xl relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full z-50 p-5 flex flex-col gap-y-5 shadow-md border z-50`}
+          className={`${width} bg-white rounded-2xl relative z-50 p-5 flex flex-col gap-y-5 shadow-md border z-50`}
           onClick={(e) => {
             e.stopPropagation();
           }}

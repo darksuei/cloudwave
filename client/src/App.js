@@ -14,6 +14,7 @@ import SearchPage from "./components/SearchPage";
 import SignUp from "./components/SignUp";
 import Login from "./components/Reusable/Login";
 import Cookies from "js-cookie";
+import GeneralPreview from "./components/GeneralPreview";
 
 function App() {
   const [location, setLocation] = useState("home");
@@ -124,6 +125,7 @@ function App() {
               />
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
+              <Route exact path="/preview/*" Component={GeneralPreview} />
               <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </Router>

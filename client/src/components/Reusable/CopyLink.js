@@ -9,9 +9,10 @@ const CopyLinkBox = ({ mylink }) => {
     textField.innerText = link;
     document.body.appendChild(textField);
     textField.select();
-    document.execCommand("copy");
-    textField.remove();
-    setCopied(true);
+    navigator.clipboard.writeText(mylink).then(() => {
+      textField.remove();
+      setCopied(true);
+    })
   };
 
   return (
