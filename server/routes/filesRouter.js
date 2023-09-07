@@ -13,6 +13,7 @@ const {
   getFavs,
   getImage,
   toggleFav,
+  getFileFromCrypt
 } = require("../controllers/filesController");
 
 const filesRouter = Router();
@@ -46,5 +47,7 @@ filesRouter.patch("/updatefav/:name", authenticate, toggleFav);
 filesRouter.get("/storage", authenticate, getStorage);
 
 filesRouter.get("/image/:name", authenticate, getImage);
+
+filesRouter.get('/decryptfile/:hash', getFileFromCrypt )
 
 module.exports = filesRouter;

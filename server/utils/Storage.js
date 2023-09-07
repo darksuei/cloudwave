@@ -67,16 +67,7 @@ const uploadToStorage = (name, filepath, folder) => {
           console.error("Error uploading file:", err);
           return reject(err);
         }
-
-        file
-          .link()
-          .then((link) => {
-            resolve(link);
-          })
-          .catch((linkError) => {
-            console.error("Error generating link:", linkError);
-            reject(linkError);
-          });
+        resolve(file);
       });
     });
   });

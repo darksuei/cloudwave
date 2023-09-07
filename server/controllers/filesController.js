@@ -2,9 +2,11 @@ const { storage, loginToStorage } = require("../utils/loginToStorage");
 
 const { uploadToStorage, getStorageFiles, getStorageFilesinDetail } = require("../utils/Storage");
 
-const { formatDateLabel, getCategoryFromFileName, getCategoryIcon } = require("../utils/utils");
+const { formatDateLabel, getCategoryFromFileName, getCategoryIcon, linkHash, deLinkHash } = require("../utils/utils");
 
 const errorMiddleware = require("../middleware/errorMiddleware");
+
+(require("dotenv")).config();
 
 const User = require("../models/userSchema");
 
@@ -164,6 +166,9 @@ const uploadFile = async (req, res, next) => {
       let status = await uploadToStorage(file.originalname, file.path, folder);
       if (!status)
         return res.status(400).json({ message: "Error uploading file" });
+      console.log(typeof file.originalname, file.originalname)
+
+      const link = process.env.CLIENT_URL + '/preview/' + await linkHash(file.originalname);
 
       await User.findOneAndUpdate(
         { email: req.user.email },
@@ -175,7 +180,7 @@ const uploadFile = async (req, res, next) => {
               category: getCategoryFromFileName(file.originalname),
               size: file.size / 1024,
               isFavorite: false,
-              link: status,
+              link: link
             },
           },
 
@@ -372,23 +377,39 @@ const getImage = async (req, res, next) => {
       (file) => file.name == req.params.name,
     );
     if (!filename) return res.status(404).json({ message: "File not found." });
-    const fileurl = filename.link;
+    res.status(200).json({ message: "Success" });
+    // const fileurl = filename.link;
 
-    const file = File.fromURL(fileurl);
-    await file.loadAttributes();
-    const stream = file.download();
-    res.setHeader("Content-Type", "image/jpeg");
+    // const file = File.fromU
+    // await file.loadAttributes();
+    // const stream = file.download();
+    // res.setHeader("Content-Type", "image/jpeg");
 
-    stream.on("error", (error) => {
-      console.error(error);
-      res.status(500).json({ message: "An error occurred" });
-    });
+    // stream.on("error", (error) => {
+    //   console.error(error);
+    //   res.status(500).json({ message: "An error occurred" });
+    // });
 
-    stream.pipe(res);
+    // stream.pipe(res);
   } catch (err) {
     next(err);
   }
 };
+
+const getFileFromCrypt = async (req, res, next) => {
+  try{
+    const filehash = req.params.hash;
+    const decryptedFileName = await deLinkHash(filehash);
+    const user = await User.findOne({"files.name" : decryptedFileName})
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const file = await user.files.find((file) => file.name == decryptedFileName);
+    if (!file) return res.status(404).json({ message: "File not found." });
+    file.time = formatDateLabel(file.date);
+    res.status(200).json({message: "Success", file});
+  }catch(err){
+    next(err);
+  }
+}
 
 module.exports = {
   getAllFiles,
@@ -403,4 +424,5 @@ module.exports = {
   renameFile,
   getImage,
   getSingleFile,
+  getFileFromCrypt
 };
