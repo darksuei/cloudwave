@@ -40,8 +40,8 @@ export default function LeftSideBar() {
         <img
           src={Hamburger}
           alt="Menu"
-          width={25}
-          className="block fixed top-7 left-6 md:hidden z-50"
+          width={20}
+          className="block fixed top-6 left-6 md:hidden z-50"
           onClick={(e) => toggleMenu(e)}
         />
       )}
