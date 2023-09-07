@@ -303,7 +303,7 @@ export function Categories(props) {
                       )}
                     </div>
                   ) : (
-                    <div className="w-40 md:w-full flex flex-row items-center p-3.5">
+                    <div className="w-40 md:w-full flex flex-row items-center p-3.5 lg:px-5">
                       <div className="flex gap-y-1.5 flex-col w-8/12 h-20">
                         <i
                           className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}

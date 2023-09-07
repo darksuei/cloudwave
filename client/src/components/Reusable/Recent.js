@@ -344,7 +344,7 @@ export default function Recent({
                         }}
                       >
                         <button
-                          className="absolute top-1 right-1 text-white"
+                          className="absolute top-1 right-1 md:top-2 md:right-2 text-white"
                           onClick={(e) => {
                             togglePreview(item, e);
                           }}
@@ -360,7 +360,7 @@ export default function Recent({
                     </div>
                   )}
                   <div className="bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center">
-                    <i className={`fas ${item.icon} text-white text-sm`}></i> 
+                    <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-white text-sm`}></i> 
                   </div>
                   { renameFile === true ? (
                     <input
@@ -404,7 +404,7 @@ export default function Recent({
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                     </button>
                     {dropdownState.includes(item) && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="origin-top-right absolute right-0 mt-2 w-36 md:w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
                           class="py-1 flex flex-col"
                           role="menu"

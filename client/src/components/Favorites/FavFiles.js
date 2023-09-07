@@ -7,12 +7,13 @@ import Cookies from "js-cookie";
 
 export default function FavFiles() {
   const [data, setData] = useState([]);
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
 
-  const togglePreview = () => {
-    setShowPreview(!showPreview);
+  const togglePreview = (e,item) => {
+    e.stopPropagation();
+    setShowPreview(item);
   };
 
   const getData = async (authToken) => {
@@ -30,6 +31,17 @@ export default function FavFiles() {
       console.error("Files error:", error);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      setShowPreview(null);
+    });
+    return () => {
+      document.removeEventListener("click", (e) => {
+        setShowPreview(null);
+      })
+    }
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,20 +64,29 @@ export default function FavFiles() {
   return (
     <div className={`w-full p-2.5`}>
       {showPreview && (
-        <div className="flex p-8 bg-white absolute w-11/12 md:w-9/12 h-4/6 rounded-xl top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3 border">
+        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
+        <div
+          className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <button
-            className="absolute top-2 right-2 text-white"
-            onClick={togglePreview}
+            className="absolute top-1 right-1 md:top-2 md:right-2 text-white"
+            onClick={(e) => {
+              setShowPreview(null);
+            }}
           >
-            <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>
+            <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
           </button>
           <ImagePreview
+            showImg={false}
             imageUrl={Cloudwavehome}
-            fileCategory={"Personal"}
-            uploadDate={"JUNE 1, 2022"}
-            togglePreview={togglePreview}
+            item={showPreview}
+            favorite={true}
           />
         </div>
+      </div>
       )}
       <h1 className="text-blue-500 font-black text-xl md:text-2xl py-3">
         Favorite Files
@@ -77,7 +98,7 @@ export default function FavFiles() {
                 <Loading />
               </div>
             ) : (
-              <div className="text-xl md:text-2xl pt-6 text-center text-slate-400">
+              <div className="text-xl md:text-2xl pt-6 text-center text-slate-400 w-full">
                 No favorite files..
               </div>
             )
@@ -87,10 +108,10 @@ export default function FavFiles() {
               <div
                 className="flex flex-col bg-white p-3 rounded-lg w-9/12 md:w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer"
                 key={idx}
-                onClick={() => togglePreview()}
+                onClick={(e) => togglePreview(e,item)}
               >
                 <div className="h-24 w-full flex items-center justify-center bg-slate-200">
-                  <i className="fas fa-image text-gray-500 text-3xl"></i>
+                  <i className="fas fa-file-alt text-gray-500 text-3xl"></i>
                 </div>
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-col gap-y-1.5">
