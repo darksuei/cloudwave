@@ -2,7 +2,7 @@ const { storage, loginToStorage } = require("../utils/loginToStorage");
 
 const { uploadToStorage, getStorageFiles, getStorageFilesinDetail } = require("../utils/Storage");
 
-const { formatDateLabel, getCategoryFromFileName } = require("../utils/utils");
+const { formatDateLabel, getCategoryFromFileName, getCategoryIcon } = require("../utils/utils");
 
 const errorMiddleware = require("../middleware/errorMiddleware");
 
@@ -105,6 +105,7 @@ const getAllFiles = async (req, res, next) => {
             time: formatDateLabel(time),
             isFavorite: fileItem.isFavorite,
             category: fileItem.category,
+            icon: getCategoryIcon(fileItem.category),
           });
         }
       }

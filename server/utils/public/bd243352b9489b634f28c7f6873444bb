@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Image Vision Demo</title>
+</head>
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center h-screen">
+        <form class="bg-white p-8 rounded-lg shadow-lg" id="form">
+            <h1 class="text-2xl font-bold mb-4">Welcome to Image Vision 🚀</h1>
+            <label for="image" class="block mb-2 text-gray-800 text-sm"><em>Select an image and click submit: </em></label>
+            <input type="file" name="image" id="image" class="block w-full border rounded-lg py-2 px-3 mb-4 focus:outline-none focus:ring focus:border-blue-300">
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 cursor-pointer" id="submitBtn">
+                Submit
+            </button>
+            <div id="result"></div>
+        </form>
+        <script src="./index.js"></script>
+</body>
+</html>

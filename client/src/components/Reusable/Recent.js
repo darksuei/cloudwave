@@ -219,7 +219,7 @@ export default function Recent({
       );
       if (response.status === 200) {
         setRenameFile(false);
-        setReFetch(!reFetch);
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error renaming file:', error);
@@ -360,7 +360,7 @@ export default function Recent({
                     </div>
                   )}
                   <div className="bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center">
-                    <i className="fas fa-image text-white text-sm"></i>
+                    <i className={`fas ${item.icon} text-white text-sm`}></i> 
                   </div>
                   { renameFile === true ? (
                     <input
@@ -404,7 +404,7 @@ export default function Recent({
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                     </button>
                     {dropdownState.includes(item) && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
                           class="py-1 flex flex-col"
                           role="menu"

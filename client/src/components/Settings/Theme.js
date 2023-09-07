@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export default function Theme() {
   const [selectedTheme, setSelectedTheme] = useState("light");
 
   const handleThemeChange = (theme) => {
     setSelectedTheme(theme);
+    Cookies.set("theme", theme, { expires: 1 });
   };
 
   return (

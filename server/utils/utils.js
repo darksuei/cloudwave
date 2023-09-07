@@ -43,4 +43,23 @@ const getCategoryFromFileName = (file) => {
   return "documents";
 };
 
-module.exports = { formatDateLabel, getCategoryFromFileName };
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case "pictures": {
+      return "fa-image";
+    }
+    case "audio": {
+      return "fa-headphones";
+    }
+    case "videos": {
+      return "fa-video";
+    }
+    case "documents": {
+      return "fa-file-alt";
+    }
+    default: {
+      return "fa-file-alt";
+    };
+  }
+}
+module.exports = { formatDateLabel, getCategoryFromFileName, getCategoryIcon };
