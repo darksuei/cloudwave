@@ -19,7 +19,7 @@ export default function Main() {
         />
       </div>
       <Recent title={"Recently Uploaded"} padding={"px-3"} headerPadding={'pl-3 md:pl-0'} />
-      <div className="md:hidden w-11/12 h-fit p-3 bg-white rounded-2xl flex justify-center">
+      <div className="md:hidden w-11/12 h-fit p-2.5 bg-white rounded-2xl flex justify-center">
         <Storage />
       </div>
     </div>

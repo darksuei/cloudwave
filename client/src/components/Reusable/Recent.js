@@ -28,6 +28,9 @@ export default function Recent({
   const [link, setLink] = useState("");
   const [fav, setFav] = useState("");
   const [loading, setLoading] = useState(true);
+  const [renameFile, setRenameFile] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [reFetch, setReFetch] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   let api;
 
@@ -51,6 +54,7 @@ export default function Recent({
 
   function itemName(item) {
     if (viewportWidth < 500) {
+      if (item.name.length < 11) return item.name;
       return item.name.slice(0, 14) + "...";
     } else {
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
@@ -98,7 +102,7 @@ export default function Recent({
       fetchData();
     }
     return () => {};
-  }, [authToken]);
+  }, [authToken, reFetch]);
 
 
   const togglePreview = async (item, e) => {
@@ -197,6 +201,31 @@ export default function Recent({
     setAllowDownload(true);
     setSelectedItemData(item.name);
   }
+
+  const handleRename = async (e, name) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`,
+        {
+          newName: newName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setRenameFile(false);
+        setReFetch(!reFetch);
+      }
+    } catch (error) {
+      console.error('Error renaming file:', error);
+    }
+  };
+
   // TODO INBUILT DOWNLOAD FILE
   // const handleDownload = async () => {
   //     e.preventDefault();
@@ -277,19 +306,19 @@ export default function Recent({
     setLoadingScreen(true);
     e.preventDefault();
     e.stopPropagation();
-    setFav(item);
-    setDropdownState([]);
+    setFav(item.name);
+    setDropdownState(
+      dropdownState.filter((itemIndex) => itemIndex !== item),
+    );
     setLoadingScreen(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    window.location.reload();
   }
 
   return (
     <div
       className={`h-full flex gap-y-4 flex-col p-12 ${
         padding ? padding : "px-0 md:px-4"
-      } md:px-12 py-4 w-full`}
+      } md:px-12 py-4 w-full`} id="recents"
     >
       {loadingScreen && <LoadingScreen />}
       {share && (
@@ -302,14 +331,14 @@ export default function Recent({
           ? data.map((item) => {
               return (
                 <div
-                  className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md`}
+                  className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md noSelect`}
                   onClick={(e) => togglePreview(item, e)}
                   key={item.id}
                 >
                   {showPreview.includes(item) && (
-                    <div className="absolute top-0 left-0 flex justify-center items-center w-full h-screen z-50">
+                    <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
                       <div
-                        className={`flex p-5 md:p-8 bg-slate-400 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
+                        className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
@@ -333,20 +362,35 @@ export default function Recent({
                   <div className="bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center">
                     <i className="fas fa-image text-white text-sm"></i>
                   </div>
-                  <div className="flex flex-row w-9/12 justify-between items-center">
-                    <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
-                      {itemName(item)}
-                    </h2>
-                    {/* <p className={`text-gray-400 text-xs md:text-sm ${SearchResults ? 'w-0/12' : 'w-2/12'} md:w-3/12`}>
-                      {!SearchResults && item.time}
-                    </p> */}
-                    <div
-                      className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
-                      onClick={(e) => handleShare(e, item)}
-                    >
-                      <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
-                    </div>
+                  { renameFile === true ? (
+                    <input
+                      type="text"
+                      className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                      autoFocus
+                      onBlur={() => setRenameFile(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          setDropdownState([])
+                          handleRename(e, item.name);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="flex flex-row w-9/12 justify-between items-center">
+                      <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
+                        {itemName(item)}
+                      </h2>
+                      <div
+                        className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
+                        onClick={(e) => handleShare(e, item)}
+                      >
+                        <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
+                      </div>
                   </div>
+                  ) }
                   <div
                     className={`${
                       showPreview.includes(item) ? " " : "relative"
@@ -360,7 +404,7 @@ export default function Recent({
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                     </button>
                     {dropdownState.includes(item) && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
                           class="py-1 flex flex-col"
                           role="menu"
@@ -368,7 +412,23 @@ export default function Recent({
                           aria-labelledby="options-menu"
                         >
                           <button
-                            className="px-4 py-2 relative text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            role="menuitem"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setDropdownState(
+                                dropdownState.filter((itemIndex) => itemIndex !== item),
+                              );
+                              setRenameFile(true)}}
+                          >
+                            <span>Rename</span>
+                            <i
+                              className={`fas fa-pen text-xs text-slate-700 absolute right-3`}
+                            ></i>
+                          </button>
+                          <button
+                            className="px-4 py-2 relative text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleDownload(e, item)}
                           >
@@ -376,9 +436,9 @@ export default function Recent({
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b text-left"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b text-left"
                             role="menuitem"
-                            onClick={(e) => handleFav(e, item.name)}
+                            onClick={(e) => handleFav(e, item)}
                           >
                             <span>
                               {(item.isFavorite === false) | undefined
@@ -392,7 +452,7 @@ export default function Recent({
                             ></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
                             role="menuitem"
                             onClick={(e) => handleDelete(e, item.name)}
                           >

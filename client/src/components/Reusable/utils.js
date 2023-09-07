@@ -90,7 +90,7 @@ export default function DragDrop() {
         <i className="fas fa-upload text-indigo-500 text-3xl"></i>
         <p className="text-gray-400 text-sm font-semibold">
         <span className="hidden md:inline">Drag and drop files here</span>
-          <a href="/upload" className="inline md:hidden underline font-black text-md">
+          <a href="/upload" className="inline md:hidden underline font-black text-md noSelect">
             Choose a file to Upload
           </a>
         </p>
@@ -254,17 +254,11 @@ export function Categories(props) {
     );
 
     setCategories(updatedCategoryData);
-    const updatedFavs = categories.filter((cat) => cat.isFavorite === true);
-    // FavCategory.setFavoriteCategory(updatedFavs);
-    // Cookies.set("favoriteCategory", JSON.stringify(updatedFavs), {
-    //   expires: 1,
-    // });
-
-    if (favorites.includes(index)) {
-      setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
-    } else {
-      setFavorites([...favorites, index]);
-    }
+      if (favorites.includes(index)) {
+        setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
+      } else {
+        setFavorites([...favorites, index]);
+      }
   };
 
   return (
@@ -278,7 +272,7 @@ export function Categories(props) {
                 <a
                   href={category.href || "/files"}
                   key={index}
-                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}
+                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300 noSelect`}
                 >
                   {category.noIcons ? (
                     <div
@@ -314,11 +308,13 @@ export function Categories(props) {
                         <i
                           className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
                         ></i>
-                        <div className="text-white font-bold text-sm">
+                        <div className="text-white font-bold text-xs md:text-sm">
                           {category.title}
                         </div>
-                        <div className="text-xs text-gray-200 w-full">
-                          {category.count} files
+                        <div className="text-xs text-gray-200 w-full italic">
+                          {category.count > 1 && category.count + ' files'}
+                          {category.count == 1 && category.count + ' file'}
+                          {category.count === 0 && 'Empty'}
                         </div>
                       </div>
                       <i

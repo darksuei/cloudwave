@@ -3,6 +3,7 @@ import SharePopUp from "./SharePopUp";
 import Cookies from "js-cookie";
 import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
+import '../../index.css'
 
 export default function ImagePreview({ showImg, imageUrl, item }) {
   const [fav, setFav] = useState("");
@@ -12,9 +13,22 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
   const [share, setShare] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [selectedItemData, setSelectedItemData] = useState(null);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [link, setLink] = useState("");
 
   let isfav = item.isFavorite;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -98,6 +112,15 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
     return () => {};
   }, [fav]);
 
+  function itemName(item) {
+    if (viewportWidth < 500) {
+      if (item.name.length < 11) return item.name;
+      return item.name.slice(0, 14) + "...";
+    } else {
+      return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
+    }
+  }
+
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
@@ -135,7 +158,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
   }
   return (
     <div
-      className={`relative z-50 flex flex-col w-full bg-slate-400 ${
+      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect ${
         showImg ? "h-4/5" : "h-full"
       }`}
     >
@@ -153,7 +176,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
-          <h1 className="text-blue-600 font-black text-lg">{item.name.slice(0,13)+'..'}</h1>
+          <h1 className="text-blue-600 font-black text-lg">{itemName(item)}</h1>
           <p className="text-xs text-gray-400">{item.time.toUpperCase()}</p>
           <span className="text-sm bg-emerald-200 text-emerald-600 flex items-center rounded-xl px-4 w-fit">
             Personal
