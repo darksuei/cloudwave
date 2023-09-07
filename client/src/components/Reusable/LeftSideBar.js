@@ -54,7 +54,7 @@ export default function LeftSideBar() {
         <ul className="flex flex-col w-full relative">
           <Avatar size={"text-6xl"} />
           <div>
-            <a href="/home">
+            <a href="/home noSelect">
               <li
                 className={`${
                   Location.location === "home" ||
@@ -69,7 +69,7 @@ export default function LeftSideBar() {
                 Home
               </li>
             </a>
-            <a href="/myfiles">
+            <a href="/myfiles noSelect">
               <li
                 className={`${
                   Location.location === "shared" ? "bg-blue-900" : ""
@@ -82,7 +82,7 @@ export default function LeftSideBar() {
                 <span className="md:inline hidden">My Files</span>
               </li>
             </a>
-            <a href="/favorites">
+            <a href="/favorites noSelect">
               <li
                 className={`${
                   Location.location === "favorites" ? "bg-blue-900" : ""
@@ -94,7 +94,7 @@ export default function LeftSideBar() {
                 Favorites
               </li>
             </a>
-            <a href="/upload">
+            <a href="/upload noSelect">
               <li
                 className={`${
                   Location.location === "upload" ? "bg-blue-900" : ""
@@ -109,7 +109,7 @@ export default function LeftSideBar() {
             </a>
           </div>
           <div className="absolute bottom-3.5 w-full">
-            <a href="/settings">
+            <a href="/settings noSelect">
               <li className="px-10 md:px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800">
                 <div className="p-1 w-5">
                   <i className="fas fa-cog"></i>

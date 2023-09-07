@@ -3,6 +3,7 @@ import SharePopUp from "./SharePopUp";
 import Cookies from "js-cookie";
 import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
+import '../../index.css'
 
 export default function ImagePreview({ showImg, imageUrl, item }) {
   const [fav, setFav] = useState("");
@@ -135,7 +136,7 @@ export default function ImagePreview({ showImg, imageUrl, item }) {
   }
   return (
     <div
-      className={`relative z-50 flex flex-col w-full bg-slate-400 ${
+      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect ${
         showImg ? "h-4/5" : "h-full"
       }`}
     >

@@ -28,6 +28,9 @@ export default function Recent({
   const [link, setLink] = useState("");
   const [fav, setFav] = useState("");
   const [loading, setLoading] = useState(true);
+  const [renameFile, setRenameFile] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [reFetch, setReFetch] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   let api;
 
@@ -51,6 +54,7 @@ export default function Recent({
 
   function itemName(item) {
     if (viewportWidth < 500) {
+      if (item.name.length() < 11) return item.name;
       return item.name.slice(0, 14) + "...";
     } else {
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
@@ -98,7 +102,7 @@ export default function Recent({
       fetchData();
     }
     return () => {};
-  }, [authToken]);
+  }, [authToken, reFetch]);
 
 
   const togglePreview = async (item, e) => {
@@ -197,6 +201,31 @@ export default function Recent({
     setAllowDownload(true);
     setSelectedItemData(item.name);
   }
+
+  const handleRename = async (e, name) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`,
+        {
+          newName: newName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setRenameFile(false);
+        setReFetch(!reFetch);
+      }
+    } catch (error) {
+      console.error('Error renaming file:', error);
+    }
+  };
+
   // TODO INBUILT DOWNLOAD FILE
   // const handleDownload = async () => {
   //     e.preventDefault();
@@ -302,7 +331,7 @@ export default function Recent({
           ? data.map((item) => {
               return (
                 <div
-                  className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md`}
+                  className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md noSelect`}
                   onClick={(e) => togglePreview(item, e)}
                   key={item.id}
                 >
@@ -333,13 +362,27 @@ export default function Recent({
                   <div className="bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center">
                     <i className="fas fa-image text-white text-sm"></i>
                   </div>
-                  <div className="flex flex-row w-9/12 justify-between items-center">
+                  { renameFile === true ? (
+                    <input
+                      type="text"
+                      className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                      autoFocus
+                      onBlur={() => setRenameFile(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          setDropdownState([])
+                          handleRename(e, item.name);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="flex flex-row w-9/12 justify-between items-center">
                     <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
                       {itemName(item)}
                     </h2>
-                    {/* <p className={`text-gray-400 text-xs md:text-sm ${SearchResults ? 'w-0/12' : 'w-2/12'} md:w-3/12`}>
-                      {!SearchResults && item.time}
-                    </p> */}
                     <div
                       className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
                       onClick={(e) => handleShare(e, item)}
@@ -347,6 +390,7 @@ export default function Recent({
                       <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
                     </div>
                   </div>
+                  ) }
                   <div
                     className={`${
                       showPreview.includes(item) ? " " : "relative"
@@ -368,7 +412,20 @@ export default function Recent({
                           aria-labelledby="options-menu"
                         >
                           <button
-                            className="px-4 py-2 relative text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            role="menuitem"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setRenameFile(true)}}
+                          >
+                            <span>Rename</span>
+                            <i
+                              className={`fas fa-pen text-xs text-slate-700 absolute right-3`}
+                            ></i>
+                          </button>
+                          <button
+                            className="px-4 py-2 relative text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleDownload(e, item)}
                           >
@@ -376,7 +433,7 @@ export default function Recent({
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center border-b text-left"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b text-left"
                             role="menuitem"
                             onClick={(e) => handleFav(e, item.name)}
                           >
@@ -392,7 +449,7 @@ export default function Recent({
                             ></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-slate-100 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
                             role="menuitem"
                             onClick={(e) => handleDelete(e, item.name)}
                           >

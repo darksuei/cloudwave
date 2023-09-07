@@ -65,7 +65,6 @@ const getFilesByCategory = async (req, res, next) => {
         );
         if (fileItem) {
           const time = fileItem.date;
-          console.log("Time:", time);
           files.push({
             id: i,
             name: filelist[i],
@@ -336,13 +335,21 @@ const toggleFav = async (req, res, next) => {
 
 const renameFile = async (req, res, next) => {
   try {
+    await loginToStorage();
+    const folder = storage.root.children.find(
+      (folder) => folder.name === req.user.email,
+    );
+    const filelist = await getStorageFilesinDetail(folder);
+    const file = filelist.find((file) => file.name === req.params.name);
+    file.rename(req.body.newName)
+
     const filter = {
       email: req.user.email,
       "files.name": req.params.name,
     };
     const update = {
       $set: {
-        "files.$.name": req.query.newName,
+        "files.$.name": req.body.newName,
       },
     };
 
@@ -350,7 +357,7 @@ const renameFile = async (req, res, next) => {
     if (!user)
       return res.status(404).json({ message: "User or file not found" });
 
-    return res.status(200).json({ message: "Success", updatedUser });
+    return res.status(200).json({ message: "Success" });
   } catch (error) {
     next(error);
   }

@@ -63,7 +63,7 @@ export default function Storage({ width }) {
 
   return (
     <div
-      className={`flex flex-col bg-gray-200 rounded-xl ${
+      className={`flex flex-col bg-gray-200 rounded-xl noSelect ${
         width ? width : "w-full"
       } p-3 gap-y-3`}
     >

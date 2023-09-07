@@ -1,5 +1,6 @@
 import CopyLinkBox from "./CopyLink";
 import { useState, useEffect } from "react";
+import '../../index.css'
 
 export default function SharePopUp({ link, isOpen, width }) {
   const [close, setClose] = useState(isOpen);
@@ -43,7 +44,7 @@ export default function SharePopUp({ link, isOpen, width }) {
             Anyone with this link can view this file!
           </h3>
           <button
-            className="absolute top-3 right-3"
+            className="absolute top-3 right-3 noSelect"
             onClick={(e) => toggleClose(e)}
           >
             <i className="fas fa-times-circle text-red-700 text-xl rounded-full"></i>

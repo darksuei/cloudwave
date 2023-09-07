@@ -90,7 +90,7 @@ export default function DragDrop() {
         <i className="fas fa-upload text-indigo-500 text-3xl"></i>
         <p className="text-gray-400 text-sm font-semibold">
         <span className="hidden md:inline">Drag and drop files here</span>
-          <a href="/upload" className="inline md:hidden underline font-black text-md">
+          <a href="/upload" className="inline md:hidden underline font-black text-md noSelect">
             Choose a file to Upload
           </a>
         </p>
@@ -278,7 +278,7 @@ export function Categories(props) {
                 <a
                   href={category.href || "/files"}
                   key={index}
-                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300`}
+                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300 noSelect`}
                 >
                   {category.noIcons ? (
                     <div
