@@ -133,3 +133,7 @@ transition: width 0.3s ease;
 .noSelect:focus {
     outline: none !important;
 }
+
+#recents {
+  min-height: 12rem !important;
+}

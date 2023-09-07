@@ -54,7 +54,7 @@ export default function Recent({
 
   function itemName(item) {
     if (viewportWidth < 500) {
-      if (item.name.length() < 11) return item.name;
+      if (item.name.length < 11) return item.name;
       return item.name.slice(0, 14) + "...";
     } else {
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
@@ -306,19 +306,19 @@ export default function Recent({
     setLoadingScreen(true);
     e.preventDefault();
     e.stopPropagation();
-    setFav(item);
-    setDropdownState([]);
+    setFav(item.name);
+    setDropdownState(
+      dropdownState.filter((itemIndex) => itemIndex !== item),
+    );
     setLoadingScreen(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    window.location.reload();
   }
 
   return (
     <div
       className={`h-full flex gap-y-4 flex-col p-12 ${
         padding ? padding : "px-0 md:px-4"
-      } md:px-12 py-4 w-full`}
+      } md:px-12 py-4 w-full`} id="recents"
     >
       {loadingScreen && <LoadingScreen />}
       {share && (
@@ -336,9 +336,9 @@ export default function Recent({
                   key={item.id}
                 >
                   {showPreview.includes(item) && (
-                    <div className="absolute top-0 left-0 flex justify-center items-center w-full h-screen z-50">
+                    <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
                       <div
-                        className={`flex p-5 md:p-8 bg-slate-400 w-full md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
+                        className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
@@ -380,15 +380,15 @@ export default function Recent({
                     />
                   ) : (
                     <div className="flex flex-row w-9/12 justify-between items-center">
-                    <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
-                      {itemName(item)}
-                    </h2>
-                    <div
-                      className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
-                      onClick={(e) => handleShare(e, item)}
-                    >
-                      <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
-                    </div>
+                      <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
+                        {itemName(item)}
+                      </h2>
+                      <div
+                        className="px-1 rounded-full hover:bg-gray-200 hover:bg-slate-100"
+                        onClick={(e) => handleShare(e, item)}
+                      >
+                        <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
+                      </div>
                   </div>
                   ) }
                   <div
@@ -404,7 +404,7 @@ export default function Recent({
                       <i className="fas fa-ellipsis-h text-indigo-500 text-lg z-10"></i>
                     </button>
                     {dropdownState.includes(item) && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
                           class="py-1 flex flex-col"
                           role="menu"
@@ -412,11 +412,14 @@ export default function Recent({
                           aria-labelledby="options-menu"
                         >
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
                             role="menuitem"
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
+                              setDropdownState(
+                                dropdownState.filter((itemIndex) => itemIndex !== item),
+                              );
                               setRenameFile(true)}}
                           >
                             <span>Rename</span>
@@ -425,7 +428,7 @@ export default function Recent({
                             ></i>
                           </button>
                           <button
-                            className="px-4 py-2 relative text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
+                            className="px-4 py-2 relative text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleDownload(e, item)}
                           >
@@ -433,9 +436,9 @@ export default function Recent({
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b text-left"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b text-left"
                             role="menuitem"
-                            onClick={(e) => handleFav(e, item.name)}
+                            onClick={(e) => handleFav(e, item)}
                           >
                             <span>
                               {(item.isFavorite === false) | undefined
@@ -449,7 +452,7 @@ export default function Recent({
                             ></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
                             role="menuitem"
                             onClick={(e) => handleDelete(e, item.name)}
                           >

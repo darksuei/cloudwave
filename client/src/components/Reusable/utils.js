@@ -254,17 +254,11 @@ export function Categories(props) {
     );
 
     setCategories(updatedCategoryData);
-    const updatedFavs = categories.filter((cat) => cat.isFavorite === true);
-    // FavCategory.setFavoriteCategory(updatedFavs);
-    // Cookies.set("favoriteCategory", JSON.stringify(updatedFavs), {
-    //   expires: 1,
-    // });
-
-    if (favorites.includes(index)) {
-      setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
-    } else {
-      setFavorites([...favorites, index]);
-    }
+      if (favorites.includes(index)) {
+        setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
+      } else {
+        setFavorites([...favorites, index]);
+      }
   };
 
   return (
@@ -314,11 +308,13 @@ export function Categories(props) {
                         <i
                           className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
                         ></i>
-                        <div className="text-white font-bold text-sm">
+                        <div className="text-white font-bold text-xs md:text-sm">
                           {category.title}
                         </div>
-                        <div className="text-xs text-gray-200 w-full">
-                          {category.count} files
+                        <div className="text-xs text-gray-200 w-full italic">
+                          {category.count > 1 && category.count + ' files'}
+                          {category.count == 1 && category.count + ' file'}
+                          {category.count === 0 && 'Empty'}
                         </div>
                       </div>
                       <i

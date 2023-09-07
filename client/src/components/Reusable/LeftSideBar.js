@@ -54,14 +54,14 @@ export default function LeftSideBar() {
         <ul className="flex flex-col w-full relative">
           <Avatar size={"text-6xl"} />
           <div>
-            <a href="/home noSelect">
+            <a href="/home">
               <li
                 className={`${
                   Location.location === "home" ||
                   Location.location === "settings"
                     ? "bg-blue-900"
                     : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-home"></i>
@@ -69,11 +69,11 @@ export default function LeftSideBar() {
                 Home
               </li>
             </a>
-            <a href="/myfiles noSelect">
+            <a href="/myfiles">
               <li
                 className={`${
                   Location.location === "shared" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-share-alt"></i>
@@ -82,11 +82,11 @@ export default function LeftSideBar() {
                 <span className="md:inline hidden">My Files</span>
               </li>
             </a>
-            <a href="/favorites noSelect">
+            <a href="/favorites">
               <li
                 className={`${
                   Location.location === "favorites" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-star"></i>
@@ -94,11 +94,11 @@ export default function LeftSideBar() {
                 Favorites
               </li>
             </a>
-            <a href="/upload noSelect">
+            <a href="/upload">
               <li
                 className={`${
                   Location.location === "upload" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-upload"></i>
@@ -109,8 +109,8 @@ export default function LeftSideBar() {
             </a>
           </div>
           <div className="absolute bottom-3.5 w-full">
-            <a href="/settings noSelect">
-              <li className="px-10 md:px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800">
+            <a href="/settings">
+              <li className="px-10 md:px-14 py-4 flex items-center gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect">
                 <div className="p-1 w-5">
                   <i className="fas fa-cog"></i>
                 </div>
