@@ -4,7 +4,7 @@ import FavFiles from "./FavFiles";
 
 export default function FavMain() {
   return (
-    <div className="w-full md:w-10/12 flex flex-col py-8 px-4 md:px-8 items-center relative">
+    <div className="w-full md:w-10/12 flex flex-col py-4 px-4 md:px-8 items-center relative">
       <Search />
       <Categories
         style={`flex flex-row gap-x-2.5 overflow-x-scroll md:overflow-x-none md:overflow-hidden w-full md:w-10/12`}

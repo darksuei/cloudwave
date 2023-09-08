@@ -94,6 +94,12 @@ transition: width 0.3s ease;
           animation: dash 1.5s ease-in-out infinite;
 }
 
+.spin {
+  -webkit-animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
+z-index: 2; 
+}
+
 @-webkit-keyframes rotate {
   100% {
     transform: rotate(360deg);

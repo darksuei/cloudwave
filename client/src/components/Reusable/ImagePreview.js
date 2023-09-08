@@ -202,7 +202,7 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
-          <span className="flex flex-row gap-x-2 items-center">
+          <span className="flex flex-row gap-x-1 items-center">
             <i className="fas fa-star text-amber-500 text-lg"></i>
             { renameFile === true ? (
                     <input

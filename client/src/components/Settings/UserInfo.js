@@ -2,6 +2,8 @@ import { Avatar } from "../Reusable/utils";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Oval from "../../assets/oval.svg";
+import '../../index.css'
 
 export default function UserInfo() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -148,7 +150,9 @@ export default function UserInfo() {
             }`}
             onClick={(e) => handleSubmit(e)}
           >
-            Save
+            {loading ? 
+            <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
+            'Save'}
           </button>
         </div>
       </div>

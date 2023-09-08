@@ -3,6 +3,8 @@ import axios from "axios";
 import { AuthContext } from "../Contexts/AuthContext";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
+import Oval from "../assets/oval.svg";
+import '../index.css'
 
 export default function SignUp() {
   const [error, setError] = useState(null);
@@ -149,12 +151,15 @@ export default function SignUp() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm ${
+              className={`w-6/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2.5 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
             >
-              Create Account ✨
+              { loading ? 
+              <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
+              'Create Account ✨'
+              }
             </button>
             <p className="text-xs text-gray-600">
               Already have an account?{" "}
