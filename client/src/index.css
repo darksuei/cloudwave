@@ -46,9 +46,16 @@ transition: width 0.3s ease;
     min-height: 100vh;
 }
 
-
+.scrollable-lg {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
 
 @media (max-width: 900px) {
+  .scrollable {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
   #snap-x-mandatory {
     scroll-snap-type: x mandatory;
   }
