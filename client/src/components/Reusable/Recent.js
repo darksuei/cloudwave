@@ -19,7 +19,6 @@ export default function Recent({
 }) {
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [allowDownload, setAllowDownload] = useState(false);
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -60,12 +59,6 @@ export default function Recent({
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
     }
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAllowDownload(false);
-    }, 2000);
-  }, [allowDownload]);
   
   const getFiles = async (authToken) => {
     try {
@@ -74,6 +67,7 @@ export default function Recent({
           Authorization: `Bearer ${authToken}`,
         },
       });
+      console.log(response.data.files)
       return response.data.files;
     } catch (error) {
       console.error("Files error:", error);
@@ -140,18 +134,6 @@ export default function Recent({
     }
   }
 
-  useEffect(() => {
-    async function fetchFile() {
-      if (selectedItemData) {
-        const file = await getFile(selectedItemData);
-        setLink(file.link);
-        if (allowDownload) window.open(file.link);
-      }
-    }
-    fetchFile();
-    return () => {};
-  }, [selectedItemData]);
-
   async function getFile(name) {
     try {
       const response = await axios.get(
@@ -180,8 +162,14 @@ export default function Recent({
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setAllowDownload(true);
+    setDropdownState([]);
     setSelectedItemData(item.name);
+    const base64ImageData = `data:image/jpeg;base64,${item.base64}`;
+
+    const a = document.createElement('a');
+    a.href = base64ImageData;
+    a.download = item.name;
+    a.click();
   }
 
   const handleRename = async (e, name) => {
@@ -207,34 +195,6 @@ export default function Recent({
       console.error('Error renaming file:', error);
     }
   };
-
-  // TODO INBUILT DOWNLOAD FILE
-  // const handleDownload = async () => {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     setSelectedItemData(item.name);
-
-  //     console.log("LINK: ", link)
-  //     const fileURL = link;
-
-  //     // Load the file object from the URL
-  //     const file = File.fromURL(fileURL);
-
-  //     // Download the file's data
-  //     const data = await file.downloadBuffer();
-
-  //     // Create a Blob from the data
-  //     const blob = new Blob([data]);
-
-  //     // Create a download link and trigger click
-  //     const link = document.createElement('a');
-  //     link.href = window.URL.createObjectURL(blob);
-  //     link.download = 'image.jpg'; // Change the filename as needed
-  //     link.click();
-
-  //     // Clean up the Blob object
-  //     window.URL.revokeObjectURL(link.href);
-  //   };
 
   async function handleDelete(e, name) {
     setDropdownState([]);

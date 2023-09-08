@@ -8,7 +8,6 @@ import '../../index.css'
 export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
-  const [allowDownload, setAllowDownload] = useState(false);
   const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
   const [previewItemUrl, setPreviewItemUrl] = useState("");
@@ -56,24 +55,6 @@ export default function ImagePreview({ item, favorite }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAllowDownload(false);
-    }, 2000);
-  }, [allowDownload]);
-
-  useEffect(() => {
-    async function fetchFile() {
-      if (selectedItemData) {
-        const file = await getFile(selectedItemData);
-        setLink(file.link);
-        if (allowDownload) window.open(file.link);
-      }
-    }
-    fetchFile();
-    return () => {};
-  }, [selectedItemData]);
 
   async function getFile(name) {
     try {
@@ -151,8 +132,14 @@ export default function ImagePreview({ item, favorite }) {
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setAllowDownload(true);
+    setDropDown(false);
     setSelectedItemData(item.name);
+    const base64ImageData = `data:image/jpeg;base64,${previewItemUrl}`;
+
+    const a = document.createElement('a');
+    a.href = base64ImageData;
+    a.download = item.name;
+    a.click();
   }
 
   const handleRename = async (e, name) => {
@@ -213,7 +200,7 @@ export default function ImagePreview({ item, favorite }) {
         showImg ? "h-4/5" : "h-full"
       }`}
     >
-      {loadingScreen && <LoadingScreen />}
+      {loadingScreen && <LoadingScreen darkness={ ' z-40 ' } />}
       {share && (
         <SharePopUp
           isOpen={share}
@@ -221,7 +208,7 @@ export default function ImagePreview({ item, favorite }) {
           width={"w-full md:w-4/12 lg:w-6/12"}
         />
       )}
-      <div className="relative h-full flex items-center justify-center w-full bg-gray-300 rounded-lg">
+      <div className={`relative h-full flex items-center justify-center w-full ${ previewItemUrl ? 'bg-gray-600' : 'bg-gray-300' } rounded-lg`}>
         { loadingImg && <LoadingScreen absolute={ true } /> }
         { !previewItemUrl ? <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i> 
         :
