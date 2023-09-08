@@ -150,7 +150,7 @@ const uploadFile = async (req, res, next) => {
       (folder) => folder.name === req.user.email,
     );
     for (const file of req.files) {
-      if (user.spaceUsed + file.size / 1024 > 5 * 1024 * 1024) {
+      if (user.spaceUsed + file.size / 1024 > 4 * 1024 * 1024) {
         return res.status(400).json({ 
           message: "Failed",
           error: "Storage limit Exceeded"
@@ -206,7 +206,7 @@ const uploadFile = async (req, res, next) => {
 };
 
 const getStorage = async (req, res) => {
-  const maxStorage = 5;
+  const maxStorage = 4;
   const maxStorageKB = maxStorage * 1024 * 1024;
 
   const user = await User.findOne({ email: req.user.email });

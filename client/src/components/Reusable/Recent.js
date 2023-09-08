@@ -14,7 +14,8 @@ export default function Recent({
   category,
   SearchResults,
   padding,
-  headerPadding
+  headerPadding,
+  titleStyle
 }) {
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
@@ -324,7 +325,7 @@ export default function Recent({
       {share && (
         <SharePopUp isOpen={share} link={link} width={"w-11/12 md:w-4/12"} />
       )}
-      <h1 className={`text-blue-700 text-xl font-extrabold ${headerPadding && headerPadding}`}>{title}</h1>
+      <h1 className={`text-blue-700 text-xl font-extrabold ${titleStyle && titleStyle} ${headerPadding && headerPadding}`}>{title}</h1>
       <div className={`flex flex-col gap-y-2.5`}>
         {loading && <Loading />}
         {data.length > 0

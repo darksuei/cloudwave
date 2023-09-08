@@ -21,6 +21,7 @@ export default function Files(props) {
                 ? category[0].toUpperCase() + category.slice(1)
                 : "All Files"
             }
+            titleStyle={"ml-3 md:ml-0"}
             showAll={true}
             category={category}
             padding={'px-4'}

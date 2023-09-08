@@ -3,6 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
+import Oval from "../../assets/oval.svg";
+import '../../index.css'
+
 
 export default function Login() {
   const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
@@ -130,12 +133,15 @@ export default function Login() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-7 rounded-md focus:ring focus:ring-indigo-300 transition text-sm ${
+              className={`w-6/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-7 rounded-md focus:ring focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
             >
-              Log In ✨
+              { loading ? 
+              <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
+              'Log In ✨'
+              }
             </button>
             <p className="text-xs text-gray-600">
               Don't have an account?{" "}
