@@ -22,7 +22,6 @@ export default function Recent({
   const [allowDownload, setAllowDownload] = useState(false);
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
-  const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [data, setData] = useState([]);
   const [selectedItemData, setSelectedItemData] = useState(null);
@@ -110,30 +109,12 @@ export default function Recent({
     e.preventDefault();
     e.stopPropagation();
     setDropdownState(dropdownState.filter((itemIndex) => itemIndex !== item));
+
     if (showPreview.includes(item)) {
       setShowPreview(showPreview.filter((itemIndex) => itemIndex !== item));
     } else {
       setShowPreview([...showPreview, item]);
     }
-    const response = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-    );
-    const arrayBuffer = response.data;
-    const uint8Array = new Uint8Array(arrayBuffer);
-    let binary = "";
-    uint8Array.forEach((byte) => {
-      binary += String.fromCharCode(byte);
-    });
-    const base64String = btoa(binary);
-    const dataUrl = `data:image/jpeg;base64,${base64String}`;
-    setPreviewItemUrl(dataUrl);
-
-    // setPreviewItemUrl(Cloudwavehome);
   };
 
   useEffect(() => {
@@ -353,8 +334,6 @@ export default function Recent({
                           <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
                         </button>
                         <ImagePreview
-                          showImg={false}
-                          imageUrl={Cloudwavehome}
                           item={item}
                         />
                       </div>
