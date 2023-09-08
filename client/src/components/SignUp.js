@@ -83,13 +83,13 @@ export default function SignUp() {
           </p>
           {error && (
             <div
-              class="alert alert-danger alert-dismissible fade show"
+              className="alert alert-danger alert-dismissible fade show"
               role="alert"
             >
               {error}
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="alert"
                 aria-label="Close"
               ></button>
