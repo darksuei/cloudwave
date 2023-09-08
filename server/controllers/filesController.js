@@ -108,6 +108,7 @@ const getAllFiles = async (req, res, next) => {
             isFavorite: fileItem.isFavorite,
             category: fileItem.category,
             icon: getCategoryIcon(fileItem.category),
+            base64: fileItem.base64
           });
         }
       }
@@ -156,19 +157,22 @@ const uploadFile = async (req, res, next) => {
           error: "Storage limit Exceeded"
         });
       }
-      const userFile = await user.files.filter(
-        (existingFile) => existingFile.name == file.originalname,
+      const userFile = await user.files.find(
+        (existingFile) => existingFile.name === file.originalname,
       );
-      if (userFile.length > 0) {
+      if (userFile) {
         return res.status(409).json({ message: "File already exists" });
       }
 
       let status = await uploadToStorage(file.originalname, file.path, folder);
       if (!status)
         return res.status(400).json({ message: "Error uploading file" });
-      console.log(typeof file.originalname, file.originalname)
 
       const link = process.env.CLIENT_URL + '/preview/' + await linkHash(file.originalname);
+
+      const data = await status.downloadBuffer();
+
+      const dataBase64 = data.toString("base64");
 
       await User.findOneAndUpdate(
         { email: req.user.email },
@@ -180,7 +184,8 @@ const uploadFile = async (req, res, next) => {
               category: getCategoryFromFileName(file.originalname),
               size: file.size / 1024,
               isFavorite: false,
-              link: link
+              link: link,
+              base64: dataBase64
             },
           },
 
