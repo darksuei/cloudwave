@@ -49,6 +49,7 @@ const getCategoryCount = async (req, res, next) => {
 
 const getFilesByCategory = async (req, res, next) => {
   try {
+    const user = await User.findOne({ email: req.user.email });
     await loginToStorage();
     const folder = storage.root.children.find(
       (folder) => folder.name === req.user.email,
@@ -58,7 +59,6 @@ const getFilesByCategory = async (req, res, next) => {
 
     const files = [];
     for (let i = 0; i < filelist.length; i++) {
-      const user = await User.findOne({ email: req.user.email });
       if (user) {
         const fileItem = user.files.find(
           (file) =>
@@ -288,7 +288,7 @@ const getSingleFile = async (req, res, next) => {
 
     return res.status(200).json({ message: "Success", file: file });
   } catch (err) {
-    next(err);
+    next(err); 
   }
 };
 
@@ -377,20 +377,22 @@ const getImage = async (req, res, next) => {
       (file) => file.name == req.params.name,
     );
     if (!filename) return res.status(404).json({ message: "File not found." });
-    res.status(200).json({ message: "Success" });
-    // const fileurl = filename.link;
+    console.log(filename)
 
-    // const file = File.fromU
-    // await file.loadAttributes();
-    // const stream = file.download();
-    // res.setHeader("Content-Type", "image/jpeg");
+    await loginToStorage();
+    const folder = storage.root.children.find(
+      (folder) => folder.name === req.user.email,
+    );
+    const filelist = await getStorageFilesinDetail(folder);
 
-    // stream.on("error", (error) => {
-    //   console.error(error);
-    //   res.status(500).json({ message: "An error occurred" });
-    // });
+    const fileToSend = filelist.find((file) => file.name === req.params.name);
 
-    // stream.pipe(res);
+    const data = await fileToSend.downloadBuffer();
+
+    const dataBase64 = data.toString("base64");
+
+    res.status(200).json({ message: "Success", dataBase64 });
+    
   } catch (err) {
     next(err);
   }

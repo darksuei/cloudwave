@@ -5,10 +5,13 @@ import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
 import '../../index.css'
 
-export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
+export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
+  const [showImg, setShowImg] = useState(false);
   const [allowDownload, setAllowDownload] = useState(false);
+  const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
+  const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
@@ -19,6 +22,28 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
   const [link, setLink] = useState("");
 
   let isfav = item.isFavorite;
+
+  useEffect(() => {
+    if(item.category === 'pictures') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowImg(true);
+        setPreviewItemUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else{
+      setLoadingImg(false);
+    }
+  },[])
 
   useEffect(() => {
     const handleResize = () => {
@@ -197,8 +222,11 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
         />
       )}
       <div className="relative h-full flex items-center justify-center w-full bg-gray-300 rounded-lg">
-        <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i>
-        {/* <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> */}
+        { loadingImg && <LoadingScreen absolute={ true } /> }
+        { !previewItemUrl ? <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i> 
+        :
+        <img src={"data:image/png;base64," + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
+        }
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">

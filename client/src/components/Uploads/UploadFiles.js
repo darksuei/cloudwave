@@ -102,7 +102,7 @@ export default function UploadFiles() {
               Drag and drop your files here
             </p>
             <p className="text-xs text-gray-500">or</p>
-            <button className="w-10/12 md:w-fit text-xs md:text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white hover:w-11/12 relative overflow-hidden">
+            <button className="w-10/12 md:w-fit text-xs md:text-sm border-current border py-2.5 px-7 rounded-lg hover:bg-blue-500 hover:text-white hover:w-11/12 md:hover:w-full relative overflow-hidden">
               <span className="relative z-10 hidden md:block">
                 Choose a file from your computer
               </span>
