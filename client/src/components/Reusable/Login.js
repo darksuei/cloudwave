@@ -81,13 +81,13 @@ export default function Login() {
           <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
           {error && (
             <div
-              class="alert alert-danger alert-dismissible fade show"
+              className="alert alert-danger alert-dismissible fade show"
               role="alert"
             >
               {error}
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="alert"
                 aria-label="Close"
               ></button>

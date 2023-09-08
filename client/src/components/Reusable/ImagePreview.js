@@ -8,9 +8,11 @@ import '../../index.css'
 export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
   const [previewItemUrl, setPreviewItemUrl] = useState("");
+  const [previewVideoUrl, setPreviewVideoUrl] = useState("");
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
@@ -35,6 +37,22 @@ export default function ImagePreview({ item, favorite }) {
           );
         setShowImg(true);
         setPreviewItemUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'videos') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowVideo(true);
+        setPreviewVideoUrl(response.data.dataBase64);
         setLoadingImg(false);
       }
       fetchImg();
@@ -196,8 +214,8 @@ export default function ImagePreview({ item, favorite }) {
   }
   return (
     <div
-      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect ${
-        showImg ? "h-4/5" : "h-full"
+      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect h-full ${
+        showImg | showVideo ? "md:h-4/5" : "md:h-full"
       }`}
     >
       {loadingScreen && <LoadingScreen darkness={ ' z-40 ' } />}
@@ -210,10 +228,15 @@ export default function ImagePreview({ item, favorite }) {
       )}
       <div className={`relative h-full flex items-center justify-center w-full ${ previewItemUrl ? 'bg-gray-600' : 'bg-gray-300' } rounded-lg`}>
         { loadingImg && <LoadingScreen absolute={ true } /> }
-        { !previewItemUrl ? <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i> 
-        :
+        { previewItemUrl && 
         <img src={"data:image/png;base64," + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
         }
+        { previewVideoUrl && 
+        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}>
+          <source src={"data:video/mp4;base64," + previewVideoUrl} type="video/mp4" />
+        </video>
+        }
+        { !previewItemUrl && !previewVideoUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
@@ -259,7 +282,7 @@ export default function ImagePreview({ item, favorite }) {
           {dropDown && (
             <div className="origin-top-right absolute bottom-0 right-6 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
               <div
-                class="py-1 flex flex-col"
+                className="py-1 flex flex-col"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"

@@ -346,7 +346,7 @@ export default function Recent({
                     {dropdownState.includes(item) && (
                       <div className="origin-top-right absolute right-0 mt-2 w-36 md:w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
-                          class="py-1 flex flex-col"
+                          className="py-1 flex flex-col"
                           role="menu"
                           aria-orientation="vertical"
                           aria-labelledby="options-menu"
