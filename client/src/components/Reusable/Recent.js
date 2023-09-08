@@ -19,10 +19,8 @@ export default function Recent({
 }) {
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [allowDownload, setAllowDownload] = useState(false);
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
-  const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [data, setData] = useState([]);
   const [selectedItemData, setSelectedItemData] = useState(null);
@@ -61,12 +59,6 @@ export default function Recent({
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
     }
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAllowDownload(false);
-    }, 2000);
-  }, [allowDownload]);
   
   const getFiles = async (authToken) => {
     try {
@@ -110,30 +102,12 @@ export default function Recent({
     e.preventDefault();
     e.stopPropagation();
     setDropdownState(dropdownState.filter((itemIndex) => itemIndex !== item));
+
     if (showPreview.includes(item)) {
       setShowPreview(showPreview.filter((itemIndex) => itemIndex !== item));
     } else {
       setShowPreview([...showPreview, item]);
     }
-    const response = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-    );
-    const arrayBuffer = response.data;
-    const uint8Array = new Uint8Array(arrayBuffer);
-    let binary = "";
-    uint8Array.forEach((byte) => {
-      binary += String.fromCharCode(byte);
-    });
-    const base64String = btoa(binary);
-    const dataUrl = `data:image/jpeg;base64,${base64String}`;
-    setPreviewItemUrl(dataUrl);
-
-    // setPreviewItemUrl(Cloudwavehome);
   };
 
   useEffect(() => {
@@ -159,18 +133,6 @@ export default function Recent({
     }
   }
 
-  useEffect(() => {
-    async function fetchFile() {
-      if (selectedItemData) {
-        const file = await getFile(selectedItemData);
-        setLink(file.link);
-        if (allowDownload) window.open(file.link);
-      }
-    }
-    fetchFile();
-    return () => {};
-  }, [selectedItemData]);
-
   async function getFile(name) {
     try {
       const response = await axios.get(
@@ -194,13 +156,20 @@ export default function Recent({
     e.stopPropagation();
     setSelectedItemData(item.name);
     setShare(!share);
+    setLink(item.link)
   }
 
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setAllowDownload(true);
+    setDropdownState([]);
     setSelectedItemData(item.name);
+    const base64ImageData = `data:image/jpeg;base64,${item.base64}`;
+
+    const a = document.createElement('a');
+    a.href = base64ImageData;
+    a.download = item.name;
+    a.click();
   }
 
   const handleRename = async (e, name) => {
@@ -226,34 +195,6 @@ export default function Recent({
       console.error('Error renaming file:', error);
     }
   };
-
-  // TODO INBUILT DOWNLOAD FILE
-  // const handleDownload = async () => {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     setSelectedItemData(item.name);
-
-  //     console.log("LINK: ", link)
-  //     const fileURL = link;
-
-  //     // Load the file object from the URL
-  //     const file = File.fromURL(fileURL);
-
-  //     // Download the file's data
-  //     const data = await file.downloadBuffer();
-
-  //     // Create a Blob from the data
-  //     const blob = new Blob([data]);
-
-  //     // Create a download link and trigger click
-  //     const link = document.createElement('a');
-  //     link.href = window.URL.createObjectURL(blob);
-  //     link.download = 'image.jpg'; // Change the filename as needed
-  //     link.click();
-
-  //     // Clean up the Blob object
-  //     window.URL.revokeObjectURL(link.href);
-  //   };
 
   async function handleDelete(e, name) {
     setDropdownState([]);
@@ -292,7 +233,6 @@ export default function Recent({
             },
           },
         );
-        console.log("Response: ", response);
       } catch (error) {
         console.error("Error updating favorites:", error);
       }
@@ -353,8 +293,6 @@ export default function Recent({
                           <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
                         </button>
                         <ImagePreview
-                          showImg={false}
-                          imageUrl={Cloudwavehome}
                           item={item}
                         />
                       </div>
@@ -407,7 +345,7 @@ export default function Recent({
                     {dropdownState.includes(item) && (
                       <div className="origin-top-right absolute right-0 mt-2 w-36 md:w-40 rounded-md shadow-lg bg-slate-300 ring-1 ring-black ring-opacity-5 z-50">
                         <div
-                          class="py-1 flex flex-col"
+                          className="py-1 flex flex-col"
                           role="menu"
                           aria-orientation="vertical"
                           aria-labelledby="options-menu"

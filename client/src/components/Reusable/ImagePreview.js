@@ -5,10 +5,14 @@ import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
 import '../../index.css'
 
-export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
+export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
-  const [allowDownload, setAllowDownload] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
+  const [previewItemUrl, setPreviewItemUrl] = useState("");
+  const [previewVideoUrl, setPreviewVideoUrl] = useState("");
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
@@ -21,6 +25,44 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
   let isfav = item.isFavorite;
 
   useEffect(() => {
+    if(item.category === 'pictures') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowImg(true);
+        setPreviewItemUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'videos') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowVideo(true);
+        setPreviewVideoUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else{
+      setLoadingImg(false);
+    }
+  },[])
+
+  useEffect(() => {
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -31,24 +73,6 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAllowDownload(false);
-    }, 2000);
-  }, [allowDownload]);
-
-  useEffect(() => {
-    async function fetchFile() {
-      if (selectedItemData) {
-        const file = await getFile(selectedItemData);
-        setLink(file.link);
-        if (allowDownload) window.open(file.link);
-      }
-    }
-    fetchFile();
-    return () => {};
-  }, [selectedItemData]);
 
   async function getFile(name) {
     try {
@@ -126,8 +150,14 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setAllowDownload(true);
+    setDropDown(false);
     setSelectedItemData(item.name);
+    const base64ImageData = `data:image/jpeg;base64,${previewItemUrl}`;
+
+    const a = document.createElement('a');
+    a.href = base64ImageData;
+    a.download = item.name;
+    a.click();
   }
 
   const handleRename = async (e, name) => {
@@ -184,11 +214,11 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
   }
   return (
     <div
-      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect ${
-        showImg ? "h-4/5" : "h-full"
+      className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect h-full ${
+        showImg | showVideo ? "md:h-4/5" : "md:h-full"
       }`}
     >
-      {loadingScreen && <LoadingScreen />}
+      {loadingScreen && <LoadingScreen darkness={ ' z-40 ' } />}
       {share && (
         <SharePopUp
           isOpen={share}
@@ -196,9 +226,17 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
           width={"w-full md:w-4/12 lg:w-6/12"}
         />
       )}
-      <div className="relative h-full flex items-center justify-center w-full bg-gray-300 rounded-lg">
-        <i className={`fas fa-file-alt text-gray-400 text-6xl`}></i>
-        {/* <img src={imageUrl} alt="Preview" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> */}
+      <div className={`relative h-full flex items-center justify-center w-full ${ previewItemUrl ? 'bg-gray-600' : 'bg-gray-300' } rounded-lg`}>
+        { loadingImg && <LoadingScreen absolute={ true } /> }
+        { previewItemUrl && 
+        <img src={"data:image/png;base64," + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
+        }
+        { previewVideoUrl && 
+        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}>
+          <source src={"data:video/mp4;base64," + previewVideoUrl} type="video/mp4" />
+        </video>
+        }
+        { !previewItemUrl && !previewVideoUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
@@ -244,7 +282,7 @@ export default function ImagePreview({ showImg, imageUrl, item, favorite }) {
           {dropDown && (
             <div className="origin-top-right absolute bottom-0 right-6 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
               <div
-                class="py-1 flex flex-col"
+                className="py-1 flex flex-col"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"

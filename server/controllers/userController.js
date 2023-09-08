@@ -1,17 +1,34 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const { storage, loginToStorage } = require("../utils/loginToStorage");
+
+const { getStorageFilesinDetail } = require("../utils/Storage");
 
 const User = require("../models/userSchema");
 const errorMiddleware = require("../middleware/errorMiddleware");
-const { loginToStorage } = require("../utils/loginToStorage");
 const { createStorage } = require("../utils/Storage");
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.user.email });
     if (!user) return res.status(404).json({ message: "User not found" });
-    return res.status(200).json({ message: "success", user });
+
+    await loginToStorage();
+    const folder = storage.root.children.find(
+      (folder) => folder.name === req.user.email,
+    );
+    const filelist = await getStorageFilesinDetail(folder);
+
+    const fileToSend = filelist.find((file) => file.name === user.avatar);
+
+    if (!fileToSend) return res.status(200).json({ message: "success", user });
+
+    const data = await fileToSend.downloadBuffer();
+
+    const dataBase64 = data.toString("base64");
+
+    return res.status(200).json({ message: "success", user, dataBase64 });
   } catch (error) {
     next(error);
   }

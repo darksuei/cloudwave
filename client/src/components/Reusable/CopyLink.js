@@ -21,7 +21,7 @@ const CopyLinkBox = ({ mylink }) => {
         type="text"
         value={mylink}
         onChange={(e) => setLink(e.target.value)}
-        placeholder="Enter a link..."
+        placeholder="Please wait..."
         className="px-3 py-2 w-full text-sm font-medium text-slate-500 outline-none"
         readonly
       />
