@@ -99,7 +99,7 @@ const getAllFiles = async (req, res, next) => {
     if (user) {
       for (let i = 0; i < filelist.length; i++) {
         const fileItem = user.files.find((file) => file.name === filelist[i]);
-        if (fileItem) {
+        if (fileItem && fileItem.name !== user.avatar) {
           const time = fileItem.date;
           files.push({
             id: i,
@@ -108,7 +108,8 @@ const getAllFiles = async (req, res, next) => {
             isFavorite: fileItem.isFavorite,
             category: fileItem.category,
             icon: getCategoryIcon(fileItem.category),
-            base64: fileItem.base64
+            base64: fileItem.base64,
+            link: fileItem.link
           });
         }
       }
@@ -420,6 +421,39 @@ const getFileFromCrypt = async (req, res, next) => {
   }
 }
 
+const uploadAvatar = async (req, res, next) => {
+  try{
+    const user = await User.findOne({ email: req.user.email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    await loginToStorage();
+    const folder = storage.root.children.find(
+      (folder) => folder.name === req.user.email,
+    );
+    for (const file of req.files) {
+      const status = await uploadToStorage(file.originalname+'_avatar', file.path, folder);
+      if (!status) {
+        return res.status(400).json({ message: "Error uploading Avatar" });
+      }
+      await User.findOneAndUpdate(
+        {email: req.user.email},
+        {avatar: file.originalname+'_avatar'},
+        {new: true}
+      ).then((updatedUser) => {
+        if (updatedUser) {
+          console.log("User updated successfully");
+        } else {
+          console.log("User not found or not updated.");
+        }
+      }).catch((error) => {
+        console.error("Error updating user");
+      })
+      if (status) res.status(201).json({ message: "Files uploaded successfully" });
+    }
+  }catch(err){
+    next(err);
+  }
+}
+
 module.exports = {
   getAllFiles,
   getCategoryCount,
@@ -433,5 +467,6 @@ module.exports = {
   renameFile,
   getImage,
   getSingleFile,
-  getFileFromCrypt
+  getFileFromCrypt,
+  uploadAvatar
 };

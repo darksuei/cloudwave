@@ -67,7 +67,6 @@ export default function Recent({
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log(response.data.files)
       return response.data.files;
     } catch (error) {
       console.error("Files error:", error);
@@ -157,6 +156,7 @@ export default function Recent({
     e.stopPropagation();
     setSelectedItemData(item.name);
     setShare(!share);
+    setLink(item.link)
   }
 
   function handleDownload(e, item) {
@@ -233,7 +233,6 @@ export default function Recent({
             },
           },
         );
-        console.log("Response: ", response);
       } catch (error) {
         console.error("Error updating favorites:", error);
       }

@@ -81,7 +81,7 @@ export default function Login() {
           <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
           {error && (
             <div
-              className="alert alert-danger alert-dismissible fade show"
+              className="alert alert-danger alert-dismissible fade show text-sm"
               role="alert"
             >
               {error}
