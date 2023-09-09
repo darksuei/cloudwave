@@ -1,10 +1,11 @@
 import LeftSideBar from "./Reusable/LeftSideBar";
 import UserInfo from "./Settings/UserInfo";
 import Footer from "./Settings/Footer";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { LocationContext } from "../Contexts/LocationContext";
 
 export default function Settings() {
+  const [bg, setBg] = useState('')
   const Location = useContext(LocationContext);
   Location.setLocation("settings");
 
@@ -14,10 +15,10 @@ export default function Settings() {
       <div className="flex flex-col w-full md:w-10/12 relative">
         <UserInfo />
         <Footer />
-        <a href="mailto:folarinraphael@outlook.com" className="absolute right-7 bottom-10 bg-emerald-400 w-20 h-20 rounded-full flex items-center justify-center">
+        <a href="mailto:folarinraphael@outlook.com" className="absolute right-10 bottom-14 ">
           <svg 
-          className="w-12 h-12" 
-          fill="#ffffff" 
+          className={`w-12 h-12 hover:${bg}`}
+          fill= '#3B82F6'
           viewBox="0 0 1920 1920" 
           xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

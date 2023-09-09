@@ -26,6 +26,7 @@ export default function FavFiles() {
           },
         },
       );
+      setLoading(false)
       return response.data.favs;
     } catch (error) {
       console.error("Files error:", error);
@@ -49,8 +50,8 @@ export default function FavFiles() {
         const favsData = await getData(authToken);
         if (favsData) {
           setData(favsData);
-          setLoading(false);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching files:", error);
       }
@@ -80,8 +81,6 @@ export default function FavFiles() {
             <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
           </button>
           <ImagePreview
-            showImg={false}
-            imageUrl={Cloudwavehome}
             item={showPreview}
             favorite={true}
           />

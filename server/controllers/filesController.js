@@ -399,7 +399,7 @@ const getImage = async (req, res, next) => {
 
     const dataBase64 = data.toString("base64");
 
-    res.status(200).json({ message: "Success", dataBase64 });
+    res.status(200).json({ message: "Success", dataBase64, extension: filename.name.split('.').pop() });
     
   } catch (err) {
     next(err);
