@@ -100,7 +100,7 @@ export default function DragDrop() {
   );
 }
 
-export function Avatar({ size }) {
+export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -162,9 +162,9 @@ export function Avatar({ size }) {
   }
   
   return (
-    <div className="flex justify-center items-center relative h-28 md:h-24">
-      <div className="relative rounded-full h-20 w-20 md:h-16 md:w-16 flex items-center justify-center">
-        {loadingAvatar && <LoadingScreen absolute={true} rounded={true} />}
+    <div className="flex justify-center items-center relative h-32 md:h-24">
+      <div className={`relative rounded-full ${imgSize ? imgSize : ' h-24 w-24 '} md:h-16 md:w-16 flex items-center justify-center`}>
+        {loadingAvatar && <LoadingScreen roundedAbs={true} />}
         {avatar ? (
           <img
             src={"data:image/png;base64," + avatar}
@@ -184,9 +184,11 @@ export function Avatar({ size }) {
           onChange={handleAvatarUpload}
           multiple
         />
-        <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
-          <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
-        </div>
+          {!hidePen && (
+            <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
+              <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
+            </div>
+          )}
       </div>
     </div>
   );
@@ -247,14 +249,16 @@ export function Categories(props) {
     const fetchData = async () => {
       try {
         const counts = await getCount(authToken);
-        setCount(counts);
-        setCategories((prev) => {
-          prev[0].count = counts.pictures;
-          prev[1].count = counts.videos;
-          prev[2].count = counts.audio;
-          prev[3].count = counts.documents;
-          return prev;
-        });
+        if(counts) {
+          setCount(counts);
+          setCategories((prev) => {
+            prev[0].count = counts.pictures;
+            prev[1].count = counts.videos;
+            prev[2].count = counts.audio;
+            prev[3].count = counts.documents;
+            return prev;
+          });
+        }
       } catch (error) {
         console.error("Error fetching counts:", error);
       }

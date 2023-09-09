@@ -42,7 +42,7 @@ export default function UploadProgress() {
         {data.map((file, index) => {
           return (
             <div
-              className="bg-slate-200 flex flex-row gap-x-3 w-full md:w-11/12 justify-between p-3 rounded-lg items-center cursor-pointer hover:transform hover:scale-105 transition-transform duration-300"
+              className="bg-slate-200 flex flex-row gap-x-3 w-full md:w-11/12 justify-between p-3 rounded-lg items-center cursor-pointer"
               key={index}
             >
               <div className="bg-emerald-500 rounded-lg p-2.5 flex items-center">
@@ -72,7 +72,7 @@ export default function UploadProgress() {
                   ></div>
                 </div>
               </div>
-              <div className="p-1.5 flex items-center">
+              <div className="p-1.5 flex items-center border border-slate-400 rounded-lg">
                 <i className="fas fa-check text-emerald-600 text-xl"></i>
               </div>
             </div>

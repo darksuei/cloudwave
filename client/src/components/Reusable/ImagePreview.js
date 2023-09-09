@@ -9,10 +9,14 @@ export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [showDoc, setShowDoc] = useState(false);
+  const [showAudio, setShowAudio] = useState(false);
   const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
   const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [previewVideoUrl, setPreviewVideoUrl] = useState("");
+  const [previewAudioUrl, setPreviewAudioUrl] = useState("")
+  const [previewDocUrl, setPreviewDocUrl] = useState("");
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
@@ -53,6 +57,38 @@ export default function ImagePreview({ item, favorite }) {
           );
         setShowVideo(true);
         setPreviewVideoUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'audio') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowAudio(true);
+        setPreviewAudioUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'documents') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setShowDoc(true);
+        setPreviewDocUrl(response.data.dataBase64);
         setLoadingImg(false);
       }
       fetchImg();
@@ -232,11 +268,19 @@ export default function ImagePreview({ item, favorite }) {
         <img src={"data:image/png;base64," + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
         }
         { previewVideoUrl && 
-        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}>
+        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} autoPlay playsInline>
           <source src={"data:video/mp4;base64," + previewVideoUrl} type="video/mp4" />
         </video>
         }
-        { !previewItemUrl && !previewVideoUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
+        { previewAudioUrl && 
+        <audio controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} autoPlay volume="0.5">
+          <source src={"data:audio/mp3;base64," + previewAudioUrl} type="audio/mp3" />
+        </audio>
+        }
+        { previewDocUrl &&
+          <iframe src={"data:application/pdf;base64," + previewDocUrl} style={{ width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} scrolling="yes"></iframe> 
+        }
+        { !previewItemUrl && !previewVideoUrl && !previewAudioUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
