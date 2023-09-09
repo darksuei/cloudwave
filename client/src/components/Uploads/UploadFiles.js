@@ -3,7 +3,7 @@ import { UploadContext } from "../../Contexts/UploadContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import LoadingScreen from "../Reusable/LoadingScreen";
-import '../../index.css'
+import "../../index.css";
 
 export default function UploadFiles() {
   const [highlight, setHighlight] = useState(false);
@@ -51,7 +51,7 @@ export default function UploadFiles() {
   };
 
   const handleFileUpload = async (e) => {
-    setLoadingScreen(true)
+    setLoadingScreen(true);
     e.preventDefault();
     let files;
     e.dataTransfer !== undefined
@@ -80,19 +80,21 @@ export default function UploadFiles() {
       );
       if (response.status === 201 || response.status === 200) {
         Uploads.setUploads((prev) => [...prev, ...uploadedFiles]);
-      }else{
-        alert("Failed to upload files!")
+      } else {
+        alert("Failed to upload files!");
       }
     } catch (error) {
       console.error("Upload error:", error);
     }
-    setLoadingScreen(false)
+    setLoadingScreen(false);
   };
 
   return (
     <div className="flex flex-col p-4 items-center bg-white w-full md:w-8/12 lg:w-7/12 rounded-lg gap-y-5">
       {loadingScreen && <LoadingScreen />}
-      <h1 className="text-xl md:text-2xl text-blue-600 font-black py-1 md:py-2">Upload Files</h1>
+      <h1 className="text-xl md:text-2xl text-blue-600 font-black py-1 md:py-2">
+        Upload Files
+      </h1>
       <div
         className={`flex flex-col w-full md:w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer md:hover:transform md:hover:scale-105 transition-transform duration-300 noSelect
             ${highlight ? " border-2 border-blue-500 " : ""}`}

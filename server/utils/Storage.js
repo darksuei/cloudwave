@@ -45,11 +45,9 @@ const getStorageFilesinDetail = async (folder) => {
   }
 };
 
-
 const uploadToStorage = (name, filepath, folder) => {
-  
   let imagePath;
-  if (filepath){
+  if (filepath) {
     imagePath = path.join(__dirname, filepath.slice(6));
   }
 

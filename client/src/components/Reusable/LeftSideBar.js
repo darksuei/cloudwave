@@ -34,11 +34,11 @@ export default function LeftSideBar() {
     <>
       {showMenu ? (
         <img
-        src={Close}
-        alt="Menu"
-        width={25}
-        className="block fixed top-5 left-5 md:hidden z-50"
-        onClick={(e) => toggleMenu(e)}
+          src={Close}
+          alt="Menu"
+          width={25}
+          className="block fixed top-5 left-5 md:hidden z-50"
+          onClick={(e) => toggleMenu(e)}
         />
       ) : (
         <img
@@ -53,13 +53,14 @@ export default function LeftSideBar() {
       <nav
         className={`${
           showMenu ? "flex w-7/12 left-0 top-0" : "hidden"
-        } md:flex md:w-3/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-40`} style={{height: height}}
+        } md:flex md:w-3/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-40`}
+        style={{ height: height }}
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
         <ul className="flex flex-col gap-y-1.5 md:gap-y-0 w-full relative">
-          <Avatar size={ "text-8xl md:text-6xl" } />
+          <Avatar size={"text-8xl md:text-6xl"} />
           <div className="flex flex-col gap-y-1 md:gap-y-0">
             <a href="/home">
               <li

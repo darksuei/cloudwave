@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Oval from "../../assets/oval.svg";
-import '../../index.css'
+import "../../index.css";
 
 export default function UserInfo() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -54,7 +54,7 @@ export default function UserInfo() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 5000)
+    }, 5000);
     try {
       const updatedFields = {};
       for (const key in formData) {
@@ -76,8 +76,8 @@ export default function UserInfo() {
       );
       setLoading(false);
       if (resonse.status === 200) {
-        alert("Personal information updated successfully.")
-      }else{
+        alert("Personal information updated successfully.");
+      } else {
         alert("Error updating personal information.");
       }
     } catch (error) {
@@ -99,7 +99,12 @@ export default function UserInfo() {
             >
               Avatar
             </label>
-            <Avatar size={"text-9xl"} hidePen={ true } imgSize={'h-32 w-32'} id='avatar'/>
+            <Avatar
+              size={"text-9xl"}
+              hidePen={true}
+              imgSize={"h-32 w-32"}
+              id="avatar"
+            />
           </div>
           <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
             <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
@@ -113,7 +118,9 @@ export default function UserInfo() {
                 name="firstname"
                 className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="text"
-                placeholder={user.firstname ? user.firstname : formData.firstname}
+                placeholder={
+                  user.firstname ? user.firstname : formData.firstname
+                }
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -153,14 +160,22 @@ export default function UserInfo() {
         </span>
         <div className="relative w-6/12 h-fit md:h-full md:w-3/12 flex items-center justify-center md:block">
           <button
-            className= {`relative md:absolute border-current border text-blue-500 px-4 py-2.5 rounded-lg bottom-3 left-0 hover:bg-blue-600 hover:text-white text-sm w-full flex justify-center items-center${
+            className={`relative md:absolute border-current border text-blue-500 px-4 py-2.5 rounded-lg bottom-3 left-0 hover:bg-blue-600 hover:text-white text-sm w-full flex justify-center items-center${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handleSubmit(e)}
           >
-            {loading ? 
-            <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
-            'Save'}
+            {loading ? (
+              <img
+                height="18px"
+                width="18px"
+                src={Oval}
+                alt="Loading.."
+                className="spin"
+              />
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

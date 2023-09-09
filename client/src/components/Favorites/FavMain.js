@@ -1,7 +1,7 @@
 import Search from "../Reusable/Search";
 import { Categories } from "../Reusable/utils";
 import FavFiles from "./FavFiles";
-import '../../index.css'
+import "../../index.css";
 
 export default function FavMain() {
   return (

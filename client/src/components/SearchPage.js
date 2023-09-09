@@ -59,7 +59,7 @@ export default function Files() {
             />
           ) : (
             <div className="text-2xl pt-6 text-center text-slate-400">
-              {loading ? <Loading /> : 'No results found'}
+              {loading ? <Loading /> : "No results found"}
             </div>
           )}
         </div>

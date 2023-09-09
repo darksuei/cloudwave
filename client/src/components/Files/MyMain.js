@@ -9,7 +9,11 @@ export default function SharedMain() {
       <Search />
       <MyFolders />
       <div className="w-full">
-        <Recent title={"Recent Files"} padding={'px-2'} headerPadding={'pl-2 md:pl-0'}/>
+        <Recent
+          title={"Recent Files"}
+          padding={"px-2"}
+          headerPadding={"pl-2 md:pl-0"}
+        />
       </div>
     </div>
   );

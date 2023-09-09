@@ -78,11 +78,9 @@ const userRegister = async (req, res, next) => {
 
     const minPasswordLength = 6;
     if (password.length < minPasswordLength) {
-      return res
-        .status(400)
-        .json({
-          message: `Password must be at least ${minPasswordLength} characters long!`,
-        });
+      return res.status(400).json({
+        message: `Password must be at least ${minPasswordLength} characters long!`,
+      });
     }
 
     const hash = await hashPassword(password, 10);

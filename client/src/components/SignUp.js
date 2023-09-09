@@ -4,7 +4,7 @@ import { AuthContext } from "../Contexts/AuthContext";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import Oval from "../assets/oval.svg";
-import '../index.css'
+import "../index.css";
 
 export default function SignUp() {
   const [error, setError] = useState(null);
@@ -16,10 +16,7 @@ export default function SignUp() {
     password: "",
   });
   const handleButton = () => {
-    setLoading(!loading);
-    setTimeout(() => {
-      setLoading(false);
-    }, 9000);
+    setLoading(true);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +32,7 @@ export default function SignUp() {
         `${process.env.REACT_APP_SERVER_URL}/api/newuser`,
         formData,
       );
+      setLoading(false);
       if (response.status === 201) {
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
@@ -43,6 +41,7 @@ export default function SignUp() {
       }
     } catch (error) {
       console.error("Error sending form data:", error);
+      setLoading(false);
       setError(error.response.data.message);
     }
   };
@@ -156,10 +155,17 @@ export default function SignUp() {
               }`}
               onClick={handleButton}
             >
-              { loading ? 
-              <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
-              'Create Account ✨'
-              }
+              {loading ? (
+                <img
+                  height="18px"
+                  width="18px"
+                  src={Oval}
+                  alt="Loading.."
+                  className="spin"
+                />
+              ) : (
+                "Create Account ✨"
+              )}
             </button>
             <p className="text-xs text-gray-600">
               Already have an account?{" "}

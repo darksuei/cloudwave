@@ -4,8 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
 import Oval from "../../assets/oval.svg";
-import '../../index.css'
-
+import "../../index.css";
 
 export default function Login() {
   const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
@@ -16,10 +15,7 @@ export default function Login() {
     password: "",
   });
   const handleButton = () => {
-    setLoading(!loading);
-    setTimeout(() => {
-      setLoading(false);
-    }, 9000);
+    setLoading(true);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +31,7 @@ export default function Login() {
         `${process.env.REACT_APP_SERVER_URL}/api/login`,
         formData,
       );
+      setLoading(false);
       if (response.status === 200) {
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
@@ -43,6 +40,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Error sending form data:", error);
+      setLoading(false);
       setError(error.response.data.message);
     }
   };
@@ -138,10 +136,17 @@ export default function Login() {
               }`}
               onClick={handleButton}
             >
-              { loading ? 
-              <img height="18px" width="18px" src={Oval} alt="Loading.." className="spin"/> :
-              'Log In ✨'
-              }
+              {loading ? (
+                <img
+                  height="18px"
+                  width="18px"
+                  src={Oval}
+                  alt="Loading.."
+                  className="spin"
+                />
+              ) : (
+                "Log In ✨"
+              )}
             </button>
             <p className="text-xs text-gray-600">
               Don't have an account?{" "}

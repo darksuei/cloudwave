@@ -15,7 +15,7 @@ export default function Recent({
   SearchResults,
   padding,
   headerPadding,
-  titleStyle
+  titleStyle,
 }) {
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
@@ -59,7 +59,7 @@ export default function Recent({
       return item.name.length > 23 ? item.name.slice(0, 20) + "..." : item.name;
     }
   }
-  
+
   const getFiles = async (authToken) => {
     try {
       const response = await axios.get(api, {
@@ -72,19 +72,19 @@ export default function Recent({
       console.error("Files error:", error);
     }
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const filesData = await getFiles(authToken);
         setLoading(false);
-       if(filesData) {
+        if (filesData) {
           if (showAll === true) {
             setData(filesData);
           } else {
             setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
           }
-       }
+        }
       } catch (error) {
         console.error("Error fetching files:", error);
       }
@@ -98,7 +98,6 @@ export default function Recent({
     }
     return () => {};
   }, [authToken, reFetch]);
-
 
   const togglePreview = async (item, e) => {
     e.preventDefault();
@@ -158,7 +157,7 @@ export default function Recent({
     e.stopPropagation();
     setSelectedItemData(item.name);
     setShare(!share);
-    setLink(item.link)
+    setLink(item.link);
   }
 
   function handleDownload(e, item) {
@@ -168,7 +167,7 @@ export default function Recent({
     setSelectedItemData(item.name);
     const base64ImageData = `data:image/jpeg;base64,${item.base64}`;
 
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = base64ImageData;
     a.download = item.name;
     a.click();
@@ -187,14 +186,14 @@ export default function Recent({
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        }
+        },
       );
       if (response.status === 200) {
         setRenameFile(false);
         window.location.reload();
       }
     } catch (error) {
-      console.error('Error renaming file:', error);
+      console.error("Error renaming file:", error);
     }
   };
 
@@ -214,7 +213,7 @@ export default function Recent({
       );
       if (response.status === 200) {
         setData(data.filter((file) => file.name !== name));
-        setLoadingScreen(false)
+        setLoadingScreen(false);
         window.location.reload();
       }
     } catch (error) {
@@ -250,9 +249,7 @@ export default function Recent({
     e.preventDefault();
     e.stopPropagation();
     setFav(item.name);
-    setDropdownState(
-      dropdownState.filter((itemIndex) => itemIndex !== item),
-    );
+    setDropdownState(dropdownState.filter((itemIndex) => itemIndex !== item));
     setLoadingScreen(false);
     window.location.reload();
   }
@@ -261,13 +258,20 @@ export default function Recent({
     <div
       className={`h-full flex gap-y-4 flex-col p-12 ${
         padding ? padding : "px-0 md:px-4"
-      } md:px-12 py-4 w-full`} id="recents"
+      } md:px-12 py-4 w-full`}
+      id="recents"
     >
       {loadingScreen && <LoadingScreen />}
       {share && (
         <SharePopUp isOpen={share} link={link} width={"w-11/12 md:w-4/12"} />
       )}
-      <h1 className={`text-blue-700 text-xl font-extrabold ${titleStyle && titleStyle} ${headerPadding && headerPadding}`}>{title}</h1>
+      <h1
+        className={`text-blue-700 text-xl font-extrabold ${
+          titleStyle && titleStyle
+        } ${headerPadding && headerPadding}`}
+      >
+        {title}
+      </h1>
       <div className={`flex flex-col gap-y-2.5`}>
         {loading && <Loading />}
         {data.length > 0
@@ -294,16 +298,18 @@ export default function Recent({
                         >
                           <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
                         </button>
-                        <ImagePreview
-                          item={item}
-                        />
+                        <ImagePreview item={item} />
                       </div>
                     </div>
                   )}
                   <div className="bg-indigo-500 p-2 rounded-lg w-9 h-9 flex items-center justify-center">
-                    <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-white text-sm`}></i> 
+                    <i
+                      className={`fas ${
+                        item.icon ? item.icon : "fa-file-alt"
+                      } text-white text-sm`}
+                    ></i>
                   </div>
-                  { renameFile === true ? (
+                  {renameFile === true ? (
                     <input
                       type="text"
                       className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
@@ -312,16 +318,18 @@ export default function Recent({
                       autoFocus
                       onBlur={() => setRenameFile(false)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === "Enter") {
                           e.preventDefault();
-                          setDropdownState([])
+                          setDropdownState([]);
                           handleRename(e, item.name);
                         }
                       }}
                     />
                   ) : (
                     <div className="flex flex-row w-9/12 justify-between items-center">
-                      <h2 className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}>
+                      <h2
+                        className={`break-all md:break-normal w-9/12 p-2 text-sm md:text-md`}
+                      >
                         {itemName(item)}
                       </h2>
                       <div
@@ -330,8 +338,8 @@ export default function Recent({
                       >
                         <i className="fas fa-share-alt text-indigo-500 cursor-pointer"></i>
                       </div>
-                  </div>
-                  ) }
+                    </div>
+                  )}
                   <div
                     className={`${
                       showPreview.includes(item) ? " " : "relative"
@@ -359,9 +367,12 @@ export default function Recent({
                               e.preventDefault();
                               e.stopPropagation();
                               setDropdownState(
-                                dropdownState.filter((itemIndex) => itemIndex !== item),
+                                dropdownState.filter(
+                                  (itemIndex) => itemIndex !== item,
+                                ),
                               );
-                              setRenameFile(true)}}
+                              setRenameFile(true);
+                            }}
                           >
                             <span>Rename</span>
                             <i
@@ -388,7 +399,9 @@ export default function Recent({
                             </span>
                             <i
                               className={`fas fa-star text-sm  absolute right-2.5 ${
-                                item.isFavorite === true ? "text-amber-500" : "text-white"
+                                item.isFavorite === true
+                                  ? "text-amber-500"
+                                  : "text-white"
                               }`}
                             ></i>
                           </button>
@@ -411,7 +424,8 @@ export default function Recent({
             })
           : !loading && (
               <div className="text-xl md:text-2xl pt-6 text-center text-slate-400">
-                No {category ? category : 'files'} {category === "audio" && "files"} found..
+                No {category ? category : "files"}{" "}
+                {category === "audio" && "files"} found..
               </div>
             )}
       </div>
