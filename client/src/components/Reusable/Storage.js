@@ -72,7 +72,7 @@ export default function Storage({ width }) {
         <p className="text-emerald-500 text-xs">{spaceLeft}% left</p>
       </div>
       <div className="text-xs text-blue-500">
-        {usedSpace} {unit} OF 4 GB USED
+        {usedSpace} {unit} OF 3 GB USED
       </div>
       <div className="loading-bar-container">
         <div className="loading-bar"></div>

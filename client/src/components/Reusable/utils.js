@@ -100,7 +100,7 @@ export default function DragDrop() {
   );
 }
 
-export function Avatar({ size }) {
+export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
@@ -162,9 +162,9 @@ export function Avatar({ size }) {
   }
   
   return (
-    <div className="flex justify-center items-center relative h-28 md:h-24">
-      <div className="relative rounded-full h-20 w-20 md:h-16 md:w-16 flex items-center justify-center">
-        {loadingAvatar && <LoadingScreen absolute={true} rounded={true} />}
+    <div className="flex justify-center items-center relative h-32 md:h-24">
+      <div className={`relative rounded-full ${imgSize ? imgSize : ' h-24 w-24 '} md:h-16 md:w-16 flex items-center justify-center`}>
+        {loadingAvatar && <LoadingScreen roundedAbs={true} />}
         {avatar ? (
           <img
             src={"data:image/png;base64," + avatar}
@@ -184,9 +184,11 @@ export function Avatar({ size }) {
           onChange={handleAvatarUpload}
           multiple
         />
-        <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
-          <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
-        </div>
+          {!hidePen && (
+            <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
+              <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
+            </div>
+          )}
       </div>
     </div>
   );
@@ -201,7 +203,6 @@ export function Categories(props) {
   });
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [favorites, setFavorites] = useState([]);
-  const FavCategory = useContext(FavoritesContext);
   const [showInput, setShowInput] = useState(false);
   const [categories, setCategories] = useState([
     {
@@ -238,6 +239,7 @@ export function Categories(props) {
     },
     { color: "bg-gray-100", noIcons: true },
   ]);
+  
   let countUrl;
   props.favs
     ? (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count?favorites=true`)
@@ -247,14 +249,16 @@ export function Categories(props) {
     const fetchData = async () => {
       try {
         const counts = await getCount(authToken);
-        setCount(counts);
-        setCategories((prev) => {
-          prev[0].count = counts.pictures;
-          prev[1].count = counts.videos;
-          prev[2].count = counts.audio;
-          prev[3].count = counts.documents;
-          return prev;
-        });
+        if(counts) {
+          setCount(counts);
+          setCategories((prev) => {
+            prev[0].count = counts.pictures;
+            prev[1].count = counts.videos;
+            prev[2].count = counts.audio;
+            prev[3].count = counts.documents;
+            return prev;
+          });
+        }
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
@@ -284,6 +288,10 @@ export function Categories(props) {
       setShowInput(false);
     }
     document.body.addEventListener("click", handleDocumentClick);
+
+    if(props.favs) {
+      setCategories(categories.filter((category) => category.noIcons !== true))
+    }
 
     return () => {
       document.removeEventListener("click", handleDocumentClick);
@@ -328,7 +336,7 @@ export function Categories(props) {
   return (
     <div className="flex flex-col p-3 bg-gray-200 rounded-xl w-full md:w-full gap-y-2.5">
       {props.title}
-      <div className={`${props.style}`} id="snap-x-mandatory">
+      <div className={`${props.style}`}>
           {categories.map(
             (category, index) =>
               (!props.checkFav ||
@@ -339,33 +347,37 @@ export function Categories(props) {
                   className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300 noSelect`}
                 >
                   {category.noIcons ? (
-                    <div
-                      className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
-                      onClick={(e) => toggleInput(e)}
-                    >
-                      {showInput ? (
-                        <div className="w-full p-3 h-full">
-                          <input
-                            type="text"
-                            className="w-full p-2 text-xs"
-                            placeholder="Enter title"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                toggleNewCategory(e.target.value);
-                              }
-                            }}
-                          />
+                    
+                      !props.favs && (
+                        <div
+                          className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
+                          onClick={(e) => toggleInput(e)}
+                        >
+                          {showInput ? (
+                            <div className="w-full p-3 h-full">
+                              <input
+                                type="text"
+                                className="w-full p-2 text-xs"
+                                placeholder="Enter title"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    toggleNewCategory(e.target.value);
+                                  }
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <i
+                              className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
+                            ></i>
+                          )}
                         </div>
-                      ) : (
-                        <i
-                          className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
-                        ></i>
-                      )}
-                    </div>
+                      )
+                    
                   ) : (
                     <div className="w-40 md:w-full flex flex-row items-center p-3.5 lg:px-5">
                       <div className="flex gap-y-1.5 flex-col w-8/12 h-20">

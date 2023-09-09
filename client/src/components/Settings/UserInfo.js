@@ -90,62 +90,70 @@ export default function UserInfo() {
         Personal Information
       </h1>
       <h3 className="text-sm text-gray-500 my-3">Edit your information: </h3>
-      <div className="flex flex-row w-full justify-between">
-        <div className="w-3/12 h-full flex items-center justify-center">
-          <Avatar size={"text-8xl md:text-9xl"} />
-        </div>
-        <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
-          <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
+      <div className="flex flex-col md:flex-row w-full justify-between gap-y-7">
+        <span className="flex flex-row justify-evenly md:w-9/12">
+          <div className="w-3/12 h-full flex flex-col gap-y-3 items-center justify-center">
             <label
-              htmlFor="firstname"
+              htmlFor="avatar"
               className="text-sm font-medium text-gray-500"
             >
-              First Name
+              Avatar
             </label>
-            <input
-              name="firstname"
-              className="w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              type="text"
-              placeholder={user.firstname ? user.firstname : formData.firstname}
-              onChange={(e) => handleChange(e)}
-            />
+            <Avatar size={"text-9xl"} hidePen={ true } imgSize={'h-32 w-32'} id='avatar'/>
           </div>
+          <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
+            <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
+              <label
+                htmlFor="firstname"
+                className="text-sm font-medium text-gray-500"
+              >
+                First Name
+              </label>
+              <input
+                name="firstname"
+                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                type="text"
+                placeholder={user.firstname ? user.firstname : formData.firstname}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
 
-          <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
-            <label
-              htmlFor="lastname"
-              className="text-sm font-medium text-gray-500"
-            >
-              Last Name
-            </label>
-            <input
-              name="lastname"
-              className="w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              type="text"
-              placeholder={user.lastname ? user.lastname : formData.lastname}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
+            <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
+              <label
+                htmlFor="lastname"
+                className="text-sm font-medium text-gray-500"
+              >
+                Last Name
+              </label>
+              <input
+                name="lastname"
+                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                type="text"
+                placeholder={user.lastname ? user.lastname : formData.lastname}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
 
-          <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
-            <label
-              htmlFor="phone"
-              className="text-sm font-medium text-gray-500"
-            >
-              Phone
-            </label>
-            <input
-              name="phone"
-              className="w-10/12 md:w-8/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              type="tel"
-              value={user.phone ? user.phone : formData.phone}
-              onChange={(e) => handleChange(e)}
-            />
+            <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
+              <label
+                htmlFor="phone"
+                className="text-sm font-medium text-gray-500"
+              >
+                Phone
+              </label>
+              <input
+                name="phone"
+                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                type="tel"
+                value={user.phone ? user.phone : formData.phone}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="relative w-2/12 md:w-3/12">
+        </span>
+        <div className="relative w-6/12 h-fit md:h-full md:w-3/12 flex items-center justify-center md:block">
           <button
-            className= {`absolute bg-blue-700 text-white px-4 py-2 rounded-lg bottom-3 left-0 hover:bg-blue-600 ${
+            className= {`relative md:absolute border-current border text-blue-500 px-4 py-2.5 rounded-lg bottom-3 left-0 hover:bg-blue-600 hover:text-white text-sm w-full flex justify-center items-center${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handleSubmit(e)}

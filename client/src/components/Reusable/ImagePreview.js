@@ -9,10 +9,15 @@ export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [showDoc, setShowDoc] = useState(false);
+  const [showAudio, setShowAudio] = useState(false);
   const [loadingImg, setLoadingImg] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(false); 
   const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [previewVideoUrl, setPreviewVideoUrl] = useState("");
+  const [previewAudioUrl, setPreviewAudioUrl] = useState("")
+  const [previewDocUrl, setPreviewDocUrl] = useState("");
+  const [extension, setExtension] = useState("");
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
@@ -35,6 +40,7 @@ export default function ImagePreview({ item, favorite }) {
             },
           },
           );
+        setExtension(response.data.extension);
         setShowImg(true);
         setPreviewItemUrl(response.data.dataBase64);
         setLoadingImg(false);
@@ -51,8 +57,43 @@ export default function ImagePreview({ item, favorite }) {
             },
           },
           );
+        setExtension(response.data.extension);
         setShowVideo(true);
         setPreviewVideoUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'audio') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setExtension(response.data.extension);
+        setShowAudio(true);
+        setPreviewAudioUrl(response.data.dataBase64);
+        setLoadingImg(false);
+      }
+      fetchImg();
+    }
+    else if(item.category === 'documents') {
+      const fetchImg = async () => {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+          );
+        setExtension(response.data.extension);
+        setShowDoc(true);
+        setPreviewDocUrl(response.data.dataBase64);
         setLoadingImg(false);
       }
       fetchImg();
@@ -217,26 +258,39 @@ export default function ImagePreview({ item, favorite }) {
       className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect h-full ${
         showImg | showVideo ? "md:h-4/5" : "md:h-full"
       }`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setDropDown(false);
+        setShare(false);
+      }}
     >
       {loadingScreen && <LoadingScreen darkness={ ' z-40 ' } />}
       {share && (
         <SharePopUp
           isOpen={share}
-          link={link}
+          link={item.link}
           width={"w-full md:w-4/12 lg:w-6/12"}
         />
       )}
       <div className={`relative h-full flex items-center justify-center w-full ${ previewItemUrl ? 'bg-gray-600' : 'bg-gray-300' } rounded-lg`}>
         { loadingImg && <LoadingScreen absolute={ true } /> }
         { previewItemUrl && 
-        <img src={"data:image/png;base64," + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
+        <img src={`data:image/${extension};base64,` + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
         }
         { previewVideoUrl && 
-        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}>
-          <source src={"data:video/mp4;base64," + previewVideoUrl} type="video/mp4" />
+        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} autoPlay playsInline>
+          <source src={`data:video/${extension};base64,` + previewVideoUrl} type="video/mp4" />
         </video>
         }
-        { !previewItemUrl && !previewVideoUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
+        { previewAudioUrl && 
+        <audio controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} autoPlay volume="0.5">
+          <source src={`data:audio/${extension};base64,` + previewAudioUrl} type="audio/mp3" />
+        </audio>
+        }
+        { previewDocUrl &&
+          <iframe src= { ( extension && extension ==='pdf') ? `data:application/pdf;base64,` + previewDocUrl : `data:text/html;base64,` + previewDocUrl  } style={{ width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} scrolling="yes"></iframe> 
+        }
+        { !previewItemUrl && !previewVideoUrl && !previewAudioUrl && !previewDocUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
@@ -276,7 +330,7 @@ export default function ImagePreview({ item, favorite }) {
             onClick={(e) => handleDelete(e)}
           ></i>
           <i
-            className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300"
+            className="fas fa-ellipsis-v text-blue-700 cursor-pointer h-fit p-1 px-2.5 rounded-full hover:bg-slate-300"
             onClick={(e) => toggleDropDown(e)}
           ></i>
           {dropDown && (

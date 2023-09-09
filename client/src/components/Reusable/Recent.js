@@ -78,11 +78,13 @@ export default function Recent({
       try {
         const filesData = await getFiles(authToken);
         setLoading(false);
-        if (showAll === true) {
-          setData(filesData);
-        } else {
-          setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
-        }
+       if(filesData) {
+          if (showAll === true) {
+            setData(filesData);
+          } else {
+            setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
+          }
+       }
       } catch (error) {
         console.error("Error fetching files:", error);
       }
