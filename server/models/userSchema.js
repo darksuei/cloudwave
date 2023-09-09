@@ -41,8 +41,8 @@ const userSchema = new Schema({
     default: 0,
   },
   avatar: {
-    type: String
-  }
+    type: String,
+  },
 });
 
 module.exports = models.User || model("User", userSchema);

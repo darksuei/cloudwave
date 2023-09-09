@@ -3,7 +3,7 @@ import SharePopUp from "./SharePopUp";
 import Cookies from "js-cookie";
 import axios from "axios";
 import LoadingScreen from "./LoadingScreen";
-import '../../index.css'
+import "../../index.css";
 
 export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
@@ -12,10 +12,10 @@ export default function ImagePreview({ item, favorite }) {
   const [showDoc, setShowDoc] = useState(false);
   const [showAudio, setShowAudio] = useState(false);
   const [loadingImg, setLoadingImg] = useState(true);
-  const [loadingScreen, setLoadingScreen] = useState(false); 
+  const [loadingScreen, setLoadingScreen] = useState(false);
   const [previewItemUrl, setPreviewItemUrl] = useState("");
   const [previewVideoUrl, setPreviewVideoUrl] = useState("");
-  const [previewAudioUrl, setPreviewAudioUrl] = useState("")
+  const [previewAudioUrl, setPreviewAudioUrl] = useState("");
   const [previewDocUrl, setPreviewDocUrl] = useState("");
   const [extension, setExtension] = useState("");
   const [renameFile, setRenameFile] = useState(false);
@@ -30,7 +30,7 @@ export default function ImagePreview({ item, favorite }) {
   let isfav = item.isFavorite;
 
   useEffect(() => {
-    if(item.category === 'pictures') {
+    if (item.category === "pictures") {
       const fetchImg = async () => {
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
@@ -39,15 +39,14 @@ export default function ImagePreview({ item, favorite }) {
               Authorization: `Bearer ${authToken}`,
             },
           },
-          );
+        );
         setExtension(response.data.extension);
         setShowImg(true);
         setPreviewItemUrl(response.data.dataBase64);
         setLoadingImg(false);
-      }
+      };
       fetchImg();
-    }
-    else if(item.category === 'videos') {
+    } else if (item.category === "videos") {
       const fetchImg = async () => {
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
@@ -56,15 +55,14 @@ export default function ImagePreview({ item, favorite }) {
               Authorization: `Bearer ${authToken}`,
             },
           },
-          );
+        );
         setExtension(response.data.extension);
         setShowVideo(true);
         setPreviewVideoUrl(response.data.dataBase64);
         setLoadingImg(false);
-      }
+      };
       fetchImg();
-    }
-    else if(item.category === 'audio') {
+    } else if (item.category === "audio") {
       const fetchImg = async () => {
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
@@ -73,15 +71,14 @@ export default function ImagePreview({ item, favorite }) {
               Authorization: `Bearer ${authToken}`,
             },
           },
-          );
+        );
         setExtension(response.data.extension);
         setShowAudio(true);
         setPreviewAudioUrl(response.data.dataBase64);
         setLoadingImg(false);
-      }
+      };
       fetchImg();
-    }
-    else if(item.category === 'documents') {
+    } else if (item.category === "documents") {
       const fetchImg = async () => {
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/image/${item.name}`,
@@ -90,18 +87,17 @@ export default function ImagePreview({ item, favorite }) {
               Authorization: `Bearer ${authToken}`,
             },
           },
-          );
+        );
         setExtension(response.data.extension);
         setShowDoc(true);
         setPreviewDocUrl(response.data.dataBase64);
         setLoadingImg(false);
-      }
+      };
       fetchImg();
-    }
-    else{
+    } else {
       setLoadingImg(false);
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -195,7 +191,7 @@ export default function ImagePreview({ item, favorite }) {
     setSelectedItemData(item.name);
     const base64ImageData = `data:image/jpeg;base64,${previewItemUrl}`;
 
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = base64ImageData;
     a.download = item.name;
     a.click();
@@ -214,14 +210,14 @@ export default function ImagePreview({ item, favorite }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        }
+        },
       );
       if (response.status === 200) {
         setRenameFile(false);
         window.location.reload();
       }
     } catch (error) {
-      console.error('Error renaming file:', error);
+      console.error("Error renaming file:", error);
     }
   };
 
@@ -232,7 +228,7 @@ export default function ImagePreview({ item, favorite }) {
   }
 
   async function handleDelete(e) {
-    setLoadingScreen(true)
+    setLoadingScreen(true);
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -264,7 +260,7 @@ export default function ImagePreview({ item, favorite }) {
         setShare(false);
       }}
     >
-      {loadingScreen && <LoadingScreen darkness={ ' z-40 ' } />}
+      {loadingScreen && <LoadingScreen darkness={" z-40 "} />}
       {share && (
         <SharePopUp
           isOpen={share}
@@ -272,48 +268,108 @@ export default function ImagePreview({ item, favorite }) {
           width={"w-full md:w-4/12 lg:w-6/12"}
         />
       )}
-      <div className={`relative h-full flex items-center justify-center w-full ${ previewItemUrl ? 'bg-gray-600' : 'bg-gray-300' } rounded-lg`}>
-        { loadingImg && <LoadingScreen absolute={ true } /> }
-        { previewItemUrl && 
-        <img src={`data:image/${extension};base64,` + previewItemUrl} alt="Preview" style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }}/> 
-        }
-        { previewVideoUrl && 
-        <video controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} autoPlay playsInline>
-          <source src={`data:video/${extension};base64,` + previewVideoUrl} type="video/mp4" />
-        </video>
-        }
-        { previewAudioUrl && 
-        <audio controls style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '0.5rem' }} autoPlay volume="0.5">
-          <source src={`data:audio/${extension};base64,` + previewAudioUrl} type="audio/mp3" />
-        </audio>
-        }
-        { previewDocUrl &&
-          <iframe src= { ( extension && extension ==='pdf') ? `data:application/pdf;base64,` + previewDocUrl : `data:text/html;base64,` + previewDocUrl  } style={{ width: '100%', height: '100%', borderRadius: '0.5rem' }} title={item.name} scrolling="yes"></iframe> 
-        }
-        { !previewItemUrl && !previewVideoUrl && !previewAudioUrl && !previewDocUrl && <i className={`fas ${item.icon ? item.icon : 'fa-file-alt'} text-gray-400 text-6xl`}></i> }
+      <div
+        className={`relative h-full flex items-center justify-center w-full ${
+          previewItemUrl ? "bg-gray-600" : "bg-gray-300"
+        } rounded-lg`}
+      >
+        {loadingImg && <LoadingScreen absolute={true} />}
+        {previewItemUrl && (
+          <img
+            src={`data:image/${extension};base64,` + previewItemUrl}
+            alt="Preview"
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+              borderRadius: "0.5rem",
+            }}
+          />
+        )}
+        {previewVideoUrl && (
+          <video
+            controls
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+              borderRadius: "0.5rem",
+            }}
+            title={item.name}
+            autoPlay
+            playsInline
+          >
+            <source
+              src={`data:video/${extension};base64,` + previewVideoUrl}
+              type="video/mp4"
+            />
+          </video>
+        )}
+        {previewAudioUrl && (
+          <audio
+            controls
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+              borderRadius: "0.5rem",
+            }}
+            autoPlay
+            volume="0.5"
+          >
+            <source
+              src={`data:audio/${extension};base64,` + previewAudioUrl}
+              type="audio/mp3"
+            />
+          </audio>
+        )}
+        {previewDocUrl && (
+          <iframe
+            src={
+              extension && extension === "pdf"
+                ? `data:application/pdf;base64,` + previewDocUrl
+                : `data:text/html;base64,` + previewDocUrl
+            }
+            style={{ width: "100%", height: "100%", borderRadius: "0.5rem" }}
+            title={item.name}
+            scrolling="yes"
+          ></iframe>
+        )}
+        {!previewItemUrl &&
+          !previewVideoUrl &&
+          !previewAudioUrl &&
+          !previewDocUrl && (
+            <i
+              className={`fas ${
+                item.icon ? item.icon : "fa-file-alt"
+              } text-gray-400 text-6xl`}
+            ></i>
+          )}
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-y-3 py-3">
           <span className="flex flex-row gap-x-1 items-center">
             <i className="fas fa-star text-amber-500 text-lg"></i>
-            { renameFile === true ? (
-                    <input
-                      type="text"
-                      className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      autoFocus
-                      onBlur={() => setRenameFile(false)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          handleRename(e, item.name);
-                        }
-                      }}
-                    />
-                  ) : (
-            <h1 className="text-blue-600 font-black text-lg">{itemName(item)}</h1>
-                  )}
+            {renameFile === true ? (
+              <input
+                type="text"
+                className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                autoFocus
+                onBlur={() => setRenameFile(false)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleRename(e, item.name);
+                  }
+                }}
+              />
+            ) : (
+              <h1 className="text-blue-600 font-black text-lg">
+                {itemName(item)}
+              </h1>
+            )}
           </span>
           <p className="text-xs text-gray-400">{item.time.toUpperCase()}</p>
           <span className="text-sm bg-emerald-200 text-emerald-600 flex items-center rounded-xl px-4 w-fit">
@@ -348,7 +404,7 @@ export default function ImagePreview({ item, favorite }) {
                     e.preventDefault();
                     e.stopPropagation();
                     setDropDown(false);
-                    setRenameFile(true)
+                    setRenameFile(true);
                   }}
                 >
                   <span>Rename</span>

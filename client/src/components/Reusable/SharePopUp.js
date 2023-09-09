@@ -1,6 +1,6 @@
 import CopyLinkBox from "./CopyLink";
 import { useState, useEffect } from "react";
-import '../../index.css'
+import "../../index.css";
 
 export default function SharePopUp({ link, isOpen, width }) {
   const [close, setClose] = useState(isOpen);

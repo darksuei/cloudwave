@@ -12,7 +12,7 @@ const CopyLinkBox = ({ mylink }) => {
     navigator.clipboard.writeText(mylink).then(() => {
       textField.remove();
       setCopied(true);
-    })
+    });
   };
 
   return (

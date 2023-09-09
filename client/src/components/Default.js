@@ -10,8 +10,11 @@ const Default = block(function Default() {
             All your files in one safe place
           </h1>
           <p className="text-xs md:text-sm text-blue-400">
-          <span className="hidden md:inline">Free file storage for everyone.</span> Store your files securely in the
-            cloud and access them from any device.
+            <span className="hidden md:inline">
+              Free file storage for everyone.
+            </span>{" "}
+            Store your files securely in the cloud and access them from any
+            device.
           </p>
         </div>
         <div className="w-10/12 px-4">

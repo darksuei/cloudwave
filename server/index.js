@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { loginToStorage } = require("./utils/loginToStorage")
-const { uploadToStorage } = require("./utils/Storage")
+const { loginToStorage } = require("./utils/loginToStorage");
+const { uploadToStorage } = require("./utils/Storage");
 const db = require("./utils/database");
 
 const userRouter = require("./routes/userRouter");

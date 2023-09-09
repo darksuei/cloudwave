@@ -24,7 +24,7 @@ export default function Files(props) {
             titleStyle={"ml-3 md:ml-0"}
             showAll={true}
             category={category}
-            padding={'px-4'}
+            padding={"px-4"}
           />
         </div>
       </div>

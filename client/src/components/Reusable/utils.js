@@ -56,7 +56,7 @@ export default function DragDrop() {
         },
       );
       setLoadingScreen(false);
-      if(response.status === 400) {
+      if (response.status === 400) {
         alert("Upload failed. Storage limit exceeded!");
       }
       if (response.status === 201) {
@@ -71,31 +71,34 @@ export default function DragDrop() {
 
   return (
     <>
-    {loadingScreen && <LoadingScreen />}
-    <div
-      className={`flex flex-col w-10/12 md:w-9/12 py-9 md:py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${
-        highlight ? " border-2 border-blue-500 " : ""
-      }`}
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
-      <div>
-        <div className="loading-bar-container">
-          <div className="loading-bar"></div>
+      {loadingScreen && <LoadingScreen />}
+      <div
+        className={`flex flex-col w-10/12 md:w-9/12 py-9 md:py-11 items-center bg-white border-dashed border border-gray-500 cursor-pointer hover:transform hover:scale-105 hover:border-none hover:rounded-lg transition-transform duration-300 ${
+          highlight ? " border-2 border-blue-500 " : ""
+        }`}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <div>
+          <div className="loading-bar-container">
+            <div className="loading-bar"></div>
+          </div>
+        </div>
+        <div className="flex flex-col justify-center items-center gap-y-4">
+          <i className="fas fa-upload text-indigo-500 text-3xl"></i>
+          <p className="text-gray-400 text-sm font-semibold">
+            <span className="hidden md:inline">Drag and drop files here</span>
+            <a
+              href="/upload"
+              className="inline md:hidden underline font-black text-md noSelect"
+            >
+              Choose a file to Upload
+            </a>
+          </p>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center gap-y-4">
-        <i className="fas fa-upload text-indigo-500 text-3xl"></i>
-        <p className="text-gray-400 text-sm font-semibold">
-        <span className="hidden md:inline">Drag and drop files here</span>
-          <a href="/upload" className="inline md:hidden underline font-black text-md noSelect">
-            Choose a file to Upload
-          </a>
-        </p>
-      </div>
-    </div>
     </>
   );
 }
@@ -128,7 +131,7 @@ export function Avatar({ size, hidePen, imgSize }) {
     }
   };
 
-  async function handleAvatarUpload (e) {
+  async function handleAvatarUpload(e) {
     e.preventDefault();
     e.stopPropagation();
     setLoadingAvatar(true);
@@ -156,21 +159,25 @@ export function Avatar({ size, hidePen, imgSize }) {
       getUser();
     } catch (error) {
       console.error("Upload error:", error);
-      alert("Failed to update avatar!")
+      alert("Failed to update avatar!");
     }
-    setLoadingAvatar(false)
+    setLoadingAvatar(false);
   }
-  
+
   return (
     <div className="flex justify-center items-center relative h-32 md:h-24">
-      <div className={`relative rounded-full ${imgSize ? imgSize : ' h-24 w-24 '} md:h-16 md:w-16 flex items-center justify-center`}>
+      <div
+        className={`relative rounded-full ${
+          imgSize ? imgSize : " h-24 w-24 "
+        } md:h-16 md:w-16 flex items-center justify-center`}
+      >
         {loadingAvatar && <LoadingScreen roundedAbs={true} />}
         {avatar ? (
           <img
             src={"data:image/png;base64," + avatar}
             alt="Preview"
             className="rounded-full object-cover"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: "100%", height: "100%" }}
           />
         ) : (
           <i
@@ -184,11 +191,11 @@ export function Avatar({ size, hidePen, imgSize }) {
           onChange={handleAvatarUpload}
           multiple
         />
-          {!hidePen && (
-            <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
-              <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
-            </div>
-          )}
+        {!hidePen && (
+          <div className="rounded-full bg-black p-1 absolute right-1 bottom-1 flex items-center justify-center opacity-70">
+            <i className="fas fa-pen text-gray-100 text-xs cursor-pointer z-50"></i>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -239,7 +246,7 @@ export function Categories(props) {
     },
     { color: "bg-gray-100", noIcons: true },
   ]);
-  
+
   let countUrl;
   props.favs
     ? (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count?favorites=true`)
@@ -249,7 +256,7 @@ export function Categories(props) {
     const fetchData = async () => {
       try {
         const counts = await getCount(authToken);
-        if(counts) {
+        if (counts) {
           setCount(counts);
           setCategories((prev) => {
             prev[0].count = counts.pictures;
@@ -289,8 +296,8 @@ export function Categories(props) {
     }
     document.body.addEventListener("click", handleDocumentClick);
 
-    if(props.favs) {
-      setCategories(categories.filter((category) => category.noIcons !== true))
+    if (props.favs) {
+      setCategories(categories.filter((category) => category.noIcons !== true));
     }
 
     return () => {
@@ -326,85 +333,83 @@ export function Categories(props) {
     );
 
     setCategories(updatedCategoryData);
-      if (favorites.includes(index)) {
-        setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
-      } else {
-        setFavorites([...favorites, index]);
-      }
+    if (favorites.includes(index)) {
+      setFavorites(favorites.filter((itemIndex) => itemIndex !== index));
+    } else {
+      setFavorites([...favorites, index]);
+    }
   };
 
   return (
     <div className="flex flex-col p-3 bg-gray-200 rounded-xl w-full md:w-full gap-y-2.5">
       {props.title}
       <div className={`${props.style}`}>
-          {categories.map(
-            (category, index) =>
-              (!props.checkFav ||
-                (props.checkFav && favorites.includes(index))) && (
-                <a
-                  href={category.href || "/files"}
-                  key={index}
-                  className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300 noSelect`}
-                >
-                  {category.noIcons ? (
-                    
-                      !props.favs && (
-                        <div
-                          className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
-                          onClick={(e) => toggleInput(e)}
-                        >
-                          {showInput ? (
-                            <div className="w-full p-3 h-full">
-                              <input
-                                type="text"
-                                className="w-full p-2 text-xs"
-                                placeholder="Enter title"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  e.preventDefault();
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    toggleNewCategory(e.target.value);
-                                  }
-                                }}
-                              />
-                            </div>
-                          ) : (
-                            <i
-                              className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
-                            ></i>
-                          )}
+        {categories.map(
+          (category, index) =>
+            (!props.checkFav ||
+              (props.checkFav && favorites.includes(index))) && (
+              <a
+                href={category.href || "/files"}
+                key={index}
+                className={`rounded-xl w-11/12 lg:w-10/12 cursor-pointer ${category.color} hover:transform hover:scale-105 transition-transform duration-300 noSelect`}
+              >
+                {category.noIcons ? (
+                  !props.favs && (
+                    <div
+                      className="flex justify-center items-center w-40 md:w-full h-28 rounded--xl"
+                      onClick={(e) => toggleInput(e)}
+                    >
+                      {showInput ? (
+                        <div className="w-full p-3 h-full">
+                          <input
+                            type="text"
+                            className="w-full p-2 text-xs"
+                            placeholder="Enter title"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                toggleNewCategory(e.target.value);
+                              }
+                            }}
+                          />
                         </div>
-                      )
-                    
-                  ) : (
-                    <div className="w-40 md:w-full flex flex-row items-center p-3.5 lg:px-5">
-                      <div className="flex gap-y-1.5 flex-col w-8/12 h-20">
+                      ) : (
                         <i
-                          className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
+                          className={`fas fa-plus text-gray-400 text-lg cursor-pointer`}
                         ></i>
-                        <div className="text-white font-bold text-xs md:text-sm">
-                          {category.title}
-                        </div>
-                        <div className="text-xs text-gray-200 w-full italic">
-                          {category.count > 1 && category.count + ' files'}
-                          {category.count == 1 && category.count + ' file'}
-                          {category.count === 0 && 'Empty'}
-                        </div>
-                      </div>
-                      <i
-                        className={`fas fa-star white text-lg ml-4 cursor-pointer ${
-                          favorites.includes(index) ? "favorite" : ""
-                        } ${props.favs ? "favorite" : ""}`}
-                        onClick={(e) => toggleFavorite(category, index, e)}
-                      ></i>
+                      )}
                     </div>
-                  )}
-                </a>
-              ),
-          )}
-        </div>
+                  )
+                ) : (
+                  <div className="w-40 md:w-full flex flex-row items-center p-3.5 lg:px-5">
+                    <div className="flex gap-y-1.5 flex-col w-8/12 h-20">
+                      <i
+                        className={`${category.icon} ${category.iconColor} bg-white p-2 rounded-full w-fit text-md`}
+                      ></i>
+                      <div className="text-white font-bold text-xs md:text-sm">
+                        {category.title}
+                      </div>
+                      <div className="text-xs text-gray-200 w-full italic">
+                        {category.count > 1 && category.count + " files"}
+                        {category.count == 1 && category.count + " file"}
+                        {category.count === 0 && "Empty"}
+                      </div>
+                    </div>
+                    <i
+                      className={`fas fa-star white text-lg ml-4 cursor-pointer ${
+                        favorites.includes(index) ? "favorite" : ""
+                      } ${props.favs ? "favorite" : ""}`}
+                      onClick={(e) => toggleFavorite(category, index, e)}
+                    ></i>
+                  </div>
+                )}
+              </a>
+            ),
+        )}
+      </div>
     </div>
   );
 }

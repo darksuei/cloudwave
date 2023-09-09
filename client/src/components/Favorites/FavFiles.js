@@ -11,7 +11,7 @@ export default function FavFiles() {
   const [loading, setLoading] = useState(true);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
 
-  const togglePreview = (e,item) => {
+  const togglePreview = (e, item) => {
     e.stopPropagation();
     setShowPreview(item);
   };
@@ -26,7 +26,7 @@ export default function FavFiles() {
           },
         },
       );
-      setLoading(false)
+      setLoading(false);
       return response.data.favs;
     } catch (error) {
       console.error("Files error:", error);
@@ -40,9 +40,9 @@ export default function FavFiles() {
     return () => {
       document.removeEventListener("click", (e) => {
         setShowPreview(null);
-      })
-    }
-  })
+      });
+    };
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,48 +66,45 @@ export default function FavFiles() {
     <div className={`w-full p-2.5`}>
       {showPreview && (
         <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
-        <div
-          className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <button
-            className="absolute top-1 right-1 md:top-2 md:right-2 text-white"
+          <div
+            className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
             onClick={(e) => {
-              setShowPreview(null);
+              e.stopPropagation();
             }}
           >
-            <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
-          </button>
-          <ImagePreview
-            item={showPreview}
-            favorite={true}
-          />
+            <button
+              className="absolute top-1 right-1 md:top-2 md:right-2 text-white"
+              onClick={(e) => {
+                setShowPreview(null);
+              }}
+            >
+              <i className="fas fa-times-circle text-red-700 text-lg rounded-full"></i>
+            </button>
+            <ImagePreview item={showPreview} favorite={true} />
+          </div>
         </div>
-      </div>
       )}
       <h1 className="text-blue-500 font-black text-xl md:text-2xl py-3">
         Favorite Files
       </h1>
       <div className="flex flex-row w-full gap-x-8 flex-wrap gap-y-7 justify-center md:justify-start">
         {data.length === 0 ? (
-            loading ? (
-              <div className="w-full flex items-center justify-center h-12">
-                <Loading />
-              </div>
-            ) : (
-              <div className="text-xl md:text-2xl pt-6 text-center text-slate-400 w-full">
-                No favorite files..
-              </div>
-            )
+          loading ? (
+            <div className="w-full flex items-center justify-center h-12">
+              <Loading />
+            </div>
+          ) : (
+            <div className="text-xl md:text-2xl pt-6 text-center text-slate-400 w-full">
+              No favorite files..
+            </div>
+          )
         ) : (
           data.map((item, idx) => {
             return (
               <div
                 className="flex flex-col bg-white p-3 rounded-lg w-9/12 md:w-1/5 gap-y-1.5 hover:transform hover:scale-110 transition-transform duration-300 cursor-pointer"
                 key={idx}
-                onClick={(e) => togglePreview(e,item)}
+                onClick={(e) => togglePreview(e, item)}
               >
                 <div className="h-24 w-full flex items-center justify-center bg-slate-200">
                   <i className="fas fa-file-alt text-gray-500 text-3xl"></i>

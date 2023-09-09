@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-(require('dotenv')).config();
+const crypto = require("crypto");
+require("dotenv").config();
 
 const formatDateLabel = (date) => {
   const currentDate = new Date();
@@ -62,26 +62,40 @@ const getCategoryIcon = (category) => {
     }
     default: {
       return "fa-file-alt";
-    };
+    }
   }
-}
+};
 
 const linkHash = async (data) => {
   const encryptionKey = process.env.ENCRYPTION_KEY;
   const iv = process.env.IV;
-  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(encryptionKey), Buffer.from(iv, 'hex'));
-  let encryptedData = cipher.update(data, 'utf-8', 'hex');
-  encryptedData += cipher.final('hex');
+  const cipher = crypto.createCipheriv(
+    "aes-256-cbc",
+    Buffer.from(encryptionKey),
+    Buffer.from(iv, "hex"),
+  );
+  let encryptedData = cipher.update(data, "utf-8", "hex");
+  encryptedData += cipher.final("hex");
   return encryptedData;
-}
+};
 
 const deLinkHash = async (encryptedData) => {
   const encryptionKey = process.env.ENCRYPTION_KEY;
   const iv = process.env.IV;
-  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(encryptionKey), Buffer.from(iv, 'hex'));
-  let decryptedData = decipher.update(encryptedData, 'hex', 'utf-8');
-  decryptedData += decipher.final('utf-8');
+  const decipher = crypto.createDecipheriv(
+    "aes-256-cbc",
+    Buffer.from(encryptionKey),
+    Buffer.from(iv, "hex"),
+  );
+  let decryptedData = decipher.update(encryptedData, "hex", "utf-8");
+  decryptedData += decipher.final("utf-8");
   return decryptedData;
-}
+};
 
-module.exports = { formatDateLabel, getCategoryFromFileName, getCategoryIcon, linkHash, deLinkHash };
+module.exports = {
+  formatDateLabel,
+  getCategoryFromFileName,
+  getCategoryIcon,
+  linkHash,
+  deLinkHash,
+};
