@@ -6,10 +6,12 @@ import { Avatar } from "./utils";
 import LogoutButton from "./LogoutButton";
 import { useState, useContext, useEffect } from "react";
 import { LocationContext } from "../../Contexts/LocationContext";
+import { HamburgerContext } from "../../Contexts/HamburgerContext";
 
 export default function LeftSideBar() {
   const [showMenu, setShowMenu] = useState(false);
   const Location = useContext(LocationContext);
+  const isHamburger = useContext(HamburgerContext);
 
   const height = window.innerHeight;
 
@@ -37,31 +39,33 @@ export default function LeftSideBar() {
           src={Close}
           alt="Menu"
           width={25}
-          className="block fixed top-5 left-5 md:hidden z-50"
+          className="block fixed top-5 left-5 md:hidden z-40"
           onClick={(e) => toggleMenu(e)}
         />
       ) : (
-        <img
-          src={Hamburger}
-          alt="Menu"
-          width={20}
-          className="block fixed top-6 left-6 md:hidden z-50"
-          onClick={(e) => toggleMenu(e)}
-        />
+        isHamburger.hamburger && (
+          <img
+            src={Hamburger}
+            alt="Menu"
+            width={20}
+            className="block fixed top-6 left-6 md:hidden z-40"
+            onClick={(e) => toggleMenu(e)}
+          />
+        )
       )}
 
       <nav
         className={`${
           showMenu ? "flex w-7/12 left-0 top-0" : "hidden"
-        } md:flex md:w-3/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-40`}
+        } md:flex md:w-3/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-30`}
         style={{ height: height }}
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        <ul className="flex flex-col gap-y-1.5 md:gap-y-0 w-full relative">
-          <Avatar size={"text-8xl md:text-6xl"} />
-          <div className="flex flex-col gap-y-1 md:gap-y-0">
+        <ul className="flex flex-col gap-y-0 w-full relative">
+          <Avatar size={"text-6xl"} />
+          <div className="flex flex-col gap-y-0">
             <a href="/home">
               <li
                 className={`${
@@ -69,7 +73,7 @@ export default function LeftSideBar() {
                   Location.location === "settings"
                     ? "bg-blue-900"
                     : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-3 md:py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-home"></i>
@@ -82,7 +86,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "shared" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-3 md:py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-share-alt"></i>
@@ -95,7 +99,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "favorites" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-3 md:py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-star"></i>
@@ -108,7 +112,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "upload" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-3 md:py-3 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-upload"></i>
@@ -120,7 +124,7 @@ export default function LeftSideBar() {
           </div>
           <div className="absolute bottom-3.5 w-full">
             <a href="/settings">
-              <li className="px-10 md:px-14 py-4 flex items-center justify-center gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect">
+              <li className="px-10 md:px-14 py-3 md:py-4 flex items-center justify-center gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect">
                 <div className="p-1 w-5">
                   <i className="fas fa-cog"></i>
                 </div>

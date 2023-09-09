@@ -4,6 +4,7 @@ import "../../index.css";
 
 export default function SharePopUp({ link, isOpen, width }) {
   const [close, setClose] = useState(isOpen);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   function toggleClose(e) {
     e.preventDefault();
@@ -16,16 +17,25 @@ export default function SharePopUp({ link, isOpen, width }) {
     function handleDocumentClick() {
       setClose(false);
     }
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+
     document.body.addEventListener("click", handleDocumentClick);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       document.removeEventListener("click", handleDocumentClick);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
     close && (
-      <div className="h-screen w-full fixed flex items-center justify-center top-0 left-0 z-50">
+      <div
+        className="w-full fixed flex items-center justify-center top-0 left-0 z-50"
+        style={{ height: viewportHeight }}
+      >
         <div
           className={`${width} bg-white rounded-2xl relative z-50 p-5 flex flex-col gap-y-5 shadow-md border z-50`}
           onClick={(e) => {

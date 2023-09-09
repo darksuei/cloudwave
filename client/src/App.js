@@ -15,6 +15,7 @@ import Files from "./components/Files";
 import { LocationContext } from "./Contexts/LocationContext";
 import { FavoritesContext } from "./Contexts/FavoritesContext";
 import { AuthContext } from "./Contexts/AuthContext";
+import { HamburgerContext } from "./Contexts/HamburgerContext";
 import SearchPage from "./components/SearchPage";
 import SignUp from "./components/SignUp";
 import Login from "./components/Reusable/Login";
@@ -23,6 +24,7 @@ import GeneralPreview from "./components/GeneralPreview";
 
 function App() {
   const [location, setLocation] = useState("home");
+  const [hamburger, setHamburger] = useState(true);
   const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     Cookies.get("authToken") ? true : false,
@@ -43,9 +45,7 @@ function App() {
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       <LocationContext.Provider value={{ location, setLocation }}>
-        <FavoritesContext.Provider
-          value={{ favoriteCategory, setFavoriteCategory }}
-        >
+        <HamburgerContext.Provider value={{ hamburger, setHamburger }}>
           <Router>
             <Routes>
               <Route exact path="/" Component={Default} />
@@ -134,7 +134,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Router>
-        </FavoritesContext.Provider>
+        </HamburgerContext.Provider>
       </LocationContext.Provider>
     </AuthContext.Provider>
   );

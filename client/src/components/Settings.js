@@ -17,7 +17,7 @@ export default function Settings() {
         <Footer />
         <a
           href="mailto:folarinraphael@outlook.com"
-          className="absolute right-10 bottom-14 "
+          className="absolute right-10 bottom-14 md:block hidden"
         >
           <svg
             className={`w-12 h-12 hover:${bg}`}

@@ -52,6 +52,11 @@ transition: width 0.3s ease;
 }
 
 @media (max-width: 900px) {
+  .search-focus {
+    position: absolute;
+    top: 1rem;
+    width: 90%;
+  }
   .scrollable {
     overflow-x: scroll;
     overflow-y: hidden;

@@ -12,7 +12,7 @@ export default function GeneralPreview() {
     const encrypted = location.split("/")[2];
     const url =
       process.env.REACT_APP_SERVER_URL + `/api/decryptfile/${encrypted}`;
-    const response = axios
+    axios
       .get(url)
       .then((res) => {
         console.log(res.data.file);

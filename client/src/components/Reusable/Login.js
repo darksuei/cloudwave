@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
@@ -14,6 +14,9 @@ export default function Login() {
     email: "",
     password: "",
   });
+  if (isAuthenticated) {
+    window.location.href = "/home";
+  }
   const handleButton = () => {
     setLoading(true);
   };
