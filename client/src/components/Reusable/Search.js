@@ -15,7 +15,7 @@ export default function Search(props) {
       if (e.key === "Enter" && searchQuery.trim() !== "") {
         e.preventDefault();
         window.location.href = `/search?query=${encodeURIComponent(
-          searchQuery,
+          searchQuery
         )}`;
       }
     };
@@ -28,7 +28,9 @@ export default function Search(props) {
   }, [searchQuery]);
 
   useEffect(() => {
-    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
+    window.addEventListener("resize", () =>
+      setViewportWidth(window.innerWidth)
+    );
     document.addEventListener("click", (e) => {
       setIsFocused(false);
       isHamburger.setHamburger(true);
@@ -37,7 +39,9 @@ export default function Search(props) {
       document.removeEventListener("click", (e) => {
         setIsFocused(false);
       });
-      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
+      window.removeEventListener("resize", () =>
+        setViewportWidth(window.innerWidth)
+      );
     };
   }, []);
 
@@ -58,7 +62,7 @@ export default function Search(props) {
         }`}
       >
         <div
-          className={`bg-white w-7/12 md:w-10/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md noSelect ${
+          className={`bg-white w-8/12 md:w-10/12 flex flex-row gap-x-0.5 items-center justify-center rounded-3xl border-gray-300 hover:shadow-md noSelect ${
             isFocused ? " search-focus " : "  "
           } `}
           onClick={(e) => {
@@ -68,7 +72,9 @@ export default function Search(props) {
         >
           <i
             className={`fa fas fa-search ${
-              isFocused && viewportWidth < 900 ? "text-gray-900" : "text-gray-400"
+              isFocused && viewportWidth < 900
+                ? "text-gray-900"
+                : "text-gray-400"
             } text-lg cursor-pointer `}
             aria-hidden="true"
           ></i>

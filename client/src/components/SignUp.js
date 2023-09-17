@@ -30,7 +30,7 @@ export default function SignUp() {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/newuser`,
-        formData,
+        formData
       );
       setLoading(false);
       if (response.status === 201) {
@@ -150,7 +150,7 @@ export default function SignUp() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`w-6/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2.5 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
+              className={`w-8/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2.5 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
