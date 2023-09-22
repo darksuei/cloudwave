@@ -8,8 +8,8 @@ export default function FavFiles() {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const authToken = Cookies.get("authToken");
 
   const togglePreview = (e, item) => {
     e.stopPropagation();
@@ -24,7 +24,7 @@ export default function FavFiles() {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setLoading(false);
       return response.data.favs;
