@@ -21,7 +21,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "generate-sw": "node_modules/.bin/workbox generateSW workbox-config.js"
   },
   "eslintConfig": {
     "extends": [
