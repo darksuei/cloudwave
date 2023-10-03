@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
 import Oval from "../../assets/oval.svg";
 import "../../index.css";
+import Google from "./Google";
 
 export default function Login() {
   const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
@@ -32,7 +33,7 @@ export default function Login() {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/login`,
-        formData,
+        formData
       );
       setLoading(false);
       if (response.status === 200) {
@@ -151,6 +152,7 @@ export default function Login() {
                 "Log In ✨"
               )}
             </button>
+
             <p className="text-xs text-gray-600">
               Don't have an account?{" "}
               <a
@@ -163,6 +165,7 @@ export default function Login() {
           </div>
         </div>
       </form>
+      <Google />
     </div>
   );
 }

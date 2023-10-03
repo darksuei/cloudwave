@@ -13,6 +13,7 @@
   "author": "Suei[Folarin Raphael]",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -22,6 +23,7 @@
     "get-image-data": "^5.0.0",
     "jimp": "^0.14.0",
     "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^3.1.2",
     "megajs": "1",
     "mongoose": "^7.4.3",
     "multer": "^1.4.5-lts.1",

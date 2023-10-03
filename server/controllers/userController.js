@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
+const axios = require("axios");
 require("dotenv").config();
 const { storage, loginToStorage } = require("../utils/loginToStorage");
 
@@ -16,9 +18,11 @@ const getUser = async (req, res, next) => {
 
     await loginToStorage();
     const folder = storage.root.children.find(
-      (folder) => folder.name === req.user.email,
+      (folder) => folder.name === req.user.email
     );
     const filelist = await getStorageFilesinDetail(folder);
+
+    if (!filelist) return res.status(200).json({ message: "success", user });
 
     const fileToSend = filelist.find((file) => file.name === user.avatar);
 
@@ -53,6 +57,46 @@ const userLogin = async (req, res, next) => {
     return res
       .status(200)
       .json({ message: "Login successful!", token: newToken });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const userGoogleLogin = async (req, res, next) => {
+  try {
+    const { userCredentials } = req.body;
+    const { email, given_name, family_name, picture } =
+      jwt_decode(userCredentials);
+    const user = await User.findOne({ email: email });
+    if (user) {
+      const newToken = generateToken(user.email);
+      user.token = newToken;
+      await user.save();
+      res.status(200).json({ message: "Login successful!", token: newToken });
+    } else {
+      console.log("ok");
+      const newToken = generateToken(email);
+      const response = await axios.get(picture, {
+        responseType: "arraybuffer",
+      });
+      const bufferPicture = Buffer.from(response.data, "utf-8");
+      const newUser = new User({
+        email,
+        firstname: given_name,
+        lastname: family_name,
+        avatar: bufferPicture,
+        token: newToken,
+      });
+      await loginToStorage();
+      if (await createStorage(newUser.email)) {
+        newUser.storage = newUser.email;
+        newUser.hasStorage = true;
+      }
+      await newUser.save();
+      return res
+        .status(201)
+        .json({ message: "User created successfully", token: newToken });
+    }
   } catch (err) {
     next(err);
   }
@@ -126,7 +170,7 @@ const userUpdate = async (req, res) => {
     const user = await User.findOneAndUpdate(
       { email: req.user.email },
       updateFields,
-      { new: true },
+      { new: true }
     );
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -153,4 +197,11 @@ const generateToken = (email) => {
   return token;
 };
 
-module.exports = { hashPassword, userLogin, userRegister, userUpdate, getUser };
+module.exports = {
+  hashPassword,
+  userLogin,
+  userRegister,
+  userUpdate,
+  getUser,
+  userGoogleLogin,
+};
