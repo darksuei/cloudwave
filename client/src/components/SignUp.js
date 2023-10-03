@@ -5,11 +5,12 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import Oval from "../assets/oval.svg";
 import "../index.css";
+import Google from "./Reusable/Google";
 
 export default function SignUp() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
+  const { setIsAuthenticated } = React.useContext(AuthContext);
   const [formData, setFormData] = useState({
     firstname: "",
     email: "",
@@ -178,6 +179,7 @@ export default function SignUp() {
             </p>
           </div>
         </div>
+        <Google />
       </form>
     </div>
   );

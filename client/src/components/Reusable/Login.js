@@ -162,10 +162,10 @@ export default function Login() {
                 Sign Up
               </a>
             </p>
+            <Google />
           </div>
         </div>
       </form>
-      <Google />
     </div>
   );
 }

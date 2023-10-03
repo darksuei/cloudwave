@@ -13,9 +13,7 @@ export default function Google() {
         `${process.env.REACT_APP_SERVER_URL}/api/google_login`,
         { userCredentials: credential }
       );
-      console.log(response.data);
       if (response.status === 200) {
-        console.log("Login successful!");
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
         setIsAuthenticated(true);

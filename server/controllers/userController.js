@@ -74,7 +74,6 @@ const userGoogleLogin = async (req, res, next) => {
       await user.save();
       res.status(200).json({ message: "Login successful!", token: newToken });
     } else {
-      console.log("ok");
       const newToken = generateToken(email);
       const response = await axios.get(picture, {
         responseType: "arraybuffer",
