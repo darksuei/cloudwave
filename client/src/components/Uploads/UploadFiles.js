@@ -10,7 +10,7 @@ export default function UploadFiles() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [loadingScreen, setLoadingScreen] = useState(false);
   const Uploads = useContext(UploadContext);
-  const [uploadedFiles, setUploadedFiles] = useState([...Uploads.uploads]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ export default function UploadFiles() {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       if (response.status === 201 || response.status === 200) {
         Uploads.setUploads((prev) => [...prev, ...uploadedFiles]);
@@ -96,7 +96,7 @@ export default function UploadFiles() {
         Upload Files
       </h1>
       <div
-        className={`flex flex-col w-full md:w-11/12 py-11 items-center bg-slate-200 rounded-lg cursor-pointer md:hover:transform md:hover:scale-105 transition-transform duration-300 noSelect
+        className={`flex flex-col w-full md:w-11/12 py-11 items-center bg-slate-200 rounded-lg noSelect
             ${highlight ? " border-2 border-blue-500 " : ""}`}
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
@@ -110,7 +110,7 @@ export default function UploadFiles() {
               Drag and drop your files here
             </p>
             <p className="text-xs text-gray-500">or</p>
-            <button className="w-10/12 md:w-fit text-xs md:text-sm border-current border py-2.5 px-7 rounded-md hover:bg-blue-500 hover:text-white hover:w-11/12 md:hover:w-full relative overflow-hidden">
+            <button className="cursor-pointer w-10/12 md:w-fit text-xs md:text-sm border-current border py-2.5 px-7 hover:bg-blue-500 hover:text-white hover:w-11/12 md:hover:w-full relative overflow-hidden">
               <span className="relative z-10 hidden md:block">
                 Choose a file from your computer
               </span>
