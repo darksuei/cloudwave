@@ -73,7 +73,7 @@ const userGoogleLogin = async (req, res, next) => {
       const newToken = generateToken(user.email);
       user.token = newToken;
       await user.save();
-      res.status(200).json({ message: "Login successful!", token: newToken });
+      return res.status(200).json({ message: "Login successful!", token: newToken });
     } else {
       const newToken = generateToken(email);
       const response = await axios.get(picture, {

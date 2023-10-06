@@ -15,9 +15,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  if (isAuthenticated) {
-    window.location.href = "/home";
-  }
   const handleButton = () => {
     setLoading(true);
   };
