@@ -9,7 +9,7 @@ export default function UploadMain() {
     <UploadContext.Provider value={{ uploads, setUploads }}>
       <div className="w-full mt-6 md:w-10/12 flex flex-col gap-y-5 bg-slate-200 items-center p-5 md:p-10">
         <UploadFiles />
-        <UploadProgress />
+        {/* <UploadProgress /> */}
       </div>
     </UploadContext.Provider>
   );

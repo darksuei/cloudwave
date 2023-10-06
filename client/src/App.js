@@ -21,13 +21,14 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Reusable/Login";
 import Cookies from "js-cookie";
 import GeneralPreview from "./components/GeneralPreview";
+import ForgotPassword from "./components/Reusable/ForgotPassword";
 
 function App() {
   const [location, setLocation] = useState("home");
   const [hamburger, setHamburger] = useState(true);
   const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
-    Cookies.get("authToken") ? true : false,
+    Cookies.get("authToken") ? true : false
   );
 
   useEffect(() => {
@@ -131,6 +132,11 @@ function App() {
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
               <Route exact path="/preview/*" Component={GeneralPreview} />
+              <Route
+                exact
+                path="/forgot_password/*"
+                Component={ForgotPassword}
+              />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Router>

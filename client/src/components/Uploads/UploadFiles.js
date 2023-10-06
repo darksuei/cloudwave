@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import LoadingScreen from "../Reusable/LoadingScreen";
 import "../../index.css";
+import { toast } from "react-toastify";
 
 export default function UploadFiles() {
   const [highlight, setHighlight] = useState(false);
@@ -79,12 +80,13 @@ export default function UploadFiles() {
         }
       );
       if (response.status === 201 || response.status === 200) {
+        toast.success("Upload successful!");
         Uploads.setUploads((prev) => [...prev, ...uploadedFiles]);
       } else {
-        alert("Failed to upload files!");
+        toast.error("Failed to upload file!");
       }
     } catch (error) {
-      console.error("Upload error:", error);
+      toast.error("An Error Occured!");
     }
     setLoadingScreen(false);
   };
