@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
 const axios = require("axios");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 const { storage, loginToStorage } = require("../utils/loginToStorage");
 
@@ -179,6 +180,69 @@ const userUpdate = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const tempSecret = process.env.JWT_SECRET + user.hash;
+    const tempToken = jwt.sign({ email: email }, tempSecret, {
+      expiresIn: "1h",
+    });
+    const link = `${process.env.CLIENT_URL}/reset_password/${user._id}/${tempToken}`;
+    console.log(process.env.MYEMAIL, process.env.EMAILPASS);
+
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MYEMAIL,
+        pass: process.env.APPPASS,
+      },
+    });
+
+    let mailOptions = {
+      from: process.env.MYEMAIL,
+      to: email,
+      subject: "Cloud wave password reset",
+      text: `Click on the link to reset your password ${link}`,
+    };
+
+    console.log(transporter, mailOptions);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(400).json({ message: "Email not sent" });
+      } else {
+        console.log("Email sent: " + info.response);
+        return res.status(200).json({ message: "Email sent" });
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const resetPassword = async () => {
+  const { _id, token } = req.params;
+  const { password } = req.body;
+  try {
+    const user = await User.findById(_id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const tempSecret = process.env.JWT_SECRET + user.hash;
+    const payload = jwt.verify(token, tempSecret);
+    if (!payload) {
+      return res.status(401).json({ message: "Invalid authorization token" });
+    }
+    const hash = await hashPassword(password, 10);
+    user.hash = hash;
+    await user.save();
+    return res.status(200).json({ message: "Password reset successful" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const hashPassword = async (password, saltRounds) => {
   try {
     const hash = await bcrypt.hash(password, saltRounds);
@@ -203,4 +267,6 @@ module.exports = {
   userUpdate,
   getUser,
   userGoogleLogin,
+  forgotPassword,
+  resetPassword,
 };

@@ -5,12 +5,15 @@ import Oval from "../../assets/oval.svg";
 import "../../index.css";
 import { toast } from "react-toastify";
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
+    password: "",
   });
+  const location = window.location.pathname;
+  const urltoken = location.split("/")[2];
+  const urlid = location.split("/")[3];
   const handleButton = () => {
     setLoading(true);
   };
@@ -25,12 +28,13 @@ export default function ForgotPassword() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/forgot_password`,
+        `${process.env.REACT_APP_SERVER_URL}/api/reset_password/${urlid}/${urltoken}`,
         formData
       );
       setLoading(false);
       if (response.status === 200) {
-        toast.success("Reset link sent successfully");
+        toast.success("Password reset successful!");
+        toast.success("Please login to continue!");
       } else {
         toast.error("Something went wrong");
       }
@@ -56,27 +60,27 @@ export default function ForgotPassword() {
       >
         <div className="text-center">
           <h1 className="text-2xl font-black text-indigo-500">
-            Forgot Password
+            Reset Password
           </h1>
           <p className="text-gray-500 mt-3 text-xs">
-            Enter your email to recieve your unique password reset link!
+            Enter a new password for your account!
           </p>
         </div>
 
         <div className="w-full flex flex-col gap-y-5">
           <div className="flex flex-col gap-y-2">
             <label
-              htmlFor="email"
+              htmlFor="password"
               className="text-sm font-medium text-gray-500"
             >
-              E-mail
+              New Password
             </label>
             <input
-              type="email"
-              name="email"
-              className=" p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
-              placeholder="Johndoe@email"
-              value={formData.email}
+              type="password"
+              name="password"
+              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              placeholder="********"
+              value={formData.password}
               onChange={(e) => handleChange(e)}
               required
             />

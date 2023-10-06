@@ -13,7 +13,6 @@ import Favorites from "./components/Favorites";
 import Default from "./components/Default";
 import Files from "./components/Files";
 import { LocationContext } from "./Contexts/LocationContext";
-import { FavoritesContext } from "./Contexts/FavoritesContext";
 import { AuthContext } from "./Contexts/AuthContext";
 import { HamburgerContext } from "./Contexts/HamburgerContext";
 import SearchPage from "./components/SearchPage";
@@ -22,6 +21,9 @@ import Login from "./components/Reusable/Login";
 import Cookies from "js-cookie";
 import GeneralPreview from "./components/GeneralPreview";
 import ForgotPassword from "./components/Reusable/ForgotPassword";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ResetPassword from "./components/Reusable/ResetPassword";
 
 function App() {
   const [location, setLocation] = useState("home");
@@ -47,6 +49,7 @@ function App() {
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       <LocationContext.Provider value={{ location, setLocation }}>
         <HamburgerContext.Provider value={{ hamburger, setHamburger }}>
+          <ToastContainer />
           <Router>
             <Routes>
               <Route exact path="/" Component={Default} />
@@ -132,6 +135,7 @@ function App() {
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
               <Route exact path="/preview/*" Component={GeneralPreview} />
+              <Route exact path="/reset_password/*" Component={ResetPassword} />
               <Route
                 exact
                 path="/forgot_password/*"

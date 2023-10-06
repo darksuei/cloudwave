@@ -8,6 +8,8 @@ const {
   userUpdate,
   getUser,
   userGoogleLogin,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 const { authenticate } = require("../utils/authenticate");
@@ -15,6 +17,10 @@ const { authenticate } = require("../utils/authenticate");
 userRouter.get("/user", authenticate, getUser);
 
 userRouter.post("/login", userLogin);
+
+userRouter.post("/forgot_password", forgotPassword);
+
+userRouter.post("/reset_password/:_id/:token", resetPassword);
 
 userRouter.post("/newuser", userRegister);
 

@@ -39,7 +39,10 @@ export default function SignUp() {
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
         setIsAuthenticated(true);
-        window.location.href = "/home";
+        toast.success("Sign Up successful!");
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 500);
       }
     } catch (error) {
       setLoading(false);
