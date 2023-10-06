@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
 import Oval from "../../assets/oval.svg";
 import "../../index.css";
+import Google from "./Google";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -124,6 +125,7 @@ export default function Login() {
                 "Log In ✨"
               )}
             </button>
+
             <p className="text-xs text-gray-600 w-6/12 flex flex-col md:flex-row justify-between">
               <span>
                 Don't have an account?{" "}
@@ -144,6 +146,7 @@ export default function Login() {
                 Forgot Password?
               </a>
             </p>
+            <Google />
           </div>
         </div>
       </form>
