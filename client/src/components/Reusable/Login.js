@@ -1,13 +1,13 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { AuthContext } from "../../Contexts/AuthContext";
 import Oval from "../../assets/oval.svg";
 import "../../index.css";
+import { toast } from "react-toastify";
 
 export default function Login() {
-  const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -32,46 +32,33 @@ export default function Login() {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/login`,
-        formData,
+        formData
       );
       setLoading(false);
       if (response.status === 200) {
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
         setIsAuthenticated(true);
-        window.location.href = "/home";
+        toast.success("Login successful");
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 500);
       }
     } catch (error) {
-      console.error("Error sending form data:", error);
       setLoading(false);
-      setError(error.response.data.message);
+      if (error.response.data) {
+        setError(error.response.data.message);
+      }
     }
   };
   useEffect(() => {
-    // Load Bootstrap JS
-    const bootstrapScript = document.createElement("script");
-    bootstrapScript.src =
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js";
-    bootstrapScript.integrity =
-      "sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm";
-    bootstrapScript.crossOrigin = "anonymous";
-    document.body.appendChild(bootstrapScript);
-
-    return () => {
-      document.body.removeChild(bootstrapScript);
-    };
-  }, []);
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <div className="w-full h-screen bg-slate-200 flex items-center justify-center">
-      <head>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-          crossorigin="anonymous"
-        />
-      </head>
       <form
         className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-7/12 shadow-md"
         method="POST"
@@ -80,20 +67,6 @@ export default function Login() {
         <div className="text-center">
           <h1 className="text-2xl font-black text-indigo-500">Log In</h1>
           <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
-          {error && (
-            <div
-              className="alert alert-danger alert-dismissible fade show text-sm"
-              role="alert"
-            >
-              {error}
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-              ></button>
-            </div>
-          )}
         </div>
 
         <div className="w-full flex flex-col gap-y-5">
@@ -151,13 +124,24 @@ export default function Login() {
                 "Log In ✨"
               )}
             </button>
-            <p className="text-xs text-gray-600">
-              Don't have an account?{" "}
+            <p className="text-xs text-gray-600 w-6/12 flex flex-col md:flex-row justify-between">
+              <span>
+                Don't have an account?{" "}
+                <a
+                  href="/signup"
+                  className="text-indigo-500 hover:underline transition"
+                >
+                  Sign Up
+                </a>
+              </span>
               <a
-                href="/signup"
+                href="forgot_password"
                 className="text-indigo-500 hover:underline transition"
+                onClick={() => {
+                  toast.warn("Coming Soon!");
+                }}
               >
-                Sign Up
+                Forgot Password?
               </a>
             </p>
           </div>
