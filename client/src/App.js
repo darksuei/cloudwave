@@ -19,6 +19,7 @@ import SearchPage from "./components/SearchPage";
 import SignUp from "./components/SignUp";
 import Login from "./components/Reusable/Login";
 import GeneralPreview from "./components/GeneralPreview";
+import ForgotPassword from "./components/Reusable/ForgotPassword";
 import Cookies from "js-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -134,6 +135,11 @@ function App() {
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
               <Route exact path="/preview/*" Component={GeneralPreview} />
+              <Route
+                exact
+                path="/forgot_password/*"
+                Component={ForgotPassword}
+              />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Router>

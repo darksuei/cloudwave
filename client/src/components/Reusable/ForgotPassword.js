@@ -7,13 +7,12 @@ import Oval from "../../assets/oval.svg";
 import "../../index.css";
 import { toast } from "react-toastify";
 
-export default function Login() {
+export default function ForgotPassword() {
   const { setIsAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
   });
   const handleButton = () => {
     setLoading(true);
@@ -58,13 +57,17 @@ export default function Login() {
   return (
     <div className="w-full h-screen bg-slate-200 flex items-center justify-center">
       <form
-        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-7/12 shadow-md"
+        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-5/12 shadow-md"
         method="POST"
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="text-center">
-          <h1 className="text-2xl font-black text-indigo-500">Log In</h1>
-          <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
+          <h1 className="text-2xl font-black text-indigo-500">
+            Forgot Password
+          </h1>
+          <p className="text-gray-500 mt-3 text-xs">
+            Enter your email to recieve your unique password reset link!
+          </p>
         </div>
 
         <div className="w-full flex flex-col gap-y-5">
@@ -81,23 +84,6 @@ export default function Login() {
               className=" p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
               placeholder="Johndoe@email"
               value={formData.email}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-500"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              className="p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
-              placeholder="********"
-              value={formData.password}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -119,27 +105,24 @@ export default function Login() {
                   className="spin"
                 />
               ) : (
-                "Log In ✨"
+                "Reset"
               )}
             </button>
-            <p className="text-xs text-gray-600 w-6/12 flex flex-col md:flex-row justify-between">
-              <span>
-                Don't have an account?{" "}
-                <a
-                  href="/signup"
-                  className="text-indigo-500 hover:underline transition"
-                >
-                  Sign Up
-                </a>
-              </span>
+            <p className="text-xs text-gray-600 w-8/12 flex flex-col md:flex-row justify-between">
               <a
-                href="forgot_password"
+                href="/login"
                 className="text-indigo-500 hover:underline transition"
                 onClick={() => {
                   toast.warn("Coming Soon!");
                 }}
               >
-                Forgot Password?
+                Back to login
+              </a>
+              <a
+                href="/signup"
+                className="text-indigo-500 hover:underline transition"
+              >
+                Sign Up ?
               </a>
             </p>
           </div>
