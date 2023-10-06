@@ -3,6 +3,7 @@ import "../../index.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import LoadingScreen from "./LoadingScreen";
+import { toast } from "react-toastify";
 
 export default function DragDrop() {
   const [highlight, setHighlight] = useState(false);
@@ -52,19 +53,21 @@ export default function DragDrop() {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setLoadingScreen(false);
       if (response.status === 400) {
-        alert("Upload failed. Storage limit exceeded!");
+        toast.warn("Upload failed. Storage limit exceeded!");
       }
       if (response.status === 201) {
+        toast.success("Upload successful!");
         setTimeout(() => {
           window.location.reload();
         }, 500);
       }
     } catch (error) {
       console.error("Upload error:", error);
+      toast.error("An error occurred!");
     }
   };
 
@@ -122,7 +125,7 @@ export function Avatar({ size, hidePen, imgSize }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setAvatar(response.data.dataBase64);
     } catch (error) {
@@ -153,12 +156,12 @@ export function Avatar({ size, hidePen, imgSize }) {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       getUser();
     } catch (error) {
       console.error("Upload error:", error);
-      alert("Failed to update avatar!");
+      toast.error("Failed to update avatar!");
     }
     setLoadingAvatar(false);
   }
@@ -328,7 +331,7 @@ export function Categories(props) {
     e.stopPropagation();
 
     const updatedCategoryData = categories.map((cat) =>
-      cat === item ? { ...cat, isFavorite: true } : cat,
+      cat === item ? { ...cat, isFavorite: true } : cat
     );
 
     setCategories(updatedCategoryData);
@@ -406,7 +409,7 @@ export function Categories(props) {
                   </div>
                 )}
               </a>
-            ),
+            )
         )}
       </div>
     </div>

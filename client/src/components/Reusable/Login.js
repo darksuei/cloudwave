@@ -139,9 +139,6 @@ export default function Login() {
               <a
                 href="/forgot_password"
                 className="text-indigo-500 hover:underline transition"
-                onClick={() => {
-                  toast.warn("Coming Soon!");
-                }}
               >
                 Forgot Password?
               </a>

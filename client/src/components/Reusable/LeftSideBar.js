@@ -124,7 +124,7 @@ export default function LeftSideBar() {
           </div>
           <div className="absolute bottom-3.5 w-full">
             <a href="/settings">
-              <li className="px-10 md:px-14 py-3 md:py-4 flex items-center justify-center gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect">
+              <li className="px-10 md:px-14 py-3 md:py-4 flex items-center justify-center gap-x-2 hover:bg-blue-800 noSelect">
                 <div className="p-1 w-5">
                   <i className="fas fa-cog"></i>
                 </div>

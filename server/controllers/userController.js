@@ -204,7 +204,7 @@ const forgotPassword = async (req, res, next) => {
       from: process.env.MYEMAIL,
       to: email,
       subject: "Cloud wave password reset",
-      text: `Click on the link to reset your password ${link}`,
+      text: `Follow the link to reset your password ${link}`,
     };
 
     console.log(transporter, mailOptions);
@@ -223,11 +223,12 @@ const forgotPassword = async (req, res, next) => {
   }
 };
 
-const resetPassword = async () => {
+const resetPassword = async (req, res, next) => {
   const { _id, token } = req.params;
   const { password } = req.body;
+  console.log(_id, token, password);
   try {
-    const user = await User.findById(_id);
+    const user = await User.findOne({ _id: _id });
     if (!user) return res.status(404).json({ message: "User not found" });
     const tempSecret = process.env.JWT_SECRET + user.hash;
     const payload = jwt.verify(token, tempSecret);

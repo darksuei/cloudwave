@@ -12,8 +12,8 @@ export default function ResetPassword() {
     password: "",
   });
   const location = window.location.pathname;
-  const urltoken = location.split("/")[2];
-  const urlid = location.split("/")[3];
+  const urltoken = location.split("/")[3];
+  const urlid = location.split("/")[2];
   const handleButton = () => {
     setLoading(true);
   };
@@ -35,6 +35,9 @@ export default function ResetPassword() {
       if (response.status === 200) {
         toast.success("Password reset successful!");
         toast.success("Please login to continue!");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1000);
       } else {
         toast.error("Something went wrong");
       }
