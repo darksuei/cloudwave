@@ -16,7 +16,7 @@ const getUser = async (req, res, next) => {
 
     await loginToStorage();
     const folder = storage.root.children.find(
-      (folder) => folder.name === req.user.email,
+      (folder) => folder.name === req.user.email
     );
     const filelist = await getStorageFilesinDetail(folder);
 
@@ -73,7 +73,9 @@ const userRegister = async (req, res, next) => {
     if (existingUser) {
       return res
         .status(400)
-        .json({ message: "Email already registered, login to continue!" });
+        .json({
+          message: "Email already registered, please login to continue!",
+        });
     }
 
     const minPasswordLength = 6;
@@ -126,7 +128,7 @@ const userUpdate = async (req, res) => {
     const user = await User.findOneAndUpdate(
       { email: req.user.email },
       updateFields,
-      { new: true },
+      { new: true }
     );
     if (!user) return res.status(404).json({ message: "User not found" });
 

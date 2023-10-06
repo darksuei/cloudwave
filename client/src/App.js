@@ -18,14 +18,16 @@ import { AuthContext } from "./Contexts/AuthContext";
 import SearchPage from "./components/SearchPage";
 import SignUp from "./components/SignUp";
 import Login from "./components/Reusable/Login";
-import Cookies from "js-cookie";
 import GeneralPreview from "./components/GeneralPreview";
+import Cookies from "js-cookie";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [location, setLocation] = useState("home");
   const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
-    Cookies.get("authToken") ? true : false,
+    Cookies.get("authToken") ? true : false
   );
 
   useEffect(() => {
@@ -46,6 +48,7 @@ function App() {
         <FavoritesContext.Provider
           value={{ favoriteCategory, setFavoriteCategory }}
         >
+          <ToastContainer />
           <Router>
             <Routes>
               <Route exact path="/" Component={Default} />

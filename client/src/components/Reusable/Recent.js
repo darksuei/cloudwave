@@ -2,11 +2,11 @@ import "../../index.css";
 import { useState, useEffect } from "react";
 import SharePopUp from "./SharePopUp";
 import ImagePreview from "./ImagePreview";
-import Cloudwavehome from "../../assets/Cloudwavehome.jpeg";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Loading from "./Loading";
 import LoadingScreen from "./LoadingScreen";
+import { toast } from "react-toastify";
 
 export default function Recent({
   title,
@@ -127,30 +127,31 @@ export default function Recent({
     e.stopPropagation();
     if (dropdownState.includes(index)) {
       setDropdownState(
-        dropdownState.filter((itemIndex) => itemIndex !== index),
+        dropdownState.filter((itemIndex) => itemIndex !== index)
       );
     } else {
       setDropdownState([...dropdownState, index]);
     }
   }
 
-  async function getFile(name) {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      );
-      if (response.status === 200) {
-        return response.data.file;
-      }
-    } catch (error) {
-      console.error("Error fetching file:", error);
-    }
-  }
+  // FETCH SINGLE FILE
+  // async function getFile(name) {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${authToken}`,
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       return response.data.file;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching file:", error);
+  //   }
+  // }
 
   function handleShare(e, item) {
     e.preventDefault();
@@ -186,14 +187,17 @@ export default function Recent({
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       if (response.status === 200) {
         setRenameFile(false);
-        window.location.reload();
+        toast.success("Rename success!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       }
     } catch (error) {
-      console.error("Error renaming file:", error);
+      toast.error("Error renaming file");
     }
   };
 
@@ -209,15 +213,18 @@ export default function Recent({
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       if (response.status === 200) {
         setData(data.filter((file) => file.name !== name));
         setLoadingScreen(false);
-        window.location.reload();
+        toast.success("Delete success!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       }
     } catch (error) {
-      console.error("Error deleting file:", error);
+      toast.error("Error deleting file");
     }
   }
   useEffect(() => {
@@ -232,7 +239,7 @@ export default function Recent({
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
       } catch (error) {
         console.error("Error updating favorites:", error);
@@ -368,8 +375,8 @@ export default function Recent({
                               e.stopPropagation();
                               setDropdownState(
                                 dropdownState.filter(
-                                  (itemIndex) => itemIndex !== item,
-                                ),
+                                  (itemIndex) => itemIndex !== item
+                                )
                               );
                               setRenameFile(true);
                             }}

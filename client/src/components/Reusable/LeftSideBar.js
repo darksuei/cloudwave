@@ -69,7 +69,7 @@ export default function LeftSideBar() {
                   Location.location === "settings"
                     ? "bg-blue-900"
                     : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-home"></i>
@@ -82,7 +82,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "shared" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-share-alt"></i>
@@ -95,7 +95,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "favorites" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-star"></i>
@@ -108,7 +108,7 @@ export default function LeftSideBar() {
               <li
                 className={`${
                   Location.location === "upload" ? "bg-blue-900" : ""
-                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 rounded-r-2xl hover:bg-blue-800 noSelect`}
+                } justify-center py-4 flex items-center gap-x-1 md:gap-x-2 hover:bg-blue-800 noSelect`}
               >
                 <div className="p-1 w-5">
                   <i className="fas fa-upload"></i>
