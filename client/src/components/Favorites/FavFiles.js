@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import ImagePreview from "../Reusable/ImagePreview";
 import Loading from "../Reusable/Loading";
-import Cloudwavehome from "../../assets/Cloudwavehome.jpeg";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,7 +8,8 @@ export default function FavFiles() {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const authToken = Cookies.get("authToken");
 
   const togglePreview = (e, item) => {
     e.stopPropagation();
@@ -24,7 +24,7 @@ export default function FavFiles() {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setLoading(false);
       return response.data.favs;
@@ -34,15 +34,22 @@ export default function FavFiles() {
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+
     document.addEventListener("click", (e) => {
       setShowPreview(null);
     });
+    window.addEventListener("resize", handleResize);
+
     return () => {
+      window.removeEventListener("resize", handleResize);
       document.removeEventListener("click", (e) => {
         setShowPreview(null);
       });
     };
-  });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +72,10 @@ export default function FavFiles() {
   return (
     <div className={`w-full p-2.5`}>
       {showPreview && (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
+        <div
+          className="fixed top-0 left-0 flex justify-center items-center w-full z-50"
+          style={{ height: viewportHeight }}
+        >
           <div
             className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
             onClick={(e) => {

@@ -86,13 +86,15 @@ export default function UserInfo() {
   };
   return (
     <div className="w-full p-8 pb-4 flex flex-col">
-      <h1 className="text-blue-700 text-xl font-extrabold ml-4 md:ml-0">
+      <h1 className="text-blue-700 text-xl font-extrabold ml-6 md:ml-0">
         Personal Information
       </h1>
-      <h3 className="text-sm text-gray-500 my-3">Edit your information: </h3>
+      <h3 className="text-sm text-gray-500 my-3 ml-2 md:ml-0">
+        Edit your information:{" "}
+      </h3>
       <div className="flex flex-col md:flex-row w-full justify-between gap-y-7">
-        <span className="flex flex-row justify-evenly md:w-9/12">
-          <div className="w-3/12 h-full flex flex-col gap-y-3 items-center justify-center">
+        <span className="flex flex-row justify-between md:w-9/12 ">
+          <div className="w-5/12 h-full flex flex-col gap-y-3 items-center justify-center">
             <label
               htmlFor="avatar"
               className="text-sm font-medium text-gray-500"
@@ -106,7 +108,7 @@ export default function UserInfo() {
               id="avatar"
             />
           </div>
-          <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12">
+          <div className="flex flex-col p-3 gap-y-4 w-7/12 md:w-6/12 ">
             <div className="flex flex-col w-full gap-y-2 items-center md:items-start">
               <label
                 htmlFor="firstname"
@@ -116,7 +118,7 @@ export default function UserInfo() {
               </label>
               <input
                 name="firstname"
-                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="text"
                 placeholder={
                   user.firstname ? user.firstname : formData.firstname
@@ -134,7 +136,7 @@ export default function UserInfo() {
               </label>
               <input
                 name="lastname"
-                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="text"
                 placeholder={user.lastname ? user.lastname : formData.lastname}
                 onChange={(e) => handleChange(e)}
@@ -150,7 +152,7 @@ export default function UserInfo() {
               </label>
               <input
                 name="phone"
-                className="w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="tel"
                 value={user.phone ? user.phone : formData.phone}
                 onChange={(e) => handleChange(e)}

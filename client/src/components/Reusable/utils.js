@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "../../index.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -165,10 +165,10 @@ export function Avatar({ size, hidePen, imgSize }) {
   }
 
   return (
-    <div className="flex justify-center items-center relative h-32 md:h-24">
+    <div className="flex justify-center items-center relative h-24">
       <div
         className={`relative rounded-full ${
-          imgSize ? imgSize : " h-24 w-24 "
+          imgSize ? imgSize : " h-16 w-16 "
         } md:h-16 md:w-16 flex items-center justify-center`}
       >
         {loadingAvatar && <LoadingScreen roundedAbs={true} />}
@@ -395,7 +395,7 @@ export function Categories(props) {
                       </div>
                       <div className="text-xs text-gray-200 w-full italic">
                         {category.count > 1 && category.count + " files"}
-                        {category.count == 1 && category.count + " file"}
+                        {category.count === 1 && category.count + " file"}
                         {category.count === 0 && "Empty"}
                       </div>
                     </div>

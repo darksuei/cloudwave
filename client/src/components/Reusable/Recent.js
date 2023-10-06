@@ -31,6 +31,8 @@ export default function Recent({
   const [newName, setNewName] = useState("");
   const [reFetch, setReFetch] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+
   let api;
 
   if (category) {
@@ -42,6 +44,7 @@ export default function Recent({
   useEffect(() => {
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
+      setViewportHeight(window.innerHeight);
     };
 
     window.addEventListener("resize", handleResize);
@@ -134,24 +137,23 @@ export default function Recent({
     }
   }
 
-  // FETCH SINGLE FILE
-  // async function getFile(name) {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${authToken}`,
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       return response.data.file;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching file:", error);
-  //   }
-  // }
+  async function getFile(name) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        return response.data.file;
+      }
+    } catch (error) {
+      console.error("Error fetching file:", error);
+    }
+  }
 
   function handleShare(e, item) {
     e.preventDefault();
@@ -230,7 +232,7 @@ export default function Recent({
   useEffect(() => {
     const updateFavorites = async () => {
       try {
-        const response = await axios.patch(
+        await axios.patch(
           `${process.env.REACT_APP_SERVER_URL}/api/updatefav/${fav}`,
           {
             isFavorite: true,
@@ -290,7 +292,10 @@ export default function Recent({
                   key={item.id}
                 >
                   {showPreview.includes(item) && (
-                    <div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen z-50">
+                    <div
+                      className="fixed top-0 left-0 flex justify-center items-center w-full  z-50"
+                      style={{ height: viewportHeight }}
+                    >
                       <div
                         className={`flex p-5 md:p-8 bg-slate-400 w-11/12 md:w-9/12 relative h-4/6 md:h-5/6 rounded-xl border`}
                         onClick={(e) => {

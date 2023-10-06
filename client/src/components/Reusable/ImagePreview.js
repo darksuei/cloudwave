@@ -23,9 +23,7 @@ export default function ImagePreview({ item, favorite }) {
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
-  const [selectedItemData, setSelectedItemData] = useState(null);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const [link, setLink] = useState("");
 
   let isfav = item.isFavorite;
 
@@ -132,7 +130,6 @@ export default function ImagePreview({ item, favorite }) {
   function handleShare(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setSelectedItemData(item.name);
     setShare(!share);
   }
 
@@ -188,7 +185,6 @@ export default function ImagePreview({ item, favorite }) {
     e.preventDefault();
     e.stopPropagation();
     setDropDown(false);
-    setSelectedItemData(item.name);
     const base64ImageData = `data:image/jpeg;base64,${previewItemUrl}`;
 
     const a = document.createElement("a");
@@ -252,7 +248,7 @@ export default function ImagePreview({ item, favorite }) {
   return (
     <div
       className={`relative z-50 flex flex-col w-full bg-slate-400 noSelect h-full ${
-        showImg | showVideo ? "md:h-4/5" : "md:h-full"
+        showImg | showVideo | showDoc | showAudio ? "md:h-4/5" : "md:h-full"
       }`}
       onClick={(e) => {
         e.stopPropagation();
