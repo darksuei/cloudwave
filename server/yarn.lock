@@ -2783,9 +2783,9 @@ media-typer@0.3.0:
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
 megajs@1:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/megajs/-/megajs-1.1.3.tgz#54d9cee3fa51cd90ad8a5b25264a39e83aaa8573"
-  integrity sha512-RwTKZk6Yi4fErMOnrqfoARH97XD8n8+TyHWDwOvtlnLAmkO5grgwsBsdWA+FFtqzCC5VHXau9VMtD2yl42IkKg==
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/megajs/-/megajs-1.1.4.tgz#44d60dc603bf6beb92fcba562ca4bcce30c032bf"
+  integrity sha512-QNF9a6SETx6rs+2eUO3tq5wbF5Q47WdvUYASxc+sdrAE8ZVIXs3PRb6EjOtFKNWQdM3bq1ITPgG4D3eJdg3y6Q==
   dependencies:
     abort-controller "^3.0.0"
     node-fetch "^2.6.7"
