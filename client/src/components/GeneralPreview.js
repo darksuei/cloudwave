@@ -15,7 +15,6 @@ export default function GeneralPreview() {
     axios
       .get(url)
       .then((res) => {
-        console.log(res.data.file);
         setData(res.data.file);
         setLoading(false);
       })
@@ -23,7 +22,6 @@ export default function GeneralPreview() {
         console.error(err);
       });
   }, []);
-  console.log("DATA", data);
 
   return (
     <div className="bg-slate-200 w-full h-screen">
@@ -37,11 +35,7 @@ export default function GeneralPreview() {
                 e.stopPropagation();
               }}
             >
-              <ImagePreview
-                showImg={false}
-                //   imageUrl={}
-                item={data}
-              />
+              <ImagePreview showImg={false} item={data} />
             </div>
           </div>
         )}

@@ -36,7 +36,7 @@ export default function ImagePreview({ item, favorite }) {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
         setExtension(response.data.extension);
         setShowImg(true);
@@ -52,7 +52,7 @@ export default function ImagePreview({ item, favorite }) {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
         setExtension(response.data.extension);
         setShowVideo(true);
@@ -68,7 +68,7 @@ export default function ImagePreview({ item, favorite }) {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
         setExtension(response.data.extension);
         setShowAudio(true);
@@ -84,7 +84,7 @@ export default function ImagePreview({ item, favorite }) {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
         setExtension(response.data.extension);
         setShowDoc(true);
@@ -117,7 +117,7 @@ export default function ImagePreview({ item, favorite }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       if (response.status === 200) {
         return response.data.file;
@@ -159,7 +159,7 @@ export default function ImagePreview({ item, favorite }) {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
-          },
+          }
         );
         window.location.reload();
       } catch (error) {
@@ -206,7 +206,7 @@ export default function ImagePreview({ item, favorite }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       if (response.status === 200) {
         setRenameFile(false);
@@ -234,7 +234,7 @@ export default function ImagePreview({ item, favorite }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setLoadingScreen(false);
       if (response.status === 200) {

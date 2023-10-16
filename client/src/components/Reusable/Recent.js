@@ -162,6 +162,14 @@ export default function Recent({
     setShare(!share);
     setLink(item.link);
   }
+  function handleAutoDownloadShare(e, item) {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedItemData(item.name);
+    setShare(!share);
+    console.log(item.autoDownloadLink);
+    setLink(item.autoDownloadLink);
+  }
 
   function handleDownload(e, item) {
     e.preventDefault();
@@ -426,6 +434,14 @@ export default function Recent({
                             <i
                               className={`fas fa-trash text-xs text-red-700 absolute right-3`}
                             ></i>
+                          </button>
+                          <button
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            role="menuitem"
+                            onClick={(e) => handleAutoDownloadShare(e, item)}
+                          >
+                            <span>Auto Download Link</span>
+                            <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                         </div>
                       </div>

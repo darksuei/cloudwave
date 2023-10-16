@@ -14,6 +14,7 @@ const {
   getImage,
   toggleFav,
   getFileFromCrypt,
+  getFileFromCryptAndDownload,
   uploadAvatar,
 } = require("../controllers/filesController");
 
@@ -51,11 +52,13 @@ filesRouter.get("/image/:name", authenticate, getImage);
 
 filesRouter.get("/decryptfile/:hash", getFileFromCrypt);
 
+filesRouter.get("/downloadfile/:hash", getFileFromCryptAndDownload);
+
 filesRouter.post(
   "/uploadavatar",
   authenticate,
   upload.array("files"),
-  uploadAvatar,
+  uploadAvatar
 );
 
 module.exports = filesRouter;
