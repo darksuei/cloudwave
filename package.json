@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": "https://github.com/Suei43/CloudWave",
   "dependencies": {
-    "concurrently": "^8.2.1"
+    "concurrently": "^8.2.2"
   },
   "devDependencies": {
     "prettier": "^3.0.3"
