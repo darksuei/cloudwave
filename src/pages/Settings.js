@@ -1,11 +1,10 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { LocationContext } from "../contexts/LocationContext";
 //Components
 import { UserInfo, Footer } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
 export function Settings() {
-  const [bg, setBg] = useState("");
   const Location = useContext(LocationContext);
   Location.setLocation("settings");
 
@@ -20,7 +19,7 @@ export function Settings() {
           className="absolute right-10 bottom-14 md:block hidden"
         >
           <svg
-            className={`w-12 h-12 hover:${bg}`}
+            className={`w-12 h-12`}
             fill="#3B82F6"
             viewBox="0 0 1920 1920"
             xmlns="http://www.w3.org/2000/svg"

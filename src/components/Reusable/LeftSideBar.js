@@ -10,9 +10,9 @@ import { Avatar } from "./Avatar";
 import { LogoutButton } from "./LogoutButton";
 
 export function LeftSideBar() {
-  const [showMenu, setShowMenu] = useState(false);
   const Location = useContext(LocationContext);
   const isHamburger = useContext(HamburgerContext);
+  const [showMenu, setShowMenu] = useState(false);
 
   const height = window.innerHeight;
 

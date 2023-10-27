@@ -8,10 +8,10 @@ import { LoadingScreen } from "../Reusable";
 import "../../index.css";
 
 export function UploadFiles() {
-  const [highlight, setHighlight] = useState(false);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
-  const [loadingScreen, setLoadingScreen] = useState(false);
+  const authToken = Cookies.get("authToken");
   const Uploads = useContext(UploadContext);
+  const [highlight, setHighlight] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleDragEnter = (e) => {

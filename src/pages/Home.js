@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 //Components
 import { RightSideBar, Main } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
 export function Home() {
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
 
   useEffect(() => {
     if (!authToken) {

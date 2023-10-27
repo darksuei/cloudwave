@@ -7,7 +7,7 @@ import "../../index.css";
 import { Avatar } from "../Reusable";
 
 export function UserInfo() {
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     firstname: "",

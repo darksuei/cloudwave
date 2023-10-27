@@ -8,7 +8,7 @@ import { LoadingScreen } from "./LoadingScreen";
 
 export function DragDrop() {
   const [highlight, setHighlight] = useState(false);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
   const [loadingScreen, setLoadingScreen] = useState(false);
 
   const handleDragEnter = (e) => {

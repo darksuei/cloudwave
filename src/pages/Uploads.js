@@ -8,7 +8,7 @@ import { LeftSideBar } from "../components/Reusable";
 export function Uploads() {
   const Location = useContext(LocationContext);
   Location.setLocation("upload");
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
 
   useEffect(() => {
     if (!authToken) {

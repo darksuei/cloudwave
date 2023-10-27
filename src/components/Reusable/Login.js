@@ -9,7 +9,7 @@ import Oval from "../../assets/oval.svg";
 import { Google } from "./Google";
 
 export function Login() {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

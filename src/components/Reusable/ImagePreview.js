@@ -6,7 +6,7 @@ import "../../index.css";
 import { SharePopUp } from "./SharePopUp";
 import { LoadingScreen } from "./LoadingScreen";
 
-export function ImagePreview({ item, favorite }) {
+export function ImagePreview({ item }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -23,8 +23,8 @@ export function ImagePreview({ item, favorite }) {
   const [newName, setNewName] = useState("");
   const [dropDown, setDropDown] = useState(false);
   const [share, setShare] = useState(false);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const authToken = Cookies.get("authToken");
 
   let isfav = item.isFavorite;
 

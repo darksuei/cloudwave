@@ -9,7 +9,7 @@ import { LoadingScreen } from "./LoadingScreen";
 export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
   const [avatar, setAvatar] = useState(null);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
 
   useEffect(() => {
     if (authToken) {

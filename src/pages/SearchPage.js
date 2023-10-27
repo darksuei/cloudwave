@@ -6,11 +6,11 @@ import { LocationContext } from "../contexts";
 import { LeftSideBar, Recent, Search, Loading } from "../components/Reusable";
 
 export function SearchPage() {
-  const [data, setData] = useState([]);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
-  const [loading, setLoading] = useState(true);
   const Location = useContext(LocationContext);
   Location.setLocation("search");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const authToken = Cookies.get("authToken");
   const href = window.location.href;
   const query = href.split("?")[1];
 

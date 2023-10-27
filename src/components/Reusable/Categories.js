@@ -11,7 +11,7 @@ export function Categories(props) {
     audio: 0,
     documents: 0,
   });
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
+  const authToken = Cookies.get("authToken");
   const [favorites, setFavorites] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [categories, setCategories] = useState([

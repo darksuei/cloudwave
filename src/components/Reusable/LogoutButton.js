@@ -7,7 +7,7 @@ import { AuthContext } from "../../contexts";
 
 export const LogoutButton = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
+  const { setIsAuthenticated } = React.useContext(AuthContext);
 
   const logout = (e) => {
     e.preventDefault();

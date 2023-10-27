@@ -4,7 +4,7 @@ export { FavMain } from "./Favorites/FavMain";
 
 //Files
 export { MyFolders } from "./Files/MyFolders";
-export { MainFiles } from "./Files/Shared";
+export { MainFiles } from "./Files/MainFiles";
 
 //Home
 export { Main } from "./Home/Main";
