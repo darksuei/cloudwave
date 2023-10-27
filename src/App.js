@@ -1,34 +1,33 @@
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Home from "./components/Home";
-import Settings from "./components/Settings";
-import MyFiles from "./components/MyFiles";
-import Uploads from "./components/Uploads";
-import Favorites from "./components/Favorites";
-import Default from "./components/Default";
-import Files from "./components/Files";
-import { LocationContext } from "./Contexts/LocationContext";
-import { AuthContext } from "./Contexts/AuthContext";
-import { HamburgerContext } from "./Contexts/HamburgerContext";
-import SearchPage from "./components/SearchPage";
-import SignUp from "./components/SignUp";
-import Login from "./components/Reusable/Login";
-import Cookies from "js-cookie";
-import GeneralPreview from "./components/GeneralPreview";
-import ForgotPassword from "./components/Reusable/ForgotPassword";
 import { ToastContainer } from "react-toastify";
+
+//Assets & Components
 import "react-toastify/dist/ReactToastify.css";
-import ResetPassword from "./components/Reusable/ResetPassword";
+import {
+  Settings,
+  MyFiles,
+  Home,
+  Uploads,
+  Favorites,
+  Default,
+  Files,
+  GeneralPreview,
+  SignUp,
+  SearchPage,
+} from "./components";
+import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
+import { Login, ForgotPassword, ResetPassword } from "./components/Reusable";
 
 function App() {
   const [location, setLocation] = useState("home");
   const [hamburger, setHamburger] = useState(true);
-  const [favoriteCategory, setFavoriteCategory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     Cookies.get("authToken") ? true : false
   );

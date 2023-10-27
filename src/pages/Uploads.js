@@ -1,8 +1,9 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import UploadMain from "./Uploads/UploadMain";
 import { useState, useEffect, useContext } from "react";
-import { LocationContext } from "../Contexts/LocationContext";
 import Cookies from "js-cookie";
+import { LocationContext } from "../contexts";
+//Components
+import { UploadMain } from "../components";
+import { LeftSideBar } from "../components/Reusable";
 
 export default function Uploads() {
   const Location = useContext(LocationContext);

@@ -1,11 +1,12 @@
-import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { AuthContext } from "../../Contexts/AuthContext";
-import Oval from "../../assets/oval.svg";
-import "../../index.css";
-import Google from "./Google";
 import { toast } from "react-toastify";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../Contexts";
+//Assets & Components
+import "../../index.css";
+import Oval from "../../assets/oval.svg";
+import Google from "./Google";
 
 export default function Login() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);

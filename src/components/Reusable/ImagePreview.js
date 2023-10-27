@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import SharePopUp from "./SharePopUp";
 import Cookies from "js-cookie";
 import axios from "axios";
-import LoadingScreen from "./LoadingScreen";
+import React, { useState, useEffect } from "react";
+//Assets & Components
 import "../../index.css";
+import SharePopUp from "./SharePopUp";
+import LoadingScreen from "./LoadingScreen";
 
 export default function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");

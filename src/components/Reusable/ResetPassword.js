@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
 import axios from "axios";
-import Oval from "../../assets/oval.svg";
-import "../../index.css";
 import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
+//Assets
+import "../../index.css";
+import Oval from "../../assets/oval.svg";
 
 export default function ResetPassword() {
   const [error, setError] = useState(null);

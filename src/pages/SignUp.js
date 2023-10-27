@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { AuthContext } from "../Contexts/AuthContext";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
-import Oval from "../assets/oval.svg";
+import { AuthContext } from "../contexts";
+//Assets & Components
 import "../index.css";
-import { toast } from "react-toastify";
-import Google from "./Reusable/Google";
+import Oval from "../assets/oval.svg";
+import { Google } from "../components/Reusable";
 
 export default function SignUp() {
   const [error, setError] = useState(null);

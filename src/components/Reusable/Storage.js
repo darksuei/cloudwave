@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "../../index.css";
 import Cookies from "js-cookie";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
+//Assets
+import "../../index.css";
 
 export default function Storage({ width }) {
   const [usedSpace, setUsedSpace] = useState(0);
@@ -40,7 +41,7 @@ export default function Storage({ width }) {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       return [
         response.data.storageUsed,

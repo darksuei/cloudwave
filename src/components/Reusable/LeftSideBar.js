@@ -1,12 +1,13 @@
+import { useState, useContext, useEffect } from "react";
+import { LocationContext } from "../../Contexts";
+import { HamburgerContext } from "../../Contexts";
+//Assets & Components
 import "../../index.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 import Hamburger from "../../assets/hamburger.png";
 import Close from "../../assets/close.png";
-import "@fortawesome/fontawesome-free/css/all.css";
-import { Avatar } from "./utils";
+import { Avatar } from "./Avatar";
 import LogoutButton from "./LogoutButton";
-import { useState, useContext, useEffect } from "react";
-import { LocationContext } from "../../Contexts/LocationContext";
-import { HamburgerContext } from "../../Contexts/HamburgerContext";
 
 export default function LeftSideBar() {
   const [showMenu, setShowMenu] = useState(false);

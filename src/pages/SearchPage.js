@@ -1,11 +1,9 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import Recent from "./Reusable/Recent";
-import Search from "./Reusable/Search";
-import { useContext, useState, useEffect } from "react";
-import { LocationContext } from "../Contexts/LocationContext";
-import Loading from "./Reusable/Loading";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useContext, useState, useEffect } from "react";
+import { LocationContext } from "../contexts";
+//Components
+import { LeftSideBar, Recent, Search, Loading } from "../components/Reusable";
 
 export default function Files() {
   const [data, setData] = useState([]);
@@ -37,7 +35,7 @@ export default function Files() {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/search?${query}`,
-        { headers: { Authorization: `Bearer ${authToken}` } },
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
       return response.data.files;
     } catch (error) {

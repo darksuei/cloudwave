@@ -1,8 +1,8 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import UserInfo from "./Settings/UserInfo";
-import Footer from "./Settings/Footer";
 import { useState, useContext } from "react";
-import { LocationContext } from "../Contexts/LocationContext";
+import { LocationContext } from "../contexts/LocationContext";
+//Components
+import { UserInfo, Footer } from "../components";
+import { LeftSideBar } from "../components/Reusable";
 
 export default function Settings() {
   const [bg, setBg] = useState("");

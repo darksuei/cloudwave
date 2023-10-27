@@ -1,8 +1,8 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import RightSideBar from "./Home/RightSideBar";
-import Main from "./Home/Main";
-import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
+//Components
+import { RightSideBar, Main } from "../components";
+import { LeftSideBar } from "../components/Reusable";
 
 export default function Home() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));

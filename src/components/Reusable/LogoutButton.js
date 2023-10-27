@@ -1,8 +1,9 @@
-import React from "react";
 import Cookies from "js-cookie";
-import { AuthContext } from "../../Contexts/AuthContext";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+//Assets
 import "../../index.css";
+import { AuthContext } from "../../Contexts";
 
 const LogoutButton = () => {
   const navigate = useNavigate();

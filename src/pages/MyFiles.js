@@ -1,7 +1,8 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import MyMain from "./Files/MyMain";
 import { useContext } from "react";
-import { LocationContext } from "../Contexts/LocationContext";
+import { LocationContext } from "../contexts";
+//Components
+import { MyMain } from "../components";
+import { LeftSideBar } from "../components/Reusable";
 
 export default function MyFiles() {
   const Location = useContext(LocationContext);

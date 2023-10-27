@@ -1,12 +1,14 @@
-import "../../index.css";
-import { useState, useEffect } from "react";
-import SharePopUp from "./SharePopUp";
-import ImagePreview from "./ImagePreview";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+
+//Assets & Components
+import "../../index.css";
+import SharePopUp from "./SharePopUp";
+import ImagePreview from "./ImagePreview";
 import Loading from "./Loading";
 import LoadingScreen from "./LoadingScreen";
-import { toast } from "react-toastify";
 
 export default function Recent({
   title,

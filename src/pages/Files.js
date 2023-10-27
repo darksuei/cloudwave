@@ -1,8 +1,7 @@
-import LeftSideBar from "./Reusable/LeftSideBar";
-import Recent from "./Reusable/Recent";
-import Search from "./Reusable/Search";
 import { useContext } from "react";
-import { LocationContext } from "../Contexts/LocationContext";
+//Conponents
+import { LocationContext } from "../contexts";
+import { LeftSideBar, Recent, Search } from "../components/Reusable";
 
 export default function Files(props) {
   const { category } = props;

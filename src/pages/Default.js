@@ -1,5 +1,5 @@
-import Cloudwavehome from "../assets/Cloudwavehome.jpeg";
 import { block } from "million/react";
+import Cloudwavehome from "../assets/Cloudwavehome.jpeg";
 
 const Default = block(function Default() {
   return (

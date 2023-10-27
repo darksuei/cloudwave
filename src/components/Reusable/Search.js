@@ -1,6 +1,7 @@
-import "../../index.css";
 import React, { useState, useEffect, useContext } from "react";
-import { HamburgerContext } from "../../Contexts/HamburgerContext";
+//Assets
+import "../../index.css";
+import { HamburgerContext } from "../../Contexts";
 
 export default function Search(props) {
   let defaultVal = "";

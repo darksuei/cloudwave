@@ -1,7 +1,8 @@
-import React, { useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { AuthContext } from "../../Contexts/AuthContext";
+import React, { useEffect, useContext } from "react";
+
+import { AuthContext } from "../../Contexts";
 
 export default function Google() {
   const { setIsAuthenticated } = useContext(AuthContext);
