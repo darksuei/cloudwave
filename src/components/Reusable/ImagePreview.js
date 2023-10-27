@@ -3,10 +3,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 //Assets & Components
 import "../../index.css";
-import SharePopUp from "./SharePopUp";
-import LoadingScreen from "./LoadingScreen";
+import { SharePopUp } from "./SharePopUp";
+import { LoadingScreen } from "./LoadingScreen";
 
-export default function ImagePreview({ item, favorite }) {
+export function ImagePreview({ item, favorite }) {
   const [fav, setFav] = useState("");
   const [showImg, setShowImg] = useState(false);
   const [showVideo, setShowVideo] = useState(false);

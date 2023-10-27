@@ -1,4 +1,4 @@
-export { CopyLink } from "./CopyLink";
+export { CopyLinkBox } from "./CopyLink";
 export { ForgotPassword } from "./ForgotPassword";
 export { Google } from "./Google";
 export { ImagePreview } from "./ImagePreview";

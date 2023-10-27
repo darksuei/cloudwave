@@ -2,9 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useContext } from "react";
 
-import { AuthContext } from "../../Contexts";
+import { AuthContext } from "../../contexts";
 
-export default function Google() {
+export function Google() {
   const { setIsAuthenticated } = useContext(AuthContext);
 
   async function handleCredentialResponse(response) {

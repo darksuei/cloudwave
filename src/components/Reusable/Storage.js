@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 //Assets
 import "../../index.css";
 
-export default function Storage({ width }) {
+export function Storage({ width }) {
   const [usedSpace, setUsedSpace] = useState(0);
   const [unit, setUnit] = useState("MB");
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));

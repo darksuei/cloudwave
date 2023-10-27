@@ -1,10 +1,6 @@
-import Search from "../Reusable/Search";
-import Recent from "../Reusable/Recent";
-import DragDrop from "../Reusable/utils";
-import Storage from "../Reusable/Storage";
-import { Categories } from "../Reusable/utils";
+import { Categories, Search, Recent, DragDrop, Storage } from "../Reusable";
 
-export default function Main() {
+export function Main() {
   return (
     <div className="flex flex-col w-full md:w-7/12 py-4 items-center justify-center gap-y-5">
       <Search />

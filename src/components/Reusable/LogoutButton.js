@@ -3,9 +3,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 //Assets
 import "../../index.css";
-import { AuthContext } from "../../Contexts";
+import { AuthContext } from "../../contexts";
 
-const LogoutButton = () => {
+export const LogoutButton = () => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
 
@@ -28,5 +28,3 @@ const LogoutButton = () => {
     </button>
   );
 };
-
-export default LogoutButton;

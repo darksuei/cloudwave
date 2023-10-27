@@ -4,7 +4,7 @@ import { LocationContext } from "../contexts/LocationContext";
 import { UserInfo, Footer } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
-export default function Settings() {
+export function Settings() {
   const [bg, setBg] = useState("");
   const Location = useContext(LocationContext);
   Location.setLocation("settings");

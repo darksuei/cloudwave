@@ -1,7 +1,7 @@
 import { block } from "million/react";
 import Cloudwavehome from "../assets/Cloudwavehome.jpeg";
 
-const Default = block(function Default() {
+export const Default = block(function Default() {
   return (
     <div className="bg-white flex flex-col-reverse md:flex-row w-full h-screen items-center justify-center gap-y-1 md:gap-y-5">
       <div className="w-full md:w-6/12 flex flex-col justify-center items-center gap-y-1 md:gap-y-5 h-8/12 md:h-screen">
@@ -35,5 +35,3 @@ const Default = block(function Default() {
     </div>
   );
 });
-
-export default Default;

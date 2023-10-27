@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { RightSideBar, Main } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
-export default function Home() {
+export function Home() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
 
   useEffect(() => {

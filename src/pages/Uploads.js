@@ -5,7 +5,7 @@ import { LocationContext } from "../contexts";
 import { UploadMain } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
-export default function Uploads() {
+export function Uploads() {
   const Location = useContext(LocationContext);
   Location.setLocation("upload");
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));

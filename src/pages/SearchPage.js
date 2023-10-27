@@ -5,7 +5,7 @@ import { LocationContext } from "../contexts";
 //Components
 import { LeftSideBar, Recent, Search, Loading } from "../components/Reusable";
 
-export default function Files() {
+export function SearchPage() {
   const [data, setData] = useState([]);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [loading, setLoading] = useState(true);

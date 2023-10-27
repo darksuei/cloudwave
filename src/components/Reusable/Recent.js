@@ -5,12 +5,12 @@ import { useState, useEffect } from "react";
 
 //Assets & Components
 import "../../index.css";
-import SharePopUp from "./SharePopUp";
-import ImagePreview from "./ImagePreview";
-import Loading from "./Loading";
-import LoadingScreen from "./LoadingScreen";
+import { SharePopUp } from "./SharePopUp";
+import { ImagePreview } from "./ImagePreview";
+import { Loading } from "./Loading";
+import { LoadingScreen } from "./LoadingScreen";
 
-export default function Recent({
+export function Recent({
   title,
   showAll,
   category,

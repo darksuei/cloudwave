@@ -9,7 +9,7 @@ import "../index.css";
 import Oval from "../assets/oval.svg";
 import { Google } from "../components/Reusable";
 
-export default function SignUp() {
+export function SignUp() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setIsAuthenticated } = React.useContext(AuthContext);

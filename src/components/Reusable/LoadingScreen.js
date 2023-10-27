@@ -1,6 +1,6 @@
 import "../../index.css";
 
-export default function LoadingScreen({ absolute, darkness, roundedAbs }) {
+export function LoadingScreen({ absolute, darkness, roundedAbs }) {
   return (
     <div
       className={`flex items-center justify-center ${

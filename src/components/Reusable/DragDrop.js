@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import React, { useState } from "react";
 //Assets & Components
 import "../../index.css";
-import LoadingScreen from "./LoadingScreen";
+import { LoadingScreen } from "./LoadingScreen";
 
-export default function DragDrop() {
+export function DragDrop() {
   const [highlight, setHighlight] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [loadingScreen, setLoadingScreen] = useState(false);

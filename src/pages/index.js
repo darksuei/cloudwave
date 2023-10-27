@@ -1,0 +1,10 @@
+export { Default } from "./Default";
+export { Favorites } from "./Favorites";
+export { Files } from "./Files";
+export { GeneralPreview } from "./GeneralPreview";
+export { Home } from "./Home";
+export { MyFiles } from "./MyFiles";
+export { SearchPage } from "./SearchPage";
+export { Settings } from "./Settings";
+export { SignUp } from "./SignUp";
+export { Uploads } from "./Uploads";

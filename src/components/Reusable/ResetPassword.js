@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import "../../index.css";
 import Oval from "../../assets/oval.svg";
 
-export default function ResetPassword() {
+export function ResetPassword() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

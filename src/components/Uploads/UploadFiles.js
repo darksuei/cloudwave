@@ -1,12 +1,13 @@
-import { useState, useContext } from "react";
-import { UploadContext } from "../../Contexts/UploadContext";
 import axios from "axios";
 import Cookies from "js-cookie";
-import LoadingScreen from "../Reusable/LoadingScreen";
-import "../../index.css";
 import { toast } from "react-toastify";
+import { useState, useContext } from "react";
+//Assets & Components
+import { UploadContext } from "../../contexts";
+import { LoadingScreen } from "../Reusable";
+import "../../index.css";
 
-export default function UploadFiles() {
+export function UploadFiles() {
   const [highlight, setHighlight] = useState(false);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [loadingScreen, setLoadingScreen] = useState(false);

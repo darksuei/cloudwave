@@ -1,4 +1,4 @@
-export default function MyFolders() {
+export function MyFolders() {
   return (
     <div className="flex flex-col w-11/12 md:w-11/12 gap-y-5">
       <h1 className="text-blue-700 text-xl font-extrabold">My Folders</h1>

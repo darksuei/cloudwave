@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 //Assets
 import "../../index.css";
-import { HamburgerContext } from "../../Contexts";
+import { HamburgerContext } from "../../contexts";
 
-export default function Search(props) {
+export function Search(props) {
   let defaultVal = "";
   if (props.defaultVal) defaultVal = props.defaultVal;
   const [searchQuery, setSearchQuery] = useState(defaultVal);

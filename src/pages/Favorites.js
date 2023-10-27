@@ -4,7 +4,7 @@ import { LocationContext } from "../contexts";
 import { FavMain } from "../components";
 import { LeftSideBar } from "../components/Reusable";
 
-export default function Favorites() {
+export function Favorites() {
   const Location = useContext(LocationContext);
   Location.setLocation("favorites");
 

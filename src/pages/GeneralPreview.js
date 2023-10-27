@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 //Components
 import { ImagePreview, LoadingScreen } from "../components/Reusable";
 
-export default function GeneralPreview() {
+export function GeneralPreview() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 

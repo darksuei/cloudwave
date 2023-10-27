@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { LocationContext } from "../contexts";
 import { LeftSideBar, Recent, Search } from "../components/Reusable";
 
-export default function Files(props) {
+export function Files(props) {
   const { category } = props;
   const Location = useContext(LocationContext);
   Location.setLocation("files");

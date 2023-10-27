@@ -1,10 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //Assets & Components
 import "../../index.css";
-import LoadingScreen from "./LoadingScreen";
+import { LoadingScreen } from "./LoadingScreen";
 
 export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);

@@ -1,6 +1,6 @@
 import "../../index.css";
 
-export default function Loading() {
+export function Loading() {
   return (
     <div className="flex items-center justify-center h-full relative">
       <svg className="spinner-abs" viewBox="0 0 50 50">

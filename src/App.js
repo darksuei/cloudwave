@@ -21,7 +21,7 @@ import {
   GeneralPreview,
   SignUp,
   SearchPage,
-} from "./components";
+} from "./pages";
 import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
 import { Login, ForgotPassword, ResetPassword } from "./components/Reusable";
 

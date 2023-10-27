@@ -1,11 +1,12 @@
-import { Avatar } from "../Reusable/utils";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+//Assets & Components
 import Oval from "../../assets/oval.svg";
 import "../../index.css";
+import { Avatar } from "../Reusable";
 
-export default function UserInfo() {
+export function UserInfo() {
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
@@ -41,7 +42,7 @@ export default function UserInfo() {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setUser(response.data.user);
     } catch (error) {
@@ -72,7 +73,7 @@ export default function UserInfo() {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        },
+        }
       );
       setLoading(false);
       if (resonse.status === 200) {

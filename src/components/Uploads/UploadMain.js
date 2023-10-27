@@ -1,9 +1,8 @@
-import UploadFiles from "./UploadFiles";
-import UploadProgress from "./UploadProgress";
-import { UploadContext } from "../../Contexts/UploadContext";
 import { useState } from "react";
+import { UploadFiles } from "./UploadFiles";
+import { UploadContext } from "../../contexts";
 
-export default function UploadMain() {
+export function UploadMain() {
   const [uploads, setUploads] = useState([]);
   return (
     <UploadContext.Provider value={{ uploads, setUploads }}>

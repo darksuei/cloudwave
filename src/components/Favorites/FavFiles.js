@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import ImagePreview from "../Reusable/ImagePreview";
-import Loading from "../Reusable/Loading";
+import { ImagePreview, Loading } from "../Reusable";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function FavFiles() {
+export function FavFiles() {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(null);
   const [loading, setLoading] = useState(true);

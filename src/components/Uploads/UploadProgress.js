@@ -1,8 +1,8 @@
 import "../../index.css";
 import { useState, useEffect, useContext } from "react";
-import { UploadContext } from "../../Contexts/UploadContext";
+import { UploadContext } from "../../contexts";
 
-export default function UploadProgress() {
+export function UploadProgress() {
   const [loaded, setLoaded] = useState(100);
   const [data, setData] = useState([]);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CopyLinkBox = ({ mylink }) => {
+export const CopyLinkBox = ({ mylink }) => {
   const [link, setLink] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -38,5 +38,3 @@ const CopyLinkBox = ({ mylink }) => {
     </div>
   );
 };
-
-export default CopyLinkBox;
