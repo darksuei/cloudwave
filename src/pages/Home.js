@@ -1,17 +1,17 @@
-import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 //Components
 import { RightSideBar, Main } from "../components";
 import { LeftSideBar } from "../components/Reusable";
+import { AuthContext } from "../contexts";
 
 export function Home() {
-  const authToken = Cookies.get("authToken");
+  const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authToken) {
+    if (!isAuthenticated) {
       window.location.href = "/login";
     }
-  }, [authToken]);
+  }, []);
 
   const height = window.innerHeight;
   return (
