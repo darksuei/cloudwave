@@ -15,3 +15,4 @@ export { Storage } from "./Storage";
 export { DragDrop } from "./DragDrop";
 export { Avatar } from "./Avatar";
 export { Categories } from "./Categories";
+export { Intro } from "./Intro";
