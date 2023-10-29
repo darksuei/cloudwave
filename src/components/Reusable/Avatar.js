@@ -5,6 +5,30 @@ import React, { useState, useEffect } from "react";
 //Assets & Components
 import "../../index.css";
 import { LoadingScreen } from "./LoadingScreen";
+import { createAvatar } from "@dicebear/core";
+import { adventurerNeutral } from "@dicebear/collection";
+
+const avatarOptions = [
+  "Lucky",
+  "Charlie",
+  "Lilie",
+  "Max",
+  "Simon",
+  "Lucy",
+  "Molly",
+  "Chloe",
+  "Buster",
+  "Simba",
+  "Loki",
+  "Baby",
+  "Cali",
+];
+
+const avatar = createAvatar(adventurerNeutral, {
+  seed: avatarOptions[Math.floor(Math.random() * avatarOptions.length)],
+});
+
+const dataUri = await avatar.toDataUri();
 
 export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
@@ -82,6 +106,15 @@ export function Avatar({ size, hidePen, imgSize }) {
             className="rounded-full object-cover"
             style={{ width: "100%", height: "100%" }}
           />
+        ) : dataUri ? (
+          <div className="bg-slate-300 rounded-full">
+            <img
+              src={dataUri}
+              alt="Preview"
+              className="rounded-full object-cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
         ) : (
           <i
             className={`fas fa-user-circle ${size} text-white rounded-full bg-slate-400 cursor-pointer`}
