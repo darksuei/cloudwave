@@ -16,7 +16,7 @@ export function Home() {
   const height = window.innerHeight;
   return (
     <div
-      className="flex flex-row gap-x-8 bg-slate-200"
+      className="flex flex-row gap-x-8 bg-slate-300"
       style={{ minHeight: height }}
     >
       <LeftSideBar />

@@ -16,6 +16,7 @@ export function FavMain() {
         }
         checkFav={false}
         favs={true}
+        bg={"bg-slate-300"}
       />
       <FavFiles />
     </div>

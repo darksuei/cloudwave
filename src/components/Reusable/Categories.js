@@ -144,7 +144,11 @@ export function Categories(props) {
   };
 
   return (
-    <div className="flex flex-col p-3 bg-gray-200 rounded-xl w-full md:w-full gap-y-2.5">
+    <div
+      className={`flex flex-col p-3 ${
+        props.bg || "bg-gray-200"
+      } rounded-xl w-full md:w-full gap-y-2.5`}
+    >
       {props.title}
       <div className={`${props.style}`}>
         {categories.map(

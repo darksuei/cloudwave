@@ -59,7 +59,7 @@ export function SignUp() {
   }, [error]);
 
   return (
-    <div className="w-full h-screen bg-slate-200 flex items-center justify-center">
+    <div className="w-full h-screen bg-slate-300 flex items-center justify-center">
       <form
         className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-11/12 md:w-7/12 shadow-md"
         method="POST"

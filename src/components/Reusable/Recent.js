@@ -9,6 +9,7 @@ import { SharePopUp } from "./SharePopUp";
 import { ImagePreview } from "./ImagePreview";
 import { Loading } from "./Loading";
 import { LoadingScreen } from "./LoadingScreen";
+import { LoadingContent } from "./LoadingContent";
 
 export function Recent({
   title,
@@ -292,7 +293,7 @@ export function Recent({
         {title}
       </h1>
       <div className={`flex flex-col gap-y-2.5`}>
-        {loading && <Loading />}
+        {loading && <LoadingContent />}
         {data.length > 0
           ? data.map((item) => {
               return (

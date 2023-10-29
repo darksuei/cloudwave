@@ -9,7 +9,7 @@ export function Settings() {
   Location.setLocation("settings");
 
   return (
-    <div className="flex flex-row w-full bg-slate-200 min-h-screen relative">
+    <div className="flex flex-row w-full bg-slate-300 min-h-screen relative">
       <LeftSideBar />
       <div className="flex flex-col w-full md:w-10/12 relative">
         <UserInfo />
