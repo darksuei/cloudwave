@@ -5,7 +5,6 @@ export { ImagePreview } from "./ImagePreview";
 export { LeftSideBar } from "./LeftSideBar";
 export { Loading } from "./Loading";
 export { LoadingScreen } from "./LoadingScreen";
-export { Login } from "./Login";
 export { LogoutButton } from "./LogoutButton";
 export { Recent } from "./Recent";
 export { ResetPassword } from "./ResetPassword";

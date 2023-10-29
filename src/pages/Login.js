@@ -2,11 +2,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../contexts";
+import { AuthContext } from "../contexts";
 //Assets & Components
-import "../../index.css";
-import Oval from "../../assets/oval.svg";
-import { Google } from "./Google";
+import "../index.css";
+import Oval from "../assets/oval.svg";
+import { Google } from "../components/Reusable/Google";
 
 export function Login() {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -57,7 +57,7 @@ export function Login() {
   }, [error]);
 
   return (
-    <div className="w-full h-screen bg-slate-200 flex items-center justify-center">
+    <div className="w-full h-screen bg-slate-300 flex items-center justify-center">
       <form
         className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-7/12 shadow-md"
         method="POST"

@@ -8,3 +8,4 @@ export { SearchPage } from "./SearchPage";
 export { Settings } from "./Settings";
 export { SignUp } from "./SignUp";
 export { Uploads } from "./Uploads";
+export { Login } from "./Login";

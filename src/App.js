@@ -21,9 +21,10 @@ import {
   GeneralPreview,
   SignUp,
   SearchPage,
+  Login
 } from "./pages";
 import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
-import { Login, ForgotPassword, ResetPassword } from "./components/Reusable";
+import { ForgotPassword, ResetPassword } from "./components/Reusable";
 
 function App() {
   const [location, setLocation] = useState("home");
