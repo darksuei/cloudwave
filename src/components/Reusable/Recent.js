@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
+import useSWR from "swr";
 
 //Assets & Components
 import "../../index.css";
@@ -10,6 +11,7 @@ import { ImagePreview } from "./ImagePreview";
 import { Loading } from "./Loading";
 import { LoadingScreen } from "./LoadingScreen";
 import { LoadingContent } from "./LoadingContent";
+import { fetcher } from "../../services";
 
 export function Recent({
   title,
@@ -25,8 +27,7 @@ export function Recent({
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
   const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
-  const [data, setData] = useState([]);
-  const [selectedItemData, setSelectedItemData] = useState(null);
+  const [blob, setBlob] = useState([]);
   const [link, setLink] = useState("");
   const [fav, setFav] = useState("");
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,16 @@ export function Recent({
   } else {
     api = `${process.env.REACT_APP_SERVER_URL}/api/files`;
   }
+  const { data, error } = useSWR(api, fetcher, {
+    revalidateIfStale: true,
+    revalidateOnMount: true,
+    revalidateOnReconnect: true,
+    revalidateOnFocus: true,
+    errorRetryCount: 3,
+  });
+  console.log(data, api, error);
 
+  //Handle Resize
   useEffect(() => {
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
@@ -57,6 +67,7 @@ export function Recent({
     };
   }, []);
 
+  //Fn to slice data name
   function itemName(item) {
     if (viewportWidth < 500) {
       if (item.name.length < 11) return item.name;
@@ -66,45 +77,37 @@ export function Recent({
     }
   }
 
-  const getFiles = async (authToken) => {
-    try {
-      const response = await axios.get(api, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      return response.data.files;
-    } catch (error) {
-      console.error("Files error:", error);
-    }
-  };
-
+  //Handle data fetching
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const filesData = await getFiles(authToken);
-        setLoading(false);
-        if (filesData) {
-          if (showAll === true) {
-            setData(filesData);
-          } else {
-            setData(filesData.slice(-Math.min(5, filesData.length)).reverse());
+      if (data) {
+        try {
+          const filesData = await data.files;
+          setLoading(false);
+          if (filesData) {
+            if (showAll === true) {
+              setBlob(filesData);
+            } else {
+              setBlob(
+                filesData.slice(-Math.min(5, filesData.length)).reverse()
+              );
+            }
           }
+        } catch (error) {
+          // Handle errors here
         }
-      } catch (error) {
-        console.error("Error fetching files:", error);
       }
     };
 
     if (SearchResults) {
-      setData(SearchResults);
+      setBlob(SearchResults);
       setLoading(false);
     } else if (authToken && !SearchResults) {
       fetchData();
     }
-    return () => {};
-  }, [authToken, reFetch]);
+  }, [data, SearchResults, authToken]);
 
+  //Fn to toggle preview
   const togglePreview = async (item, e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -117,6 +120,7 @@ export function Recent({
     }
   };
 
+  //Remove any active dropdown or modal on document click
   useEffect(() => {
     function handleDocumentClick() {
       setDropdownState([]);
@@ -129,6 +133,7 @@ export function Recent({
     };
   }, []);
 
+  //Fn to open & close dropdown
   function handleDropdownClick(index, e) {
     e.stopPropagation();
     if (dropdownState.includes(index)) {
@@ -140,45 +145,27 @@ export function Recent({
     }
   }
 
-  async function getFile(name) {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        return response.data.file;
-      }
-    } catch (error) {
-      console.error("Error fetching file:", error);
-    }
-  }
-
+  //Fn to set share modal
   function handleShare(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setSelectedItemData(item.name);
     setShare(!share);
     setLink(item.link);
   }
+
+  //Fn for auto download link
   function handleAutoDownloadShare(e, item) {
     e.preventDefault();
     e.stopPropagation();
-    setSelectedItemData(item.name);
     setShare(!share);
-    console.log(item.autoDownloadLink);
     setLink(item.autoDownloadLink);
   }
 
+  //Fn to download file
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
     setDropdownState([]);
-    setSelectedItemData(item.name);
     const base64ImageData = `data:image/jpeg;base64,${item.base64}`;
 
     const a = document.createElement("a");
@@ -187,6 +174,7 @@ export function Recent({
     a.click();
   }
 
+  //Fn to rename file
   const handleRename = async (e, name) => {
     e.preventDefault();
     e.stopPropagation();
@@ -214,6 +202,7 @@ export function Recent({
     }
   };
 
+  //Fn to delete file
   async function handleDelete(e, name) {
     setDropdownState([]);
     setLoadingScreen(true);
@@ -229,7 +218,7 @@ export function Recent({
         }
       );
       if (response.status === 200) {
-        setData(data.filter((file) => file.name !== name));
+        setBlob(data.filter((file) => file.name !== name));
         setLoadingScreen(false);
         toast.success("Delete success!");
         setTimeout(() => {
@@ -240,6 +229,8 @@ export function Recent({
       toast.error("Error deleting file");
     }
   }
+
+  //Update favorites
   useEffect(() => {
     const updateFavorites = async () => {
       try {
@@ -264,6 +255,7 @@ export function Recent({
     return () => {};
   }, [fav]);
 
+  //Fn to toggle favorites
   async function handleFav(e, item) {
     setLoadingScreen(true);
     e.preventDefault();
@@ -294,8 +286,8 @@ export function Recent({
       </h1>
       <div className={`flex flex-col gap-y-2.5`}>
         {loading && <LoadingContent />}
-        {data.length > 0
-          ? data.map((item) => {
+        {blob.length > 0
+          ? blob.map((item) => {
               return (
                 <div
                   className={`flex flex-row justify-between bg-white p-2.5 rounded-xl items-center gap-x-1.5 pr-4 cursor-pointer hover:border hover:shadow-md noSelect`}
@@ -384,7 +376,7 @@ export function Recent({
                           aria-labelledby="options-menu"
                         >
                           <button
-                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => {
                               e.preventDefault();
@@ -429,7 +421,7 @@ export function Recent({
                             ></i>
                           </button>
                           <button
-                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
+                            className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
                             onClick={(e) => handleDelete(e, item.name)}
                           >
@@ -443,7 +435,9 @@ export function Recent({
                             role="menuitem"
                             onClick={(e) => handleAutoDownloadShare(e, item)}
                           >
-                            <span>Auto Download Link</span>
+                            <span className="text-left">
+                              Auto Download Link
+                            </span>
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
                           </button>
                         </div>

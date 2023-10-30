@@ -46,7 +46,7 @@ export function Search(props) {
     };
   }, []);
 
-  async function handleSearchClick(e) {
+  function handleSearchClick(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsFocused(true);
@@ -68,7 +68,6 @@ export function Search(props) {
           } `}
           onClick={(e) => {
             handleSearchClick(e);
-            // isHamburger.setHamburger(false);
           }}
         >
           <i

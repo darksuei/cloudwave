@@ -1,57 +1,31 @@
-import Cookies from "js-cookie";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 //Assets
 import "../../index.css";
+import { fetcher } from "../../services";
 
 export function Storage({ width }) {
+  const { data, error } = useSWR(
+    `${process.env.REACT_APP_SERVER_URL}/api/storage`,
+    fetcher
+  );
   const [usedSpace, setUsedSpace] = useState(0);
   const [unit, setUnit] = useState("MB");
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [spaceLeft, setSpaceLeft] = useState(100);
+
+  useEffect(() => {
+    if (data) {
+      setUsedSpace(data.storageUsed);
+      setUnit(data.unit);
+      setSpaceLeft(100 - data.percentage);
+    }
+  }, [data]);
 
   useEffect(() => {
     updateLoadingBar(usedSpace);
     return () => {};
   }, [usedSpace]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const filesData = await getFiles(authToken);
-        setUsedSpace(filesData[0]);
-        setUnit(filesData[1]);
-        setSpaceLeft(100 - filesData[2]);
-      } catch (error) {
-        console.error("Error fetching storage:", error);
-      }
-    };
-
-    if (authToken) {
-      fetchData();
-    }
-    return () => {};
-  }, [authToken]);
-
-  const getFiles = async (authToken) => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/storage`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
-      return [
-        response.data.storageUsed,
-        response.data.unit,
-        response.data.percentage,
-      ];
-    } catch (error) {
-      console.error("Files error:", error);
-    }
-  };
 
   const updateLoadingBar = (usedSpace) => {
     const loadingBar = document.querySelector(".loading-bar");
