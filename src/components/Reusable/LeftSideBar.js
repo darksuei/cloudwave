@@ -65,7 +65,7 @@ export function LeftSideBar() {
         }}
       >
         <ul className="flex flex-col gap-y-0 w-full relative">
-          <Avatar size={"text-6xl"} />
+          <Avatar size={"text-6xl"} imgSize={"h-16 w-16"} />
           <div className="flex flex-col gap-y-0">
             <a href="/home">
               <li

@@ -96,7 +96,7 @@ export function Avatar({ size, hidePen, imgSize }) {
       <div
         className={`relative rounded-full ${
           imgSize ? imgSize : " h-16 w-16 "
-        } md:h-16 md:w-16 flex items-center justify-center`}
+        } flex items-center justify-center`}
       >
         {/* {loadingAvatar && <LoadingScreen roundedAbs={true} />} */}
         {

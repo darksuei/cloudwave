@@ -136,7 +136,7 @@ export function SignUp() {
                   height="18px"
                   width="18px"
                   src={Oval}
-                  alt="Loading.."
+                  alt=""
                   className="spin"
                 />
               ) : (
