@@ -17,7 +17,7 @@ export function Intro() {
         <div className="w-10/12 px-4">
           <a href="/login">
             <button
-              className="border border-white py-3 px-6 text-white hover:bg-blue-600 hover:border-blue-600 text-xs md:text-md"
+              className="border border-white py-3 px-6 text-white hover:bg-slate-800 hover:border-slate-800 text-xs md:text-md"
               onClick={() => (window.location.href = "/login")}
               type="button"
             >

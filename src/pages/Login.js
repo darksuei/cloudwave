@@ -64,7 +64,7 @@ export function Login() {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="text-center">
-          <h1 className="text-2xl font-black text-indigo-500">Log In</h1>
+          <h1 className="text-2xl font-black text-slate-500">Log In</h1>
           <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
         </div>
 
@@ -79,7 +79,7 @@ export function Login() {
             <input
               type="email"
               name="email"
-              className=" p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
+              className=" p-2 md:p-3 w-full border rounded-md transition text-sm outline-none"
               placeholder="Johndoe@email"
               value={formData.email}
               onChange={(e) => handleChange(e)}
@@ -96,7 +96,7 @@ export function Login() {
             <input
               type="password"
               name="password"
-              className="p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
+              className="p-2 md:p-3 w-full border rounded-md transition text-sm outline-none"
               placeholder="********"
               value={formData.password}
               onChange={(e) => handleChange(e)}
@@ -106,7 +106,7 @@ export function Login() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`w-6/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-7 rounded-md focus:ring focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
+              className={`w-6/12 bg-slate-800 hover:bg-slate-600 text-white py-2.5 px-7 rounded-md transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
@@ -116,27 +116,27 @@ export function Login() {
                   height="18px"
                   width="18px"
                   src={Oval}
-                  alt=""
                   className="spin"
+                  alt=""
                 />
               ) : (
                 "Log In ✨"
               )}
             </button>
 
-            <p className="text-xs text-gray-600 w-6/12 flex flex-col md:flex-row justify-between">
+            <p className="text-xs text-gray-600 w-7/12 flex flex-col md:flex-row justify-between">
               <span>
                 Don't have an account?{" "}
                 <a
                   href="/signup"
-                  className="text-indigo-500 hover:underline transition"
+                  className="text-slate-500 hover:underline transition"
                 >
                   Sign Up
                 </a>
               </span>
               <a
                 href="/forgot_password"
-                className="text-indigo-500 hover:underline transition"
+                className="text-slate-500 hover:underline transition"
               >
                 Forgot Password?
               </a>

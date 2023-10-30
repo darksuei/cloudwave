@@ -66,7 +66,7 @@ export function SignUp() {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="text-center">
-          <h1 className="text-2xl font-black text-indigo-500">Sign Up</h1>
+          <h1 className="text-2xl font-black text-slate-500">Sign Up</h1>
           <p className="text-gray-500 mt-3 text-xs">
             Let's get started by creating a free account for you!
           </p>
@@ -82,7 +82,7 @@ export function SignUp() {
             <input
               type="text"
               name="firstname"
-              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              className="p-3 w-full border rounded-md outline-none transition text-sm"
               placeholder="John Doe"
               value={formData.name}
               onChange={(e) => handleChange(e)}
@@ -99,7 +99,7 @@ export function SignUp() {
             <input
               type="email"
               name="email"
-              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              className="p-3 w-full border rounded-md outline-none transition text-sm"
               placeholder="Johndoe@email"
               value={formData.email}
               onChange={(e) => handleChange(e)}
@@ -116,7 +116,7 @@ export function SignUp() {
             <input
               type="password"
               name="password"
-              className="p-3 w-full border rounded-md focus:ring focus:ring-indigo-300 transition text-sm"
+              className="p-3 w-full border rounded-md outline-none transition text-sm"
               placeholder="********"
               value={formData.password}
               onChange={(e) => handleChange(e)}
@@ -126,7 +126,7 @@ export function SignUp() {
           <div className="flex flex-col items-center gap-y-3 mt-3">
             <button
               type="submit"
-              className={`w-8/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2.5 px-6 rounded-md focus:ring-2 focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
+              className={`w-8/12 bg-slate-800 hover:bg-slate-600 text-white py-2.5 h-10 px-6 rounded-md transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
@@ -147,7 +147,7 @@ export function SignUp() {
               Already have an account?{" "}
               <a
                 href="/login"
-                className="text-indigo-500 hover:underline transition"
+                className="text-slate-500 hover:underline transition"
               >
                 Log in
               </a>

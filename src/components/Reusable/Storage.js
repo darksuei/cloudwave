@@ -49,7 +49,7 @@ export function Storage({ width }) {
       <div className="text-xs text-blue-500">
         {usedSpace} {unit} OF 3 GB USED
       </div>
-      <div className="loading-bar-container">
+      <div className={`loading-bar-container ${!usedSpace && "loading"}`}>
         <div className="loading-bar"></div>
       </div>
     </div>

@@ -26,16 +26,15 @@ export function Recent({
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [share, setShare] = useState(false);
   const [showPreview, setShowPreview] = useState([]);
-  const [authToken, setAuthToken] = useState(Cookies.get("authToken"));
   const [blob, setBlob] = useState([]);
   const [link, setLink] = useState("");
   const [fav, setFav] = useState("");
   const [loading, setLoading] = useState(true);
   const [renameFile, setRenameFile] = useState(false);
   const [newName, setNewName] = useState("");
-  const [reFetch, setReFetch] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const authToken = Cookies.get("authToken");
 
   let api;
 
