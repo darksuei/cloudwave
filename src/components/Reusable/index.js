@@ -15,3 +15,4 @@ export { DragDrop } from "./DragDrop";
 export { Avatar } from "./Avatar";
 export { Categories } from "./Categories";
 export { Intro } from "./Intro";
+export { Footer } from "./Footer";

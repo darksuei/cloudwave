@@ -1,11 +1,16 @@
 import { block } from "million/react";
 import "../index.css";
-import { Intro } from "../components/Reusable";
+import { Intro, Footer } from "../components/Reusable";
 
 export const Default = block(function Default() {
   return (
-    <div id="bg" className="h-screen w-screen text-white">
-      <Intro />
+    <div className="h-fit">
+      <div id="bg" className="h-screen w-screen text-white">
+        <Intro />
+      </div>
+      <div className="bg-slate-800">
+        <Footer />
+      </div>
     </div>
   );
 });

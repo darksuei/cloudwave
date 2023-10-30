@@ -27,7 +27,7 @@ export function Intro() {
         </div>
       </div>
       <div className="w-7/12 md:w-6/12 text-white flex items-center justify-center h-4/12 md:h-screen">
-        <nav className="absolute top-5 right-8 text-sm">
+        <nav className="absolute top-5 right-10 text-sm">
           <ul className="flex flex-row gap-6">
             <li>
               <a href="/login" className="hover:text-blue-500">
