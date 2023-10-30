@@ -99,7 +99,7 @@ export function UserInfo() {
             <Avatar
               size={"text-9xl"}
               hidePen={true}
-              imgSize={"h-48 w-48"}
+              imgSize={"md:h-48 md:w-48 h-28 w-28"}
               id="avatar"
             />
           </div>

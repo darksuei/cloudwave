@@ -2,16 +2,16 @@ import Github from "../icons/Github";
 
 export function Footer() {
   return (
-    <div className="w-full min-h-32 text-white/80 px-16 ">
-      <div className="flex flex-row gap-8 py-8">
-        <div className="w-4/12">
+    <div className="w-full min-h-32 text-white/80 px-12 md:px-16 ">
+      <div className="flex flex-col md:flex-row gap-8 py-8">
+        <div className="w-11/12 md:w-4/12">
           <h1 className="font-semibold text-xl mb-3">About Us</h1>
           <p className="text-xs">
             Store your files securely in the cloud and access them from any
             device.
           </p>
         </div>
-        <div className="w-4/12">
+        <div className="w-11/12 md:w-4/12">
           <h1 className="font-semibold text-xl mb-3">Contact Info</h1>
           <ul className="text-xs flex flex-col gap-y-4">
             <li>+234 90 3971 7514</li>

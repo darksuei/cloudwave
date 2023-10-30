@@ -13,7 +13,7 @@ export function Settings() {
       <LeftSideBar />
       <div className="flex flex-col w-full md:w-10/12 relative">
         <UserInfo />
-        <div className="bg-slate-800 w-full absolute bottom-0">
+        <div className="bg-slate-800 w-full relative bottom-0">
           <Footer />
         </div>
       </div>

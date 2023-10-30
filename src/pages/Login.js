@@ -64,7 +64,7 @@ export function Login() {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="text-center">
-          <h1 className="text-2xl font-black text-slate-500">Log In</h1>
+          <h1 className="text-2xl font-black text-slate-800">Log In</h1>
           <p className="text-gray-500 mt-3 text-xs">Welcome Back!</p>
         </div>
 
@@ -124,19 +124,19 @@ export function Login() {
               )}
             </button>
 
-            <p className="text-xs text-gray-600 w-7/12 flex flex-col md:flex-row justify-between">
+            <p className="text-xs text-gray-600 w-11/12 md:w-7/12 flex flex-col gap-y-1 md:flex-row justify-between">
               <span>
                 Don't have an account?{" "}
                 <a
                   href="/signup"
-                  className="text-slate-500 hover:underline transition"
+                  className="text-indigo-500 hover:underline transition"
                 >
                   Sign Up
                 </a>
               </span>
               <a
                 href="/forgot_password"
-                className="text-slate-500 hover:underline transition"
+                className="text-indigo-500 hover:underline transition"
               >
                 Forgot Password?
               </a>
