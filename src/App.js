@@ -21,7 +21,7 @@ import {
   GeneralPreview,
   SignUp,
   SearchPage,
-  Login
+  Login,
 } from "./pages";
 import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
 import { ForgotPassword, ResetPassword } from "./components/Reusable";
@@ -30,8 +30,7 @@ function App() {
   const [location, setLocation] = useState("home");
   const [hamburger, setHamburger] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(
-    // Cookies.get("authToken") ? true : false
-    true
+    Cookies.get("authToken") ? true : false
   );
 
   // useEffect(() => {
@@ -57,92 +56,81 @@ function App() {
               <Route
                 exact
                 path="/home"
-                // Component={() => (isAuthenticated ? <Home /> : <Login />)}
-                Component={Home}
+                Component={() => (isAuthenticated ? <Home /> : <Login />)}
               />
               <Route
                 exact
                 path="/upload"
-                // Component={() => (isAuthenticated ? <Uploads /> : <Login />)}
-                Component={Uploads}
+                Component={() => (isAuthenticated ? <Uploads /> : <Login />)}
               />
               <Route
                 exact
                 path="/myfiles"
-                // Component={() => (isAuthenticated ? <MyFiles /> : <Login />)}
-                Component={MyFiles}
+                Component={() => (isAuthenticated ? <MyFiles /> : <Login />)}
               />
               <Route
                 exact
                 path="/favorites"
-                // Component={() => (isAuthenticated ? <Favorites /> : <Login />)}
-                Component={Favorites}
+                Component={() => (isAuthenticated ? <Favorites /> : <Login />)}
               />
               <Route
                 exact
                 path="/settings"
-                // Component={() => (isAuthenticated ? <Settings /> : <Login />)}
-                Component={Settings}
+                Component={() => (isAuthenticated ? <Settings /> : <Login />)}
               />
               <Route
                 exact
                 path="/files"
-                // Component={() => (isAuthenticated ? <Files /> : <Login />)}
-                Component={Files}
+                Component={() => (isAuthenticated ? <Files /> : <Login />)}
               />
               <Route
                 exact
                 path="/files/pictures"
-                // Component={(props) =>
-                //   isAuthenticated ? (
-                //     <Files {...props} category="pictures" />
-                //   ) : (
-                //     <Login />
-                //   )
-                // }
-                Component={Files}
+                Component={(props) =>
+                  isAuthenticated ? (
+                    <Files {...props} category="pictures" />
+                  ) : (
+                    <Login />
+                  )
+                }
               />
               <Route
                 exact
                 path="/files/videos"
-                // Component={(props) =>
-                //   isAuthenticated ? (
-                //     <Files {...props} category="videos" />
-                //   ) : (
-                //     <Login />
-                //   )
-                // }
-                Component={Files}
+                Component={(props) =>
+                  isAuthenticated ? (
+                    <Files {...props} category="videos" />
+                  ) : (
+                    <Login />
+                  )
+                }
               />
               <Route
                 exact
                 path="/files/audio"
-                // Component={(props) =>
-                //   isAuthenticated ? (
-                //     <Files {...props} category="audio" />
-                //   ) : (
-                //     <Login />
-                //   )
-                // }
-                Component={Files}
+                Component={(props) =>
+                  isAuthenticated ? (
+                    <Files {...props} category="audio" />
+                  ) : (
+                    <Login />
+                  )
+                }
               />
               <Route
                 exact
                 path="/files/documents"
-                // Component={(props) =>
-                //   isAuthenticated ? (
-                //     <Files {...props} category="documents" />
-                //   ) : (
-                //     <Login />
-                //   )
-                // }
-                Component={Files}
+                Component={(props) =>
+                  isAuthenticated ? (
+                    <Files {...props} category="documents" />
+                  ) : (
+                    <Login />
+                  )
+                }
               />
               <Route
                 exact
                 path="/search"
-                // Component={() => (isAuthenticated ? <SearchPage /> : <Login />)}
-                Component={SearchPage}
+                Component={() => (isAuthenticated ? <SearchPage /> : <Login />)}
               />
               <Route exact path="/signup" Component={SignUp} />
               <Route exact path="/login" Component={Login} />
