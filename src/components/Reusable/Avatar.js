@@ -5,6 +5,30 @@ import React, { useState, useEffect } from "react";
 //Assets & Components
 import "../../index.css";
 import { LoadingScreen } from "./LoadingScreen";
+import { createAvatar } from "@dicebear/core";
+import { adventurerNeutral } from "@dicebear/collection";
+
+const avatarOptions = [
+  "Lucky",
+  "Charlie",
+  "Lilie",
+  "Max",
+  "Simon",
+  "Lucy",
+  "Molly",
+  "Chloe",
+  "Buster",
+  "Simba",
+  "Loki",
+  "Baby",
+  "Cali",
+];
+
+const avatar = createAvatar(adventurerNeutral, {
+  seed: avatarOptions[Math.floor(Math.random() * avatarOptions.length)],
+});
+
+const dataUri = await avatar.toDataUri();
 
 export function Avatar({ size, hidePen, imgSize }) {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
@@ -72,21 +96,33 @@ export function Avatar({ size, hidePen, imgSize }) {
       <div
         className={`relative rounded-full ${
           imgSize ? imgSize : " h-16 w-16 "
-        } md:h-16 md:w-16 flex items-center justify-center`}
+        } flex items-center justify-center`}
       >
-        {loadingAvatar && <LoadingScreen roundedAbs={true} />}
-        {avatar ? (
-          <img
-            src={"data:image/png;base64," + avatar}
-            alt="Preview"
-            className="rounded-full object-cover"
-            style={{ width: "100%", height: "100%" }}
-          />
-        ) : (
-          <i
-            className={`fas fa-user-circle ${size} text-white rounded-full bg-slate-400 cursor-pointer`}
-          ></i>
-        )}
+        {/* {loadingAvatar && <LoadingScreen roundedAbs={true} />} */}
+        {
+          //Conditionally display user image if it exists
+          avatar ? (
+            <img
+              src={"data:image/png;base64," + avatar}
+              alt="Preview"
+              className="rounded-full object-cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          ) : dataUri ? (
+            <div className="bg-slate-300 rounded-full w-full h-full">
+              <img
+                src={dataUri}
+                alt="Preview"
+                className="rounded-full object-cover"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+          ) : (
+            <i
+              className={`fas fa-user-circle ${size} text-white rounded-full bg-slate-400 cursor-pointer`}
+            ></i>
+          )
+        }
         <input
           type="file"
           className="bg-black absolute top-0 left-0 w-full h-full z-20 opacity-0 cursor-pointer"

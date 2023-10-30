@@ -8,7 +8,7 @@ export function Files({ category }) {
   Location.setLocation("files");
 
   return (
-    <div className="flex flex-row w-full bg-slate-200 justify-center min-h-screen">
+    <div className="flex flex-row w-full bg-slate-300 justify-center min-h-screen">
       <LeftSideBar />
       <div className="flex flex-col w-full md:w-10/12 py-4 items-center relative px-1 md:px-0">
         <Search />

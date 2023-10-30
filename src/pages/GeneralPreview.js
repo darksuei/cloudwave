@@ -24,7 +24,7 @@ export function GeneralPreview() {
   }, []);
 
   return (
-    <div className="bg-slate-200 w-full h-screen">
+    <div className="bg-slate-300 w-full h-screen">
       {loading && <LoadingScreen />}
       <div className="">
         {!loading && (

@@ -80,6 +80,7 @@ export function UploadFiles() {
           },
         }
       );
+      console.log(response)
       if (response.status === 201 || response.status === 200) {
         toast.success("Upload successful!");
         Uploads.setUploads((prev) => [...prev, ...uploadedFiles]);

@@ -1,49 +1,49 @@
 /* styles/styles.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Your custom CSS styles go here */
 
-html{
-    scroll-behavior: smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-body{
-    font-family: 'Ubuntu', sans-serif;
-    position: relative;
-    scroll-behavior: smooth;
-    width: 100vw;
-    overflow-x: hidden;
+body {
+  font-family: "Ubuntu", sans-serif;
+  position: relative;
+  scroll-behavior: smooth;
+  width: 100vw;
+  overflow-x: hidden;
 }
-.loading-bar-container {
-    width: 100%;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    overflow: hidden;
+
+#bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("./assets/hologram.jpg");
+  background-size: cover;
 }
-  
+
 .loading-bar {
-height: 6px;
-background-color: #007bff;
-width: 0%;
-transition: width 0.3s ease;
+  height: 6px;
+  background-color: #007bff;
+  width: 0%;
+  transition: width 0.3s ease;
 }
 
 .white {
-    color: white;
+  color: white;
 }
 
 .favorite {
-    color: rgb(245 158 11);
+  color: rgb(245 158 11);
 }
 
 .loading-spinner {
-    animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
 }
 
 .recent-height {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .scrollable-lg {
@@ -64,20 +64,24 @@ transition: width 0.3s ease;
   #snap-x-mandatory {
     scroll-snap-type: x mandatory;
   }
-  
+
   #snap-x-mandatory > * {
-  scroll-snap-align: start;
+    scroll-snap-align: start;
   }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .spinner {
   -webkit-animation: rotate 2s linear infinite;
-          animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
   z-index: 2;
   position: relative;
   top: 50%;
@@ -89,7 +93,7 @@ transition: width 0.3s ease;
 
 .spinner-abs {
   -webkit-animation: rotate 2s linear infinite;
-          animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -99,17 +103,18 @@ transition: width 0.3s ease;
   height: 200px;
 }
 
-.spinner .path, .spinner-abs .path {
+.spinner .path,
+.spinner-abs .path {
   stroke: #93bfec;
   stroke-linecap: round;
   -webkit-animation: dash 1.5s ease-in-out infinite;
-          animation: dash 1.5s ease-in-out infinite;
+  animation: dash 1.5s ease-in-out infinite;
 }
 
 .spin {
   -webkit-animation: rotate 2s linear infinite;
   animation: rotate 2s linear infinite;
-z-index: 2; 
+  z-index: 2;
 }
 
 @-webkit-keyframes rotate {
@@ -162,9 +167,36 @@ z-index: 2;
   user-select: none;
 }
 .noSelect:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 #recents {
   min-height: 12rem !important;
+}
+
+/**
+ * Loading Animation Snippet
+ */
+
+.loading-bar-container {
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.loading {
+  color: transparent;
+  background: linear-gradient(100deg, #dde0e1 30%, #feffff 50%, #dde0e1 70%);
+  background-size: 400%;
+  animation: loading 1.75s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }

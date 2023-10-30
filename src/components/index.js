@@ -11,7 +11,6 @@ export { Main } from "./Home/Main";
 export { RightSideBar } from "./Home/RightSideBar";
 
 //Settings
-export { Footer } from "./Settings/Footer";
 export { UserInfo } from "./Settings/UserInfo";
 
 //Uploads

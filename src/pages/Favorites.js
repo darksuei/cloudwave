@@ -9,7 +9,7 @@ export function Favorites() {
   Location.setLocation("favorites");
 
   return (
-    <div className="flex flex-row bg-slate-200 min-h-screen overflow-hidden">
+    <div className="flex flex-row bg-slate-300 min-h-screen overflow-hidden">
       <LeftSideBar activePage={"favorites"} />
       <FavMain />
     </div>

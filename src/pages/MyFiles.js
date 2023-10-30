@@ -9,7 +9,7 @@ export function MyFiles() {
   Location.setLocation("shared");
 
   return (
-    <div className="flex flex-row bg-slate-200 w-full min-h-screen">
+    <div className="flex flex-row bg-slate-300 w-full min-h-screen">
       <LeftSideBar />
       <MainFiles />
     </div>

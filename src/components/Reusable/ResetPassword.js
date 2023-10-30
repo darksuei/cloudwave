@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 //Assets
 import "../../index.css";
 import Oval from "../../assets/oval.svg";
+import {postResetPassword} from "../../services"
 
 export function ResetPassword() {
   const [error, setError] = useState(null);
@@ -27,10 +28,7 @@ export function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/reset_password/${urlid}/${urltoken}`,
-        formData
-      );
+      const response = await postResetPassword(urlid, urltoken, formData)
       setLoading(false);
       if (response.status === 200) {
         toast.success("Password reset successful!");

@@ -87,25 +87,19 @@ export function UserInfo() {
   };
   return (
     <div className="w-full p-8 pb-4 flex flex-col">
-      <h1 className="text-blue-700 text-xl font-extrabold ml-6 md:ml-0">
+      <h1 className="text-slate-800 text-xl font-extrabold ml-6 md:ml-0">
         Personal Information
       </h1>
       <h3 className="text-sm text-gray-500 my-3 ml-2 md:ml-0">
         Edit your information:{" "}
       </h3>
       <div className="flex flex-col md:flex-row w-full justify-between gap-y-7">
-        <span className="flex flex-row justify-between md:w-9/12 ">
-          <div className="w-5/12 h-full flex flex-col gap-y-3 items-center justify-center">
-            <label
-              htmlFor="avatar"
-              className="text-sm font-medium text-gray-500"
-            >
-              Avatar
-            </label>
+        <span className="flex flex-row justify-around md:w-9/12 ">
+          <div className="w-5/12 h-full flex items-center justify-center">
             <Avatar
               size={"text-9xl"}
               hidePen={true}
-              imgSize={"h-32 w-32"}
+              imgSize={"md:h-48 md:w-48 h-28 w-28"}
               id="avatar"
             />
           </div>
@@ -119,7 +113,7 @@ export function UserInfo() {
               </label>
               <input
                 name="firstname"
-                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="text"
                 placeholder={
                   user.firstname ? user.firstname : formData.firstname
@@ -137,7 +131,7 @@ export function UserInfo() {
               </label>
               <input
                 name="lastname"
-                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="text"
                 placeholder={user.lastname ? user.lastname : formData.lastname}
                 onChange={(e) => handleChange(e)}
@@ -153,7 +147,7 @@ export function UserInfo() {
               </label>
               <input
                 name="phone"
-                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                className="w-full md:w-10/12 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 type="tel"
                 value={user.phone ? user.phone : formData.phone}
                 onChange={(e) => handleChange(e)}
@@ -163,7 +157,7 @@ export function UserInfo() {
         </span>
         <div className="relative w-6/12 h-fit md:h-full md:w-3/12 flex items-center justify-center md:block">
           <button
-            className={`relative md:absolute border-current border text-blue-500 px-4 py-2.5 rounded-lg bottom-3 left-0 hover:bg-blue-600 hover:text-white text-sm w-full flex justify-center items-center${
+            className={`relative md:absolute border-current border text-slate-800 px-4 py-2.5 rounded-md bottom-3 left-0 hover:bg-slate-800 hover:text-white text-sm w-full flex justify-center items-center${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handleSubmit(e)}
@@ -173,11 +167,11 @@ export function UserInfo() {
                 height="18px"
                 width="18px"
                 src={Oval}
-                alt="Loading.."
+                alt=""
                 className="spin"
               />
             ) : (
-              "Save"
+              "Save changes"
             )}
           </button>
         </div>

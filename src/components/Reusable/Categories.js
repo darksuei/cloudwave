@@ -1,6 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr"
+import {fetcher} from "../../services"
 //Assets & Components
 import "../../index.css";
 
@@ -54,12 +56,11 @@ export function Categories(props) {
   props.favs
     ? (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count?favorites=true`)
     : (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count`);
+  const { data, error } = useSWR(countUrl, fetcher);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const counts = await getCount(authToken);
-        if (counts) {
+        if(data){
+          const counts = data.categories;
           setCount(counts);
           setCategories((prev) => {
             prev[0].count = counts.pictures;
@@ -69,29 +70,8 @@ export function Categories(props) {
             return prev;
           });
         }
-      } catch (error) {
-        console.error("Error fetching counts:", error);
-      }
-    };
-
-    if (authToken) {
-      fetchData();
-    }
     return () => {};
-  }, [authToken]);
-
-  const getCount = async (authToken) => {
-    try {
-      const response = await axios.get(countUrl, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      return response.data.categories;
-    } catch (error) {
-      console.error("Files error:", error);
-    }
-  };
+  }, [data]);
 
   useEffect(() => {
     function handleDocumentClick() {
@@ -144,7 +124,11 @@ export function Categories(props) {
   };
 
   return (
-    <div className="flex flex-col p-3 bg-gray-200 rounded-xl w-full md:w-full gap-y-2.5">
+    <div
+      className={`flex flex-col p-3 ${
+        props.bg || "bg-gray-200"
+      } rounded-xl w-full md:w-full gap-y-2.5`}
+    >
       {props.title}
       <div className={`${props.style}`}>
         {categories.map(

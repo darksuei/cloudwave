@@ -21,9 +21,10 @@ import {
   GeneralPreview,
   SignUp,
   SearchPage,
+  Login,
 } from "./pages";
 import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
-import { Login, ForgotPassword, ResetPassword } from "./components/Reusable";
+import { ForgotPassword, ResetPassword } from "./components/Reusable";
 
 function App() {
   const [location, setLocation] = useState("home");
@@ -32,17 +33,17 @@ function App() {
     Cookies.get("authToken") ? true : false
   );
 
-  useEffect(() => {
-    if (
-      Cookies.get("authToken") === undefined &&
-      location !== "login" &&
-      location !== "signup" &&
-      location !== "home"
-    ) {
-      window.location.href = "/";
-    }
-    return () => {};
-  }, [isAuthenticated, location]);
+  // useEffect(() => {
+  //   if (
+  //     Cookies.get("authToken") === undefined &&
+  //     location !== "login" &&
+  //     location !== "signup" &&
+  //     location !== "home"
+  //   ) {
+  //     window.location.href = "/";
+  //   }
+  //   return () => {};
+  // }, [isAuthenticated, location]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
