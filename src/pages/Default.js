@@ -8,7 +8,7 @@ export const Default = block(function Default() {
       <div id="bg" className="h-screen w-screen text-white">
         <Intro />
       </div>
-      <div className="bg-slate-800">
+      <div className="bg-slate-800 md:hidden">
         <Footer />
       </div>
     </div>

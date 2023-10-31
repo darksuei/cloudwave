@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
-import useSWR from "swr";
-import { fetcher } from "../../services";
 //Assets & Components
 import "../../index.css";
 
@@ -56,22 +54,44 @@ export function Categories(props) {
   props.favs
     ? (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count?favorites=true`)
     : (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count`);
-  const { data, error } = useSWR(countUrl, fetcher);
 
   useEffect(() => {
-    if (data) {
-      const counts = data.categories;
-      setCount(counts);
-      setCategories((prev) => {
-        prev[0].count = counts.pictures;
-        prev[1].count = counts.videos;
-        prev[2].count = counts.audio;
-        prev[3].count = counts.documents;
-        return prev;
-      });
+    const fetchData = async () => {
+      try {
+        const counts = await getCount(authToken);
+        if (counts) {
+          setCount(counts);
+          setCategories((prev) => {
+            prev[0].count = counts.pictures;
+            prev[1].count = counts.videos;
+            prev[2].count = counts.audio;
+            prev[3].count = counts.documents;
+            return prev;
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    };
+
+    if (authToken) {
+      fetchData();
     }
     return () => {};
-  }, [data]);
+  }, [authToken]);
+
+  const getCount = async (authToken) => {
+    try {
+      const response = await axios.get(countUrl, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      return response.data.categories;
+    } catch (error) {
+      console.error("Files error:", error);
+    }
+  };
 
   useEffect(() => {
     function handleDocumentClick() {
