@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
-import useSWR from "swr"
-import {fetcher} from "../../services"
 //Assets & Components
 import "../../index.css";
 
@@ -19,18 +17,18 @@ export function Categories(props) {
   const [categories, setCategories] = useState([
     {
       icon: "fas fa-image",
-      color: "bg-indigo-500",
+      color: "bg-sky-600",
       title: "Pictures",
       count: count.pictures,
-      iconColor: "text-indigo-500",
+      iconColor: "text-sky-600",
       href: "/files/pictures",
     },
     {
       icon: "fas fa-video",
-      color: "bg-red-500",
+      color: "bg-sky-600",
       title: "Videos",
       count: count.videos,
-      iconColor: "text-red-500",
+      iconColor: "text-sky-600",
       href: "/files/videos",
     },
     {
@@ -43,10 +41,10 @@ export function Categories(props) {
     },
     {
       icon: "fas fa-file-alt",
-      color: "bg-emerald-500",
+      color: "bg-sky-600",
       title: "Documents",
       count: count.documents,
-      iconColor: "text-emerald-500",
+      iconColor: "text-sky-600",
       href: "/files/documents",
     },
     { color: "bg-gray-100", noIcons: true },
@@ -56,11 +54,12 @@ export function Categories(props) {
   props.favs
     ? (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count?favorites=true`)
     : (countUrl = `${process.env.REACT_APP_SERVER_URL}/api/file/count`);
-  const { data, error } = useSWR(countUrl, fetcher);
 
   useEffect(() => {
-        if(data){
-          const counts = data.categories;
+    const fetchData = async () => {
+      try {
+        const counts = await getCount(authToken);
+        if (counts) {
           setCount(counts);
           setCategories((prev) => {
             prev[0].count = counts.pictures;
@@ -70,8 +69,29 @@ export function Categories(props) {
             return prev;
           });
         }
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    };
+
+    if (authToken) {
+      fetchData();
+    }
     return () => {};
-  }, [data]);
+  }, [authToken]);
+
+  const getCount = async (authToken) => {
+    try {
+      const response = await axios.get(countUrl, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      return response.data.categories;
+    } catch (error) {
+      console.error("Files error:", error);
+    }
+  };
 
   useEffect(() => {
     function handleDocumentClick() {
@@ -88,6 +108,7 @@ export function Categories(props) {
     };
   }, []);
 
+  //Fn to add new category
   function toggleNewCategory(value) {
     let updatedCategories = [...categories];
     updatedCategories.splice(categories.length - 1, 0, {
@@ -101,12 +122,15 @@ export function Categories(props) {
     setCategories(updatedCategories);
     setShowInput(false);
   }
+
+  //Fn to toggle input
   function toggleInput(e) {
     e.preventDefault();
     e.stopPropagation();
     setShowInput(!showInput);
   }
 
+  //Fn to change fav
   const toggleFavorite = (item, index, e) => {
     e.preventDefault();
     e.stopPropagation();

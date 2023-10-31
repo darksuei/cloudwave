@@ -2,16 +2,13 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import useSWR from "swr";
 
 //Assets & Components
 import "../../index.css";
 import { SharePopUp } from "./SharePopUp";
 import { ImagePreview } from "./ImagePreview";
-import { Loading } from "./Loading";
 import { LoadingScreen } from "./LoadingScreen";
 import { LoadingContent } from "./LoadingContent";
-import { fetcher } from "../../services";
 
 export function Recent({
   title,
@@ -43,14 +40,6 @@ export function Recent({
   } else {
     api = `${process.env.REACT_APP_SERVER_URL}/api/files`;
   }
-  const { data, error } = useSWR(api, fetcher, {
-    revalidateIfStale: true,
-    revalidateOnMount: true,
-    revalidateOnReconnect: true,
-    revalidateOnFocus: true,
-    errorRetryCount: 3,
-  });
-  console.log(data, api, error);
 
   //Handle Resize
   useEffect(() => {
@@ -81,7 +70,7 @@ export function Recent({
     const fetchData = async () => {
       if (data) {
         try {
-          const filesData = await data.files;
+          const filesData = await getFiles(authToken);
           setLoading(false);
           if (filesData) {
             if (showAll === true) {
@@ -104,7 +93,21 @@ export function Recent({
     } else if (authToken && !SearchResults) {
       fetchData();
     }
-  }, [data, SearchResults, authToken]);
+  }, []);
+
+  //Fn to get files
+  async function getFiles(authToken) {
+    try {
+      const response = await axios.get(api, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      return response.data.files;
+    } catch (error) {
+      console.error("Files error:", error);
+    }
+  }
 
   //Fn to toggle preview
   const togglePreview = async (item, e) => {
@@ -197,7 +200,7 @@ export function Recent({
         }, 500);
       }
     } catch (error) {
-      toast.error("Error renaming file");
+      toast.error("Rename failed");
     }
   };
 
@@ -225,7 +228,7 @@ export function Recent({
         }, 500);
       }
     } catch (error) {
-      toast.error("Error deleting file");
+      toast.error("Delete failed");
     }
   }
 
@@ -437,7 +440,7 @@ export function Recent({
                             <span className="text-left">
                               Auto Download Link
                             </span>
-                            <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
+                            <i className="fas fa-link text-xs text-blue-500 absolute right-3"></i>
                           </button>
                         </div>
                       </div>
