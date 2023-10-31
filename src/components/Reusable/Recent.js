@@ -19,6 +19,7 @@ export function Recent({
   headerPadding,
   titleStyle,
 }) {
+  const authToken = Cookies.get("authToken");
   const [dropdownState, setDropdownState] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [share, setShare] = useState(false);
@@ -31,7 +32,6 @@ export function Recent({
   const [newName, setNewName] = useState("");
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-  const authToken = Cookies.get("authToken");
 
   let api;
 
@@ -68,22 +68,18 @@ export function Recent({
   //Handle data fetching
   useEffect(() => {
     const fetchData = async () => {
-      if (data) {
-        try {
-          const filesData = await getFiles(authToken);
-          setLoading(false);
-          if (filesData) {
-            if (showAll === true) {
-              setBlob(filesData);
-            } else {
-              setBlob(
-                filesData.slice(-Math.min(5, filesData.length)).reverse()
-              );
-            }
+      try {
+        const filesData = await getFiles(authToken);
+        setLoading(false);
+        if (filesData) {
+          if (showAll === true) {
+            setBlob(filesData);
+          } else {
+            setBlob(filesData.slice(-Math.min(5, filesData.length)).reverse());
           }
-        } catch (error) {
-          // Handle errors here
         }
+      } catch (error) {
+        // Handle errors here
       }
     };
 
@@ -220,7 +216,7 @@ export function Recent({
         }
       );
       if (response.status === 200) {
-        setBlob(data.filter((file) => file.name !== name));
+        setBlob(blob.filter((file) => file.name !== name));
         setLoadingScreen(false);
         toast.success("Delete success!");
         setTimeout(() => {
