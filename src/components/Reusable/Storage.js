@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 //Assets
 import "../../index.css";
 
 export function Storage({ width }) {
+  const authToken = Cookies.get("authToken");
   const [usedSpace, setUsedSpace] = useState(0);
   const [unit, setUnit] = useState("MB");
   const [spaceLeft, setSpaceLeft] = useState(100);
@@ -45,14 +47,6 @@ export function Storage({ width }) {
       console.error("Files error:", error);
     }
   }
-
-  useEffect(() => {
-    if (data) {
-      setUsedSpace(data.storageUsed);
-      setUnit(data.unit);
-      setSpaceLeft(100 - data.percentage);
-    }
-  }, [data]);
 
   useEffect(() => {
     const loadingBar = document.querySelector(".loading-bar");
