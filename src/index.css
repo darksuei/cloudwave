@@ -25,8 +25,8 @@ body {
 
 .loading-bar {
   height: 6px;
+  width: 1.5%;
   background-color: #007bff;
-  width: 0%;
   transition: width 0.3s ease;
 }
 

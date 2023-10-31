@@ -8,7 +8,6 @@ import useSWR from "swr";
 import "../../index.css";
 import { SharePopUp } from "./SharePopUp";
 import { ImagePreview } from "./ImagePreview";
-import { Loading } from "./Loading";
 import { LoadingScreen } from "./LoadingScreen";
 import { LoadingContent } from "./LoadingContent";
 import { fetcher } from "../../services";
@@ -197,7 +196,7 @@ export function Recent({
         }, 500);
       }
     } catch (error) {
-      toast.error("Error renaming file");
+      toast.error("Rename failed");
     }
   };
 
@@ -225,7 +224,7 @@ export function Recent({
         }, 500);
       }
     } catch (error) {
-      toast.error("Error deleting file");
+      toast.error("Delete failed");
     }
   }
 
@@ -437,7 +436,7 @@ export function Recent({
                             <span className="text-left">
                               Auto Download Link
                             </span>
-                            <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
+                            <i className="fas fa-link text-xs text-blue-500 absolute right-3"></i>
                           </button>
                         </div>
                       </div>

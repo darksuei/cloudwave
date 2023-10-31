@@ -23,18 +23,9 @@ export function Storage({ width }) {
   }, [data]);
 
   useEffect(() => {
-    updateLoadingBar(usedSpace);
-    return () => {};
-  }, [usedSpace]);
-
-  const updateLoadingBar = (usedSpace) => {
     const loadingBar = document.querySelector(".loading-bar");
-
-    if (loadingBar !== null) {
-      const progress = (usedSpace / 100) * 100;
-      loadingBar.style.width = `${progress}%`;
-    }
-  };
+    loadingBar.style.width = `${30}%`;
+  }, []);
 
   return (
     <div

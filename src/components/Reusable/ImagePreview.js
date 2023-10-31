@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 //Assets & Components
 import "../../index.css";
 import { SharePopUp } from "./SharePopUp";
@@ -110,34 +111,20 @@ export function ImagePreview({ item }) {
     };
   }, []);
 
-  async function getFile(name) {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/getfile/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        return response.data.file;
-      }
-    } catch (error) {
-      console.error("Error fetching file:", error);
-    }
-  }
-
+  //Fn to share file
   function handleShare(e, item) {
     e.preventDefault();
     e.stopPropagation();
     setShare(!share);
   }
 
+  //toggle dropdown
   function toggleDropDown(e) {
     e.stopPropagation();
     setDropDown(!dropDown);
   }
+
+  //Fn to close active modals on doc click
   useEffect(() => {
     function handleDocumentClick() {
       setDropDown(false);
@@ -148,6 +135,7 @@ export function ImagePreview({ item }) {
     };
   }, []);
 
+  //Update favorites
   useEffect(() => {
     const updateFavorites = async () => {
       try {
@@ -173,6 +161,7 @@ export function ImagePreview({ item }) {
     return () => {};
   }, [fav]);
 
+  //Fn to return item name in specific length
   function itemName(item) {
     if (viewportWidth < 500) {
       if (item.name.length < 11) return item.name;
@@ -182,6 +171,7 @@ export function ImagePreview({ item }) {
     }
   }
 
+  //Fn to download
   function handleDownload(e, item) {
     e.preventDefault();
     e.stopPropagation();
@@ -194,6 +184,7 @@ export function ImagePreview({ item }) {
     a.click();
   }
 
+  //Rename file
   const handleRename = async (e, name) => {
     e.preventDefault();
     e.stopPropagation();
@@ -209,21 +200,25 @@ export function ImagePreview({ item }) {
           },
         }
       );
+      toast.success("Rename success");
       if (response.status === 200) {
         setRenameFile(false);
         window.location.reload();
       }
     } catch (error) {
       console.error("Error renaming file:", error);
+      toast.error("Rename failed");
     }
   };
 
+  //Set favorite
   async function handleFav(e, itemname) {
     e.preventDefault();
     e.stopPropagation();
     setFav(itemname);
   }
 
+  //Fn to delete
   async function handleDelete(e) {
     setLoadingScreen(true);
     e.preventDefault();
@@ -238,12 +233,13 @@ export function ImagePreview({ item }) {
         }
       );
       setLoadingScreen(false);
+      toast.success("Delete success");
       if (response.status === 200) {
         window.location.reload();
       }
     } catch (error) {
       console.error("Error deleting file:", error);
-      window.location.reload();
+      toast.error("Delete failed");
     }
   }
   return (
