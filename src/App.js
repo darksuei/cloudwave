@@ -33,18 +33,6 @@ function App() {
     Cookies.get("authToken") ? true : false
   );
 
-  // useEffect(() => {
-  //   if (
-  //     Cookies.get("authToken") === undefined &&
-  //     location !== "login" &&
-  //     location !== "signup" &&
-  //     location !== "home"
-  //   ) {
-  //     window.location.href = "/";
-  //   }
-  //   return () => {};
-  // }, [isAuthenticated, location]);
-
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       <LocationContext.Provider value={{ location, setLocation }}>
