@@ -243,6 +243,7 @@ export function Recent({
             },
           }
         );
+        window.location.reload();
       } catch (error) {
         console.error("Error updating favorites:", error);
       }
@@ -261,7 +262,6 @@ export function Recent({
     setFav(item.name);
     setDropdownState(dropdownState.filter((itemIndex) => itemIndex !== item));
     setLoadingScreen(false);
-    window.location.reload();
   }
 
   return (

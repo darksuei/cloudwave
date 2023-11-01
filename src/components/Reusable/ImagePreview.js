@@ -369,7 +369,7 @@ export function ImagePreview({ item }) {
             Personal
           </span>
         </div>
-        <div className="relative flex flex-row gap-x-2 md:gap-x-3 py-3">
+        <div className="relative flex flex-row justify-center h-fit items-center gap-x-2 py-3">
           <i
             className="fas fa-share-alt text-blue-700 cursor-pointer h-fit p-1.5 rounded-full hover:bg-slate-300"
             onClick={(e) => handleShare(e, item)}
