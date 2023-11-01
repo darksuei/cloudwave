@@ -2,7 +2,7 @@ import { block } from "million/react";
 import "../index.css";
 import { Intro, Footer } from "../components/Reusable";
 
-export const Default = block(function Default() {
+export function Default() {
   return (
     <div className="h-fit">
       <div id="bg" className="h-screen w-screen text-white">
@@ -13,4 +13,4 @@ export const Default = block(function Default() {
       </div>
     </div>
   );
-});
+}
