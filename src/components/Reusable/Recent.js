@@ -125,6 +125,7 @@ export function Recent({
       setShowPreview([]);
     }
     document.body.addEventListener("click", handleDocumentClick);
+    setRenameFile(false);
 
     return () => {
       document.removeEventListener("click", handleDocumentClick);
@@ -322,7 +323,7 @@ export function Recent({
                       } text-white text-sm`}
                     ></i>
                   </div>
-                  {renameFile === true ? (
+                  {renameFile === item.name ? (
                     <input
                       type="text"
                       className="w-8/12 md:w-10/12 text-sm md:text-base text-slate-700 font-bold p-2"
@@ -379,12 +380,12 @@ export function Recent({
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
+                              setRenameFile(item.name);
                               setDropdownState(
                                 dropdownState.filter(
                                   (itemIndex) => itemIndex !== item
                                 )
                               );
-                              setRenameFile(true);
                             }}
                           >
                             <span>Rename</span>
@@ -395,7 +396,10 @@ export function Recent({
                           <button
                             className="px-4 py-2 relative text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
-                            onClick={(e) => handleDownload(e, item)}
+                            onClick={(e) => {
+                              setDropdownState([]);
+                              handleDownload(e, item);
+                            }}
                           >
                             <span>Download</span>
                             <i className="fas fa-download text-xs text-blue-500 absolute right-3"></i>
@@ -403,7 +407,10 @@ export function Recent({
                           <button
                             className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b text-left"
                             role="menuitem"
-                            onClick={(e) => handleFav(e, item)}
+                            onClick={(e) => {
+                              setDropdownState([]);
+                              handleFav(e, item);
+                            }}
                           >
                             <span>
                               {(item.isFavorite === false) | undefined
@@ -421,7 +428,10 @@ export function Recent({
                           <button
                             className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center border-b"
                             role="menuitem"
-                            onClick={(e) => handleDelete(e, item.name)}
+                            onClick={(e) => {
+                              setDropdownState([]);
+                              handleDelete(e, item.name);
+                            }}
                           >
                             <span>Delete</span>
                             <i
@@ -431,7 +441,10 @@ export function Recent({
                           <button
                             className="px-4 relative py-2 text-xs md:text-sm text-gray-700 hover:bg-slate-200 w-full flex flex-row justify-between items-center"
                             role="menuitem"
-                            onClick={(e) => handleAutoDownloadShare(e, item)}
+                            onClick={(e) => {
+                              setDropdownState([]);
+                              handleAutoDownloadShare(e, item);
+                            }}
                           >
                             <span className="text-left">
                               Auto Download Link
