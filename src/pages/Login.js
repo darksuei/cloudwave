@@ -112,13 +112,16 @@ export function Login() {
               onClick={handleButton}
             >
               {loading ? (
-                <img
-                  height="18px"
-                  width="18px"
-                  src={Oval}
-                  className="spin"
-                  alt=""
-                />
+                <div className="flex flex-row items-center justify-center gap-1">
+                  <span>Please wait..</span>
+                  <img
+                    height="18px"
+                    width="18px"
+                    src={Oval}
+                    className="spin"
+                    alt=""
+                  />
+                </div>
               ) : (
                 "Log In ✨"
               )}

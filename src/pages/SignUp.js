@@ -66,7 +66,7 @@ export function SignUp() {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="text-center">
-          <h1 className="text-2xl font-black text-slate-800">Sign Up</h1>
+          <h1 className="text-2xl font-black text-slate-800">Register</h1>
           <p className="text-gray-500 mt-3 text-xs">
             Let's get started by creating a free account for you!
           </p>
@@ -132,13 +132,16 @@ export function SignUp() {
               onClick={handleButton}
             >
               {loading ? (
-                <img
-                  height="18px"
-                  width="18px"
-                  src={Oval}
-                  alt=""
-                  className="spin"
-                />
+                <div className="flex flex-row items-center justify-center gap-1">
+                  <span>Please wait..</span>
+                  <img
+                    height="18px"
+                    width="18px"
+                    src={Oval}
+                    className="spin"
+                    alt=""
+                  />
+                </div>
               ) : (
                 "Create Account ✨"
               )}
