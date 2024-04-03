@@ -10,15 +10,14 @@ export function Google() {
   async function handleCredentialResponse(response) {
     const credential = await response.credential;
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/google_login`,
-        { userCredentials: credential }
-      );
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/google_login`, {
+        userCredentials: credential,
+      });
       if (response.status === 200) {
         const token = response.data.token;
         Cookies.set("authToken", token, { expires: 1 / 24 });
         setIsAuthenticated(true);
-        window.location.href = "/home";
+        window.location.href = "/dashboard";
       }
     } catch (err) {
       console.log(err);
@@ -37,5 +36,5 @@ export function Google() {
     });
   }, []);
 
-  return <div id="google-div"></div>;
+  return <div id='google-div'></div>;
 }

@@ -23,23 +23,23 @@ export function ForgotPassword() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/forgot_password`,
-        formData
-      );
-      setLoading(false);
-      if (response.status === 200) {
-        toast.success("Reset link sent successfully");
-      } else {
-        toast.error("Something went wrong");
-      }
-    } catch (error) {
-      setLoading(false);
-      if (error.response.data) {
-        setError(error.response.data.message);
-      }
-    }
+    // STMP temporarily disabled
+    // try {
+    //   const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/forgot_password`, formData);
+    //   setLoading(false);
+    //   if (response.status === 200) {
+    //     toast.success("Reset link sent successfully");
+    //   } else {
+    //     toast.error("Something went wrong");
+    //   }
+    // } catch (error) {
+    //   setLoading(false);
+    //   if (error.response.data) {
+    //     setError(error.response.data.message);
+    //   }
+    // }
+    toast.warn("Password reset temporarily disabled. Please contact support.");
+    setLoading(false);
   };
   useEffect(() => {
     if (error) {
@@ -48,70 +48,53 @@ export function ForgotPassword() {
   }, [error]);
 
   return (
-    <div className="w-full h-screen bg-slate-200 flex items-center justify-center">
+    <div className='w-full h-screen bg-slate-200 flex items-center justify-center'>
       <form
-        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-5/12 shadow-md"
-        method="POST"
+        className='bg-white rounded-2xl p-6 flex flex-col items-center gap-y-5 w-10/12 md:w-5/12 shadow-md'
+        method='POST'
         onSubmit={(e) => handleSubmit(e)}
       >
-        <div className="text-center">
-          <h1 className="text-2xl font-black text-indigo-500">
-            Forgot Password
-          </h1>
-          <p className="text-gray-500 mt-3 text-xs">
-            Enter your email to recieve your unique password reset link!
+        <div className='text-center'>
+          <h1 className='text-2xl font-black text-slate-600'>Forgot Password</h1>
+          <p className='text-gray-500 mt-3 text-xs'>
+            Please enter your email to recieve a unique password reset link!
           </p>
         </div>
 
-        <div className="w-full flex flex-col gap-y-5">
-          <div className="flex flex-col gap-y-2">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-500"
-            >
-              E-mail
+        <div className='w-full flex flex-col gap-y-5'>
+          <div className='flex flex-col gap-y-2'>
+            <label htmlFor='email' className='text-sm font-medium text-gray-500'>
+              Email
             </label>
             <input
-              type="email"
-              name="email"
-              className=" p-2 md:p-3 w-full border rounded-md focus:ring focus:ring-indigo-600 transition text-sm"
-              placeholder="Johndoe@email"
+              type='email'
+              name='email'
+              className=' p-2 md:p-3 w-full border rounded-md focus:slate-600 transition text-sm'
+              placeholder='Potato@email.domain'
               value={formData.email}
               onChange={(e) => handleChange(e)}
               required
             />
           </div>
-          <div className="flex flex-col items-center gap-y-3 mt-3">
+          <div className='flex flex-col items-center gap-y-3 mt-3'>
             <button
-              type="submit"
-              className={`w-6/12 bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-7 rounded-md focus:ring focus:ring-indigo-300 transition text-sm flex items-center justify-center ${
+              type='submit'
+              className={`w-6/12 bg-slate-600 hover:bg-slate-800 text-white py-2 px-7 rounded-md transition text-sm flex items-center justify-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleButton}
             >
               {loading ? (
-                <img
-                  height="18px"
-                  width="18px"
-                  src={Oval}
-                  alt="Loading.."
-                  className="spin"
-                />
+                <img height='18px' width='18px' src={Oval} alt='Loading..' className='spin' />
               ) : (
-                "Reset"
+                "Submit"
               )}
             </button>
-            <p className="text-xs text-gray-600 w-8/12 flex flex-col md:flex-row justify-between">
-              <a
-                href="/login"
-                className="text-indigo-500 hover:underline transition"
-              >
+            <p className='text-xs text-gray-600 w-8/12 flex flex-col md:flex-row justify-between'>
+              <a href='/login' className='text-slate-600 hover:underline transition'>
                 Back to login
               </a>
-              <a
-                href="/signup"
-                className="text-indigo-500 hover:underline transition"
-              >
+              <a href='/signup' className='text-slate-600 hover:underline transition'>
                 Sign Up ?
               </a>
             </p>
