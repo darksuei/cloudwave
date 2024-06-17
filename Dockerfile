@@ -1,15 +1,17 @@
 FROM node
 
-RUN mkdir -p /app/client
+RUN npm install -g nodemon
 
-WORKDIR /app/client
+RUN mkdir -p /app/server
 
-COPY package*.json /app/client/
+WORKDIR /app/server
 
-RUN npm install
+COPY package*.json /app/server/
 
-COPY . /app/client/
+COPY yarn* /app/server/
 
-EXPOSE 5000
+RUN yarn install
 
-CMD ["npm", "start"]
+COPY . /app/server/
+
+CMD ["nodemon", "index.js"]

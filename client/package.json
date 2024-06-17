@@ -1,0 +1,58 @@
+{
+  "name": "cloud-wave",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@dicebear/collection": "^7.0.1",
+    "@dicebear/core": "^7.0.1",
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
+    "axios": "^1.4.0",
+    "js-cookie": "^3.0.5",
+    "million": "^2.6.0-beta.13",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2",
+    "react-scripts": "5.0.1",
+    "sharp": "^0.32.6",
+    "sonner": "^1.5.0",
+    "swr": "^2.2.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "generate-sw": "node_modules/.bin/workbox generateSW workbox-config.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
+    "query-string": "^8.1.0",
+    "tailwindcss": "^3.3.3",
+    "workbox-cli": "^7.0.0"
+  }
+}

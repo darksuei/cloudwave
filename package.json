@@ -2,57 +2,38 @@
   "name": "cloud-wave",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@dicebear/collection": "^7.0.1",
-    "@dicebear/core": "^7.0.1",
-    "@fortawesome/fontawesome-free": "^6.4.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.5.1",
-    "axios": "^1.4.0",
-    "js-cookie": "^3.0.5",
-    "million": "^2.6.0-beta.13",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "react-scripts": "5.0.1",
-    "sharp": "^0.32.6",
-    "swr": "^2.2.4",
-    "web-vitals": "^2.1.4"
-  },
+  "description": "Upload, share and save your files and media for future use.",
+  "main": "index.js",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject",
-    "generate-sw": "node_modules/.bin/workbox generateSW workbox-config.js"
+    "test": "jest --detectOpenHandles",
+    "pm2-start": "pm2 start index.js --name cloudwave -i 2",
+    "pm2-dev": "pm2 start index.js --name cloudwave --watch --no-daemon",
+    "dev": "nodemon index.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "Suei[Folarin Raphael]",
+  "license": "MIT",
+  "dependencies": {
+    "@novu/node": "^0.24.2",
+    "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^3.1.2",
+    "megajs": "1",
+    "mongoose": "^7.4.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pm2": "^5.4.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.1.0",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.27",
-    "query-string": "^8.1.0",
-    "react-toastify": "^9.1.3",
-    "tailwindcss": "^3.3.3",
-    "workbox-cli": "^7.0.0"
-  }
+    "jest": "^29.6.1",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
+  },
+  "repository": "https://github.com/darksuei/cloudwave-server"
 }
