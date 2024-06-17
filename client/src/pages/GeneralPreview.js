@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { ImagePreview, LoadingScreen } from "../components/Reusable";
+import { toast } from "sonner";
 
 export function GeneralPreview() {
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,7 @@ export function GeneralPreview() {
       })
       .catch((err) => {
         console.error(err);
+        toast.error("Failed to fetch file. Please try again later.");
       });
   }, []);
 

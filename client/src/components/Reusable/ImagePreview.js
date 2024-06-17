@@ -181,7 +181,7 @@ export function ImagePreview({ item }) {
       const response = await axios.patch(
         `${process.env.REACT_APP_SERVER_URL}/api/rename/${name}`,
         {
-          newName: newName,
+          newName: appendFileExtension(newName, item),
         },
         {
           headers: {
@@ -199,6 +199,13 @@ export function ImagePreview({ item }) {
       toast.error("Rename failed.");
     }
   };
+
+  function appendFileExtension(str, item) {
+    if (str.split(".").pop() === item.name.split(".").pop()) {
+      return str;
+    }
+    return str + "." + item.name.split(".").pop();
+  }
 
   //Set favorite
   async function handleFav(e, itemname) {

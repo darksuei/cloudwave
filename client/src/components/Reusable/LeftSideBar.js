@@ -57,7 +57,7 @@ export function LeftSideBar() {
       <nav
         className={`${
           showMenu ? "flex w-7/12 left-0 top-0" : "hidden"
-        } md:flex md:w-3/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-30`}
+        } md:flex md:w-4/12 lg:w-2/12 bg-blue-600 text-white text-xs md:text-sm font-semibold fixed md:relative z-30`}
         style={{ height: height }}
         onClick={(e) => {
           e.stopPropagation();

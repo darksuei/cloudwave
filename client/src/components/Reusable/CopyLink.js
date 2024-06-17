@@ -16,24 +16,20 @@ export const CopyLinkBox = ({ mylink }) => {
   };
 
   return (
-    <div className="flex flex-row items-center border justify-between rounded-md">
+    <div className='flex flex-row items-center border justify-between rounded-md'>
       <input
-        type="text"
+        type='text'
         value={mylink}
         onChange={(e) => setLink(e.target.value)}
-        placeholder="Please wait..."
-        className="px-3 py-2 w-full text-sm font-medium text-slate-500 outline-none"
-        readonly
+        placeholder='Please wait...'
+        className='px-3 py-2 w-full text-sm font-medium text-slate-500 outline-none'
+        readOnly
       />
       <button
         onClick={handleCopyClick}
-        className="bg-slate-300 text-white px-4 py-2 hover:bg-white hover:text-slate-200 hover:border cursor-pointer"
+        className='bg-slate-300 text-white px-4 py-2 hover:bg-white hover:text-slate-200 hover:border cursor-pointer'
       >
-        {copied ? (
-          <span className="text-xs font-black">Copied</span>
-        ) : (
-          <i className="fas fa-copy"></i>
-        )}
+        {copied ? <span className='text-xs font-black'>Copied</span> : <i className='fas fa-copy'></i>}
       </button>
     </div>
   );

@@ -72,7 +72,7 @@ export function Search(props) {
           ></i>
           <input
             type='text'
-            className={` ${isFocused ? "w-10/12" : "w-9/12"} md:w-11/12 h-10 px-2 focus:outline-none`}
+            className={` ${isFocused ? "w-10/12" : "w-9/12"} md:w-10/12 h-10 px-2 focus:outline-none`}
             placeholder='Search'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

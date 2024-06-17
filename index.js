@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -10,11 +11,11 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 const PORT = process.env.PORT || 5000;
 
 // Use morgan to log requests
-// app.use(
-//   morgan(
-//     `:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]`
-//   )
-// );
+app.use(
+  morgan(
+    `:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]`
+  )
+);
 
 // Database connection
 require("./config/database.config");
@@ -42,7 +43,6 @@ Storage.getInstance();
 
 app.use(express.static("client/build"));
 
-const path = require("path");
 app.get("*", (_req, res) => {
   return res.sendFile(path.resolve("client", "build", "index.html"));
 });

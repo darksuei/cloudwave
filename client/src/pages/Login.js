@@ -97,7 +97,7 @@ export function Login() {
                 required
               />
               <span
-                class='password-toggle-icon'
+                className='password-toggle-icon'
                 onClick={() => {
                   setIsShowPassword(!isShowPassword);
                 }}

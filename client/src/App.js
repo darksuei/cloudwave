@@ -68,9 +68,9 @@ function App() {
               <Route exact path='/search' Component={() => (isAuthenticated ? <SearchPage /> : <Login />)} />
               <Route exact path='/signup' Component={SignUp} />
               <Route exact path='/login' Component={Login} />
-              <Route exact path='/preview/*' Component={GeneralPreview} />
-              <Route exact path='/reset_password/*' Component={ResetPassword} />
-              <Route exact path='/forgot_password/*' Component={ForgotPassword} />
+              <Route path='/preview/*' Component={GeneralPreview} />
+              <Route path='/reset_password/*' Component={ResetPassword} />
+              <Route path='/forgot_password/*' Component={ForgotPassword} />
               <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </Router>

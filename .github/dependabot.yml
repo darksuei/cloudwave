@@ -9,13 +9,9 @@ updates:
     directory: "/client"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/server"
-    schedule:
-      interval: "weekly"
     commit-message:
-      prefix: '[DEPENDABOT]'
+      prefix: "[DEPENDABOT]"
     labels:
-      - 'dependencies'
-      - 'dependabot'
+      - "dependencies"
+      - "dependabot"
     open-pull-requests-limit: 6
