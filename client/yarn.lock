@@ -1378,20 +1378,20 @@
     "@dicebear/shapes" "7.1.1"
     "@dicebear/thumbs" "7.1.1"
 
-"@dicebear/converter@7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@dicebear/converter/-/converter-7.1.1.tgz#a225e07c16edee64d1ca8d00be1d9c0d6338cba1"
-  integrity sha512-0/RTgyi/2VqK5kHy6kfeIhgV8nQssSVhN4s90F1c9Y+bNyRDySGmlfaTQfPj9YmpFHO9Fa7Ey+FJBEAjkara6w==
+"@dicebear/converter@7.1.3":
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/@dicebear/converter/-/converter-7.1.3.tgz#0f5aec86fa1d9bf458ac7369eef41ad5efdd6c1c"
+  integrity sha512-qXRMPIXx45LZHEja03kRaWnhFZihf45hmvSCb/FFJFqm3lJXEqyYTN8a3Kl0lpO5msG2pOTdQBskx6v7Lk6Q5Q==
   dependencies:
     "@types/json-schema" "^7.0.11"
     tmp-promise "^3.0.3"
 
-"@dicebear/core@^7.0.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@dicebear/core/-/core-7.1.1.tgz#92b731b1ae4aadc846834d1a7d911dc2186b6ad1"
-  integrity sha512-rgMqKBFugjsrerLF+wgcpBR9jW5/OnxHZM66NdkoCMffoww1jzBBc3AACi7y3Z+YNueYiwlrTgscqt4mQAWEvA==
+"@dicebear/core@^7.1.3":
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/@dicebear/core/-/core-7.1.3.tgz#ff7354fb34f4ebaac4d7e9349ec13eb565266548"
+  integrity sha512-n10Ehqg1fSD+p1sjmkEozdvqTr0kDrixVva5zSn/oC3K/xLuQiCWNSLfWOUBViclS1TshCR3ZKgqBogXGNuYeQ==
   dependencies:
-    "@dicebear/converter" "7.1.1"
+    "@dicebear/converter" "7.1.3"
     "@types/json-schema" "^7.0.11"
 
 "@dicebear/croodles-neutral@7.1.1":
@@ -9945,7 +9945,16 @@ string-natural-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/string-natural-compare/-/string-natural-compare-3.0.1.tgz#7a42d58474454963759e8e8b7ae63d71c1e7fdf4"
   integrity sha512-n3sPwynL1nwKi3WJ6AIsClwBMa0zTi54fn2oLU6ndfTSIO05xaznjSf15PcBZU6FNWbmN5Q6cxT4V5hGvB4taw==
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -10032,7 +10041,14 @@ stringify-object@^3.3.0:
     is-obj "^1.0.1"
     is-regexp "^1.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -11465,7 +11481,16 @@ workbox-window@7.0.0:
     "@types/trusted-types" "^2.0.2"
     workbox-core "7.0.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
