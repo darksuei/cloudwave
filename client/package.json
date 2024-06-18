@@ -25,7 +25,7 @@
   "scripts": {
     "clean": "rimraf build",
     "start": "react-scripts start",
-    "build": "npm run clean && react-scripts build",
+    "build": "npm run clean && craco build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate-sw": "node_modules/.bin/workbox generateSW workbox-config.js"

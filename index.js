@@ -52,14 +52,8 @@ app.get("/health", async (_req, res) => {
   res.status(200).json({ message: "API is OK" });
 });
 
-// Handle Undefined Routes
-app.get("*", (_req, res) => {
-  res.status(404).json({ message: "Not found" });
-});
-
 // Start the server
 app.listen(PORT, () => {
-  console.clear();
   console.log(`Server is running on port ${PORT}.`);
   console.log(`Server is running in ${process.env.NODE_ENV} mode.`);
 });
