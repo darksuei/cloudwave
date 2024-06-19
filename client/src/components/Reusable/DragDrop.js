@@ -15,7 +15,8 @@ export function DragDrop() {
     setHighlight(true);
   };
 
-  const handleDragLeave = () => {
+  const handleDragLeave = (e) => {
+    e.preventDefault();
     setHighlight(false);
   };
 
@@ -79,11 +80,6 @@ export function DragDrop() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div>
-          <div className='loading-bar-container'>
-            <div className='loading-bar'></div>
-          </div>
-        </div>
         <div className='flex flex-col justify-center items-center gap-y-4'>
           <i className='fas fa-upload text-indigo-500 text-3xl'></i>
           <p className='text-gray-400 text-sm font-semibold'>
