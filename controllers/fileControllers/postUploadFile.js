@@ -14,9 +14,11 @@ const postUploadFile = async (req, res, next) => {
 
     if (!req.files || req.files.length === 0) return res.status(400).json({ message: "No files uploaded" });
 
+    const spaceUsed = (await Storage.getInstance().getSpaceUsed(folder)) ?? user.spaceUsed;
+
     for (const file of req.files) {
       // Check available storage space
-      if (user.spaceUsed + file.size / 1024 > 3 * 1024 * 1024) {
+      if (spaceUsed + file.size / 1024 > 3 * 1024 * 1024) {
         return res.status(400).json({
           message: "Failed",
           error: "Storage limit Exceeded",
@@ -70,8 +72,6 @@ const postUploadFile = async (req, res, next) => {
           { email: req.user.email },
           {
             $push: updateObject,
-          },
-          {
             $inc: { spaceUsed: file.size / 1024 },
           },
           { new: true }

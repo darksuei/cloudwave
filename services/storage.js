@@ -84,4 +84,14 @@ module.exports = class Storage {
       return false;
     }
   };
+
+  getSpaceUsed = async (folder) => {
+    const fileslist = await this.getStorageFiles(folder);
+
+    if (!fileslist) return null;
+
+    const spaceUsed = fileslist.reduce((acc, file) => acc + file.size, 0);
+
+    return spaceUsed / 1024;
+  };
 };
