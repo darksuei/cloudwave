@@ -1,5 +1,5 @@
 const Storage = require("../../services/storage");
-const { formatDateLabel, getCategoryFromFileName } = require("../../utils/utils");
+const { formatDateLabel, getCategoryFromFileName, getCategoryIcon } = require("../../utils/utils");
 const User = require("../../models/user");
 
 const getFilesByCategory = async (req, res, next) => {
@@ -22,12 +22,18 @@ const getFilesByCategory = async (req, res, next) => {
           (file) => file.name === filelist[i].name && getCategoryFromFileName(file.name) === req.params.name
         );
 
-        if (fileItem) {
+        if (fileItem && fileItem.name !== user.avatar) {
           const time = fileItem.date;
           files.push({
             id: i,
             name: filelist[i].name,
             time: formatDateLabel(time),
+            isFavorite: fileItem.isFavorite,
+            category: fileItem.category,
+            icon: getCategoryIcon(fileItem.category),
+            base64: fileItem.base64,
+            link: fileItem.link,
+            autoDownloadLink: fileItem.autoDownloadLink,
           });
         }
       } else {
