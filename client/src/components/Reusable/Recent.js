@@ -67,7 +67,7 @@ export function Recent({ title, showAll, category, SearchResults, padding, heade
           if (showAll === true) {
             setBlob(filesData);
           } else {
-            setBlob(filesData.slice(-Math.min(5, filesData.length)).reverse());
+            setBlob(filesData.slice(-Math.min(6, filesData.length)).reverse());
           }
         }
       } catch (error) {
