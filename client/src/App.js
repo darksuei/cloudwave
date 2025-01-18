@@ -7,7 +7,6 @@ import {
   Home,
   Uploads,
   Favorites,
-  Default,
   Files,
   GeneralPreview,
   SignUp,
@@ -17,6 +16,7 @@ import {
 import { LocationContext, AuthContext, HamburgerContext } from "./contexts";
 import { ForgotPassword, ResetPassword } from "./components/Reusable";
 import { Toaster } from "sonner";
+import { Landing } from "./pages/Landing";
 
 function App() {
   const [location, setLocation] = useState("home");
@@ -30,7 +30,7 @@ function App() {
           <Toaster richColors position='top-right' />
           <Router>
             <Routes>
-              <Route exact path='/' Component={Default} />
+              <Route exact path='/' Component={Landing} />
               <Route exact path='/dashboard' Component={() => (isAuthenticated ? <Home /> : <Login />)} />
               <Route exact path='/upload' Component={() => (isAuthenticated ? <Uploads /> : <Login />)} />
               <Route exact path='/myfiles' Component={() => (isAuthenticated ? <MyFiles /> : <Login />)} />

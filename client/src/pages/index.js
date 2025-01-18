@@ -1,4 +1,3 @@
-export { Default } from "./Default";
 export { Favorites } from "./Favorites";
 export { Files } from "./Files";
 export { GeneralPreview } from "./GeneralPreview";

@@ -17,3 +17,8 @@ export { UserInfo } from "./Settings/UserInfo";
 export { UploadFiles } from "./Uploads/UploadFiles";
 export { UploadMain } from "./Uploads/UploadMain";
 export { UploadProgress } from "./Uploads/UploadProgress";
+
+//Landing
+export { Header } from "./Landing/Header";
+export { Hero } from "./Landing/Hero";
+export { Footer } from "./Landing/Footer";

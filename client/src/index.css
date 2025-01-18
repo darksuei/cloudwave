@@ -9,19 +9,18 @@
 
 html {
   scroll-behavior: smooth;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body {
   /* font-family: "Ubuntu", sans-serif; */
   font-family: "Inter", sans-serif;
-  position: relative;
   scroll-behavior: smooth;
-  width: 100vw;
-  overflow-x: hidden;
 }
 
 #bg {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/hologram.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("./assets/hologram.jpg");
   background-size: cover;
 }
 
@@ -228,3 +227,22 @@ body {
 .password-toggle-icon i:hover {
   color: #000;
 } */
+
+.landing {
+  background-color: #181818;
+  color: white;
+}
+
+.hero {
+  margin-inline: auto;
+  width: calc(100vw - 4rem);
+}
+.landing-header {
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    width: calc(100vw - 2rem);
+  }
+}
